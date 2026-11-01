@@ -37,6 +37,11 @@ public class Scroll {
 	
 	public void setMaxScroll(float scroll) {
 		maxScroll = scroll;
+		rawScroll = Math.max(Math.min(minScroll, rawScroll), -maxScroll);
+	}
+	
+	public float getMaxScroll() {
+		return maxScroll == Float.MAX_VALUE ? 0.0F : maxScroll;
 	}
 	
 	public float getValue() {

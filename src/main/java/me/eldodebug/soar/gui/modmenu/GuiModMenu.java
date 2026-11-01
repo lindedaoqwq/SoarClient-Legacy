@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 
 import me.eldodebug.soar.Soar;
 import me.eldodebug.soar.gui.GuiEditHUD;
@@ -26,6 +27,7 @@ import me.eldodebug.soar.management.nanovg.NanoVGManager;
 import me.eldodebug.soar.management.nanovg.font.Fonts;
 import me.eldodebug.soar.management.nanovg.font.Icon;
 import me.eldodebug.soar.ui.comp.impl.field.CompSearchBox;
+import me.eldodebug.soar.utils.ColorUtils;
 import me.eldodebug.soar.utils.MathUtils;
 import me.eldodebug.soar.utils.animation.normal.Animation;
 import me.eldodebug.soar.utils.animation.normal.Direction;
@@ -53,6 +55,9 @@ public class GuiModMenu extends GuiScreen {
 	
 	private Scroll scroll = new Scroll();
 	private Scroll categoryScroll = new Scroll();
+	private Scroll pageScroll = new Scroll();
+	
+	private boolean draggingPageScroll;
 	
 	private boolean toEditHUD, canClose;
 	
@@ -93,6 +98,8 @@ public class GuiModMenu extends GuiScreen {
 		
 		scroll.resetAll();
 		categoryScroll.resetAll();
+		pageScroll.resetAll();
+		draggingPageScroll = false;
 		toEditHUD = false;
 		canClose = true;
 	}
@@ -102,6 +109,20 @@ public class GuiModMenu extends GuiScreen {
 		
 		Soar instance = Soar.getInstance();
 		NanoVGManager nvg = instance.getNanoVGManager();
+		ScaledResolution sr = new ScaledResolution(mc);
+		
+		float pageMax = Math.max(0.0F, height - sr.getScaledHeight() + 10);
+		pageScroll.setMaxScroll(pageMax);
+		
+		if (draggingPageScroll) {
+			if (Mouse.isButtonDown(0)) {
+				updatePageScroll(mouseY, sr);
+			} else {
+				draggingPageScroll = false;
+			}
+		}
+		
+		pageScroll.onAnimation();
 		
 		BlurUtils.drawBlurScreen((float) (Math.min(introAnimation.getValue(), 1) * 20) + 1F);
 		screenAnimation.wrap(() -> {
@@ -110,9 +131,58 @@ public class GuiModMenu extends GuiScreen {
 		
 		screenAnimation.wrap(() -> drawNanoVG(mouseX, mouseY, partialTicks), this.getX(), this.getY(), this.getWidth(), this.getHeight(), 2 - introAnimation.getValueFloat(), Math.min(introAnimation.getValueFloat(), 1), true);
 		
+		if (pageMax > 0) {
+			drawPageScrollBar(sr, pageMax, Math.min(introAnimation.getValueFloat(), 1));
+		}
+		
 		new EventRenderNotification().call();
 		
 		super.drawScreen(mouseX, mouseY, partialTicks);
+	}
+	
+	private float getPageScrollBarX(ScaledResolution sr) {
+		return Math.min(x + width - 10, sr.getScaledWidth() - 10);
+	}
+	
+	private void updatePageScroll(int mouseY, ScaledResolution sr) {
+		
+		float max = pageScroll.getMaxScroll();
+		
+		if (max <= 0) {
+			return;
+		}
+		
+		float top = 8.0F;
+		float bottom = sr.getScaledHeight() - 8.0F;
+		float progress = (mouseY - top) / (bottom - top);
+		progress = Math.max(0.0F, Math.min(1.0F, progress));
+		
+		pageScroll.setScrollPosition(-progress * max);
+	}
+	
+	private void drawPageScrollBar(ScaledResolution sr, float max, float alpha) {
+		
+		Soar instance = Soar.getInstance();
+		NanoVGManager nvg = instance.getNanoVGManager();
+		ColorPalette palette = instance.getColorManager().getPalette();
+		AccentColor currentColor = instance.getColorManager().getCurrentColor();
+		
+		float barX = getPageScrollBarX(sr);
+		float top = 8.0F;
+		float bottom = sr.getScaledHeight() - 8.0F;
+		float barHeight = bottom - top;
+		float visible = sr.getScaledHeight();
+		float thumbHeight = Math.max(24.0F, barHeight * (visible / (visible + max)));
+		float progress = Math.max(0.0F, Math.min(1.0F, -pageScroll.getValue() / max));
+		float thumbY = top + progress * (barHeight - thumbHeight);
+		
+		Color trackColor = palette.getBackgroundColor(ColorType.DARK);
+		trackColor = new Color(trackColor.getRed(), trackColor.getGreen(), trackColor.getBlue(), (int) (trackColor.getAlpha() * alpha));
+		
+		nvg.drawRoundedRect(barX, top, 4, barHeight, 2, trackColor);
+		nvg.drawGradientRoundedRect(barX, thumbY, 4, thumbHeight, 2,
+				ColorUtils.applyAlpha(currentColor.getColor1(), (int) (255 * alpha)),
+				ColorUtils.applyAlpha(currentColor.getColor2(), (int) (255 * alpha)));
 	}
 	
 	private void drawNanoVG(int mouseX, int mouseY, float partialTicks) {
@@ -123,6 +193,9 @@ public class GuiModMenu extends GuiScreen {
 		ColorPalette palette = colorManager.getPalette();
 		AccentColor currentColor = colorManager.getCurrentColor();
 		File headFile = new File(instance.getFileManager().getCacheDir(), "head/" + instance.getAccountManager().getCurrentAccount().getName() + ".png");
+		
+		nvg.save();
+		nvg.translate(0, pageScroll.getValue());
 		
 		if(introAnimation.isDone(Direction.BACKWARDS)) {
 			mc.displayGuiScreen(toEditHUD ? new GuiEditHUD(true) : null);
@@ -223,10 +296,28 @@ public class GuiModMenu extends GuiScreen {
 		if(currentCategory.isShowSearchBox() && Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) && Keyboard.isKeyDown(Keyboard.KEY_F)) {
 			currentCategory.getSearchBox().setFocused(true);
 		}
+		
+		nvg.restore();
 	}
 	
 	@Override
 	public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
+		
+		ScaledResolution sr = new ScaledResolution(mc);
+		float pageMax = pageScroll.getMaxScroll();
+		
+		if (pageMax > 0 && mouseButton == 0) {
+			
+			float barX = getPageScrollBarX(sr);
+			
+			if (MouseUtils.isInside(mouseX, mouseY, barX - 3, 8, 10, sr.getScaledHeight() - 16)) {
+				draggingPageScroll = true;
+				updatePageScroll(mouseY, sr);
+				return;
+			}
+		}
+		
+		mouseY = (int) (mouseY - pageScroll.getValue());
 		
 		int offsetY = 0;
 		
@@ -256,6 +347,8 @@ public class GuiModMenu extends GuiScreen {
 	
 	@Override
 	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
+		draggingPageScroll = false;
+		mouseY = (int) (mouseY - pageScroll.getValue());
 		currentCategory.mouseReleased(mouseX, mouseY, mouseButton);
 	}
 	
