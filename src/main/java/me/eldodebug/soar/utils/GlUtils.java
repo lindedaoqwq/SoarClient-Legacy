@@ -60,6 +60,28 @@ public class GlUtils {
         }
         return framebuffer;
     }
+
+    /**
+     * Detects the iOS/ANGLE + gl4es stack. There, mixing NanoVG's fixed function
+     * client-array draws with Minecraft's own client-array draws corrupts the
+     * vertex pointers used by the framebuffer blit (SIGSEGV inside ANGLE).
+     */
+    public static boolean isMobileGl() {
+        try {
+            String version = GL11.glGetString(GL11.GL_VERSION);
+            String renderer = GL11.glGetString(GL11.GL_RENDERER);
+            String vendor = GL11.glGetString(GL11.GL_VENDOR);
+            String info = ((version == null ? "" : version) + ' '
+                    + (renderer == null ? "" : renderer) + ' '
+                    + (vendor == null ? "" : vendor)).toLowerCase();
+            return info.contains("opengl es")
+                    || info.contains("angle")
+                    || info.contains("gl4es")
+                    || info.contains("krypton");
+        } catch (Throwable e) {
+            return false;
+        }
+    }
     
     public static void setAlphaLimit(float limit) {
         GlStateManager.enableAlpha();

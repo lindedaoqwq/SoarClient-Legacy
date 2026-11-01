@@ -27,7 +27,16 @@ public class GuiSplashScreen {
 	
 	public void draw() {
 		
-		framebuffer = GlUtils.createFrameBuffer(framebuffer);
+		boolean directRendering = GlUtils.isMobileGl();
+		
+		if (directRendering) {
+			if (framebuffer != null) {
+				framebuffer.deleteFramebuffer();
+				framebuffer = null;
+			}
+		} else {
+			framebuffer = GlUtils.createFrameBuffer(framebuffer);
+		}
 		
 		ScaledResolution sr = new ScaledResolution(mc);
 		int scaleFactor = sr.getScaleFactor();
@@ -43,8 +52,10 @@ public class GuiSplashScreen {
 		
 		while (!fadeAnimation.isDone(Direction.FORWARDS)) {
 			
-	        framebuffer.framebufferClear();
-	        framebuffer.bindFramebuffer(true);
+			if (framebuffer != null) {
+				framebuffer.framebufferClear();
+				framebuffer.bindFramebuffer(true);
+			}
 	        
 	        GlStateManager.matrixMode(GL11.GL_PROJECTION);
 	        GlStateManager.loadIdentity();
@@ -67,8 +78,10 @@ public class GuiSplashScreen {
 				nvg.drawCenteredText(Icon.SOAR, sr.getScaledWidth() / 2, (sr.getScaledHeight() / 2) - (nvg.getTextHeight(Icon.SOAR, 130, Fonts.ICON) / 2) - 1, new Color(255, 255, 255, (int) (fadeAnimation.getValue() * 255)), 130, Fonts.ICON);
 			});
 			
-	        framebuffer.unbindFramebuffer();
-	        framebuffer.framebufferRender(sr.getScaledWidth() * scaleFactor, sr.getScaledHeight() * scaleFactor);
+	        if (framebuffer != null) {
+	        	framebuffer.unbindFramebuffer();
+	        	framebuffer.framebufferRender(sr.getScaledWidth() * scaleFactor, sr.getScaledHeight() * scaleFactor);
+	        }
 			
 			GlUtils.setAlphaLimit(1);
     		

@@ -9,6 +9,8 @@ import org.lwjgl.nanovg.NVGPaint;
 import org.lwjgl.nanovg.NanoVG;
 import org.lwjgl.nanovg.NanoVGGL2;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL15;
+import org.lwjgl.opengl.GL20;
 
 import me.eldodebug.soar.logger.SoarLogger;
 import me.eldodebug.soar.management.nanovg.asset.AssetManager;
@@ -62,6 +64,17 @@ public class NanoVGManager {
         GL11.glDisable(GL11.GL_ALPHA_TEST);
         NanoVG.nvgEndFrame(nvg);
         GL11.glPopAttrib();
+
+        // NanoVG's fixed function backend leaves shader/attribute state behind.
+        // On iOS (ANGLE/gl4es) that corrupts Minecraft's own client array draws
+        // (SIGSEGV inside rx::CopyNativeVertexData), so reset it explicitly.
+        GL20.glUseProgram(0);
+        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
+        GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
+        GL11.glDisableClientState(GL11.GL_VERTEX_ARRAY);
+        GL11.glDisableClientState(GL11.GL_COLOR_ARRAY);
+        GL11.glDisableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
+        GL11.glDisableClientState(GL11.GL_NORMAL_ARRAY);
     }
     
     public void setupAndDraw(Runnable task) {
