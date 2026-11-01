@@ -4,6 +4,7 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.spongepowered.asm.launch.MixinBootstrap;
@@ -55,7 +56,25 @@ public class SoarTweaker implements ITweaker {
                 return true;
             }
         }
+
+        Object knownArguments = Launch.blackboard.get("launchArgs");
+        if (knownArguments instanceof Map) {
+            for (Object key : ((Map<?, ?>) knownArguments).keySet()) {
+                if (String.valueOf(key).equals(option)) {
+                    return true;
+                }
+            }
+        }
         return false;
+    }
+
+    private static boolean isForgeEnvironment() {
+        try {
+            Class.forName("net.minecraftforge.fml.common.Loader", false, SoarTweaker.class.getClassLoader());
+            return true;
+        } catch (Throwable e) {
+            return false;
+        }
     }
 
     @Override
@@ -69,7 +88,7 @@ public class SoarTweaker implements ITweaker {
         Mixins.addConfiguration("mixins.soar.json");
 
         if (env.getObfuscationContext() == null) {
-        	env.setObfuscationContext("notch");
+        	env.setObfuscationContext(isForgeEnvironment() ? "searge" : "notch");
         }
 
         env.setSide(MixinEnvironment.Side.CLIENT);

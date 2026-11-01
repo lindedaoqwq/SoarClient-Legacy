@@ -1,0 +1,153 @@
+buildscript {
+    repositories {
+        maven {
+            name = 'aliyunPublic'
+            url = 'https://maven.aliyun.com/repository/public'
+        }
+        maven {
+            name = "forge"
+            url = "https://maven.minecraftforge.net"
+        }
+        maven {
+            name = 'sponge'
+            url = 'https://repo.spongepowered.org/maven'
+        }
+        maven {
+            url = 'https://jitpack.io'
+        }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
+        classpath 'org.spongepowered:mixingradle:0.6-SNAPSHOT'
+    }
+}
+
+apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'org.spongepowered.mixin'
+
+version = "Release"
+group = "me.eldodebug"
+archivesBaseName = "SoarClient-Forge"
+
+sourceCompatibility = targetCompatibility = 1.8
+compileJava.options.encoding = 'UTF-8'
+
+minecraft {
+    version = "1.8.9-11.15.1.2318-1.8.9"
+    mappings = "stable_22"
+    runDir = "run"
+    makeObfSourceJar = false
+}
+
+repositories {
+    maven {
+        name 'aliyunPublic'
+        url 'https://maven.aliyun.com/repository/public'
+    }
+    maven {
+        name "jitpack"
+        url "https://jitpack.io"
+    }
+    maven {
+        name "spongepowered"
+        url "https://repo.spongepowered.org/maven/"
+    }
+    maven {
+        name "forge"
+        url "https://maven.minecraftforge.net"
+    }
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['../src/main/java']
+        }
+        resources {
+            srcDirs = ['../src/main/resources']
+        }
+    }
+}
+
+configurations {
+    embed
+    compile.extendsFrom(embed)
+}
+
+dependencies {
+    compile fileTree(dir: '../libs', include: ['*.jar'])
+    embed('org.spongepowered:mixin:0.7.11-SNAPSHOT') {
+        exclude module: 'launchwrapper'
+        exclude module: 'guava'
+        exclude module: 'gson'
+        exclude module: 'commons-io'
+    }
+}
+
+mixin {
+    defaultObfuscationEnv = "searge"
+    add sourceSets.main, "mixins.soar.refmap.json"
+}
+
+processResources {
+    inputs.files "../src/main/resources"
+    outputs.dir "build/classes/main"
+    copy {
+        from("../src/main/resources")
+        into("build/classes/main")
+    }
+}
+
+jar {
+    dependsOn configurations.compile
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    from {
+        configurations.embed.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+
+    exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
+    exclude 'META-INF/MANIFEST.MF', 'META-INF/INDEX.LIST'
+
+    manifest.attributes(
+            "MixinConfigs": 'mixins.soar.json',
+            "TweakClass": 'me.eldodebug.soar.injection.mixin.SoarTweaker',
+            "TweakOrder": 0,
+            "Manifest-Version": 1.0,
+            'FMLAT': 'soar_at.cfg'
+    )
+}
+
+// Self contained jar for mods/: the reobfuscated client plus its runtime libraries.
+// Must stay outside the reobf task, because ASM 5 cannot read Java 9+ class files
+// (e.g. the module-info.class entries shipped by slf4j 2.x / snakeyaml 2.x).
+task fatJar(type: Jar, dependsOn: 'reobfJar') {
+    group = 'distribution'
+    description = 'Builds the self contained Forge jar for mods/.'
+    archiveName = "SoarClient-Forge-${version}-full.jar"
+    destinationDir = file("$buildDir/libs")
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    from(zipTree(tasks.reobfJar.jar)) {
+        exclude 'META-INF/MANIFEST.MF', 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
+    }
+
+    from {
+        fileTree(dir: '../libs', include: ['*.jar']).files.collect {
+            zipTree(it)
+        }
+    }
+
+    exclude 'module-info.class', 'META-INF/versions/**', 'META-INF/MANIFEST.MF'
+
+    manifest.attributes(
+            "MixinConfigs": 'mixins.soar.json',
+            "TweakClass": 'me.eldodebug.soar.injection.mixin.SoarTweaker',
+            "TweakOrder": 0,
+            "Manifest-Version": 1.0,
+            'FMLAT': 'soar_at.cfg'
+    )
+}
+
