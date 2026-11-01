@@ -1,0 +1,11 @@
+modLoader="javafml"
+loaderVersion="[11,)"
+license="GPLv3"
+
+[[mods]]
+modId="soarclient"
+version="Release"
+displayName="SoarClient"
+description="Modern and powerful PvP client developed by EldoDebug"
+logoFile="logo.png"
+authors="EldoDebug"

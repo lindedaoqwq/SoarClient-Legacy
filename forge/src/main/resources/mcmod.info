@@ -1,0 +1,13 @@
+[
+  {
+    "modid": "soarclient",
+    "name": "SoarClient",
+    "description": "Modern and powerful PvP client developed by EldoDebug",
+    "version": "Release",
+    "mcversion": "1.8.9",
+    "authorList": ["EldoDebug"],
+    "credits": "",
+    "logoFile": "logo.png",
+    "url": "https://github.com/Soar-Client/Legacy-SoarClient"
+  }
+]

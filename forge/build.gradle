@@ -61,10 +61,10 @@ repositories {
 sourceSets {
     main {
         java {
-            srcDirs = ['../src/main/java']
+            srcDirs = ['../src/main/java', 'src/main/java']
         }
         resources {
-            srcDirs = ['../src/main/resources']
+            srcDirs = ['../src/main/resources', 'src/main/resources']
         }
     }
 }
@@ -126,7 +126,7 @@ jar {
 task fatJar(type: Jar, dependsOn: 'reobfJar') {
     group = 'distribution'
     description = 'Builds the self contained Forge jar for mods/.'
-    archiveName = "SoarClient-Forge-${version}-full.jar"
+    archiveName = "SoarClient.jar"
     destinationDir = file("$buildDir/libs")
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
@@ -141,6 +141,8 @@ task fatJar(type: Jar, dependsOn: 'reobfJar') {
     }
 
     exclude 'module-info.class', 'META-INF/versions/**', 'META-INF/MANIFEST.MF'
+    // Foreign plugin metadata made SoarClient show up as ViaBackwards / ViaRewind.
+    exclude 'META-INF/sponge_plugins.json', 'META-INF/maven/**'
 
     manifest.attributes(
             "MixinConfigs": 'mixins.soar.json',

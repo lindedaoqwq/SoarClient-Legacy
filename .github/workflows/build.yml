@@ -39,23 +39,16 @@ jobs:
           GRADLE_OPTS: -Xmx3g
         run: ./gradlew build distZip :forge:fatJar --no-daemon --stacktrace
 
-      - name: Upload vanilla artifact
+      - name: Upload standalone artifact
         uses: actions/upload-artifact@v4
         with:
-          name: SoarClient-vanilla
-          path: build/libs/*.jar
-          if-no-files-found: error
-
-      - name: Upload standalone distribution
-        uses: actions/upload-artifact@v4
-        with:
-          name: SoarClient-standalone
+          name: soarclient-standalone
           path: build/distributions/*.zip
           if-no-files-found: error
 
       - name: Upload Forge artifact
         uses: actions/upload-artifact@v4
         with:
-          name: SoarClient-Forge
-          path: forge/build/libs/*.jar
+          name: soarclient-forge
+          path: forge/build/libs/SoarClient.jar
           if-no-files-found: error
