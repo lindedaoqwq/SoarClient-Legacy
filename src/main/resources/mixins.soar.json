@@ -1,6 +1,7 @@
 {
     "package": "me.eldodebug.soar.injection.mixin.mixins",
     "refmap": "mixins.soar.refmap.json",
+    "minVersion": "0.7.11",
     "compatibilityLevel": "JAVA_8",
     "mixins": [
       "audio.MixinSoundManager",
@@ -95,7 +96,6 @@
       "tileentity.MixinTileEntityRendererDispatcher",
       "tileentity.MixinTileEntitySkullRenderer",
       "util.MixinMouseHelper",
-      "util.MixinNBTTagString",
       "util.MixinScreenshotHelper",
       "vertex.MixinVertexBuffer",
       "vertex.MixinVertexFormat",

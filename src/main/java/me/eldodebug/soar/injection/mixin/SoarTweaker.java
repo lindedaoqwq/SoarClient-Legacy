@@ -33,20 +33,29 @@ public class SoarTweaker implements ITweaker {
 		
         this.launchArguments.addAll(args);
 
-        if (profile != null) {
+        if (profile != null && !hasArgument(args, "--version")) {
             launchArguments.add("--version");
             launchArguments.add(profile);
         }
 
-        if (assetsDir != null) {
+        if (assetsDir != null && !hasArgument(args, "--assetsDir")) {
             launchArguments.add("--assetsDir");
             launchArguments.add(assetsDir.getAbsolutePath());
         }
 
-        if (gameDir != null) {
+        if (gameDir != null && !hasArgument(args, "--gameDir")) {
             launchArguments.add("--gameDir");
             launchArguments.add(gameDir.getAbsolutePath());
         }
+    }
+
+    private static boolean hasArgument(List<String> args, String option) {
+        for (String arg : args) {
+            if (arg.equals(option) || arg.startsWith(option + "=")) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
