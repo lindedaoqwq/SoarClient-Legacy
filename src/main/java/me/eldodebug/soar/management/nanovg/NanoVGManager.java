@@ -5,13 +5,17 @@ import java.io.File;
 import java.util.HashMap;
 
 import org.lwjgl.nanovg.NVGColor;
+import org.lwjgl.nanovg.NVGLUFramebuffer;
 import org.lwjgl.nanovg.NVGPaint;
 import org.lwjgl.nanovg.NanoVG;
 import org.lwjgl.nanovg.NanoVGGL2;
+import org.lwjgl.nanovg.NanoVGGL3;
+import org.lwjgl.nanovg.NanoVGGLES3;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 
+import me.eldodebug.soar.utils.GlUtils;
 import me.eldodebug.soar.logger.SoarLogger;
 import me.eldodebug.soar.management.nanovg.asset.AssetManager;
 import me.eldodebug.soar.management.nanovg.font.Font;
@@ -29,13 +33,89 @@ public class NanoVGManager {
 	private HashMap<Integer, NVGColor> colorCache = new HashMap<Integer, NVGColor>();
 	
 	private long nvg;
+	private static int backend = 0;
+
+	private static final int BACKEND_GL2 = 0;
+	private static final int BACKEND_GL3 = 1;
+	private static final int BACKEND_GLES3 = 2;
+
+	private static long createContext(int flags) {
+		if (GlUtils.isMobileGl()) {
+			// GL2 backend uses fixed function client arrays, which corrupts
+			// Minecraft's own client array draws under ANGLE/gl4es (SIGSEGV in
+			// rx::CopyNativeVertexData). Prefer the VBO based backends there.
+			long context = NanoVGGLES3.nvgCreate(flags);
+			if (context != 0) {
+				backend = BACKEND_GLES3;
+				return context;
+			}
+			context = NanoVGGL3.nvgCreate(flags);
+			if (context != 0) {
+				backend = BACKEND_GL3;
+				return context;
+			}
+		}
+		backend = BACKEND_GL2;
+		return NanoVGGL2.nvgCreate(flags);
+	}
+
+	public static NVGLUFramebuffer createFramebuffer(long context, int width, int height, int flags) {
+		switch (backend) {
+			case BACKEND_GLES3:
+				return NanoVGGLES3.nvgluCreateFramebuffer(context, width, height, flags);
+			case BACKEND_GL3:
+				return NanoVGGL3.nvgluCreateFramebuffer(context, width, height, flags);
+			default:
+				return NanoVGGL2.nvgluCreateFramebuffer(context, width, height, flags);
+		}
+	}
+
+	public static void bindFramebuffer(long context, NVGLUFramebuffer framebuffer) {
+		switch (backend) {
+			case BACKEND_GLES3:
+				NanoVGGLES3.nvgluBindFramebuffer(context, framebuffer);
+				break;
+			case BACKEND_GL3:
+				NanoVGGL3.nvgluBindFramebuffer(context, framebuffer);
+				break;
+			default:
+				NanoVGGL2.nvgluBindFramebuffer(context, framebuffer);
+				break;
+		}
+	}
+
+	public static void deleteFramebuffer(long context, NVGLUFramebuffer framebuffer) {
+		switch (backend) {
+			case BACKEND_GLES3:
+				NanoVGGLES3.nvgluDeleteFramebuffer(context, framebuffer);
+				break;
+			case BACKEND_GL3:
+				NanoVGGL3.nvgluDeleteFramebuffer(context, framebuffer);
+				break;
+			default:
+				NanoVGGL2.nvgluDeleteFramebuffer(context, framebuffer);
+				break;
+		}
+	}
+
+	public static int createImageFromHandle(long context, int texture, int width, int height, int flags) {
+		switch (backend) {
+			case BACKEND_GLES3:
+				return NanoVGGLES3.nvglCreateImageFromHandle(context, texture, width, height, flags);
+			case BACKEND_GL3:
+				return NanoVGGL3.nvglCreateImageFromHandle(context, texture, width, height, flags);
+			default:
+				return NanoVGGL2.nvglCreateImageFromHandle(context, texture, width, height, flags);
+		}
+	}
+
 	
 	private FontManager fontManager;
 	private AssetManager assetManager;
 	
 	public NanoVGManager() {
 		
-		nvg = NanoVGGL2.nvgCreate(NanoVGGL2.NVG_ANTIALIAS);
+		nvg = createContext(NanoVGGL2.NVG_ANTIALIAS);
 		
 		if(nvg == 0) {
 			SoarLogger.error("Failed to create NanoVG context");

@@ -5,7 +5,6 @@ import java.nio.FloatBuffer;
 import org.lwjgl.nanovg.NVGLUFramebuffer;
 import org.lwjgl.nanovg.NVGPaint;
 import org.lwjgl.nanovg.NanoVG;
-import org.lwjgl.nanovg.NanoVGGL2;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl3.BufferUtils;
 
@@ -31,10 +30,10 @@ public class ScreenAlpha {
 		if (fb == null) {
 			fbWidth = mc.displayWidth;
 			fbHeight = mc.displayHeight;
-			fb = NanoVGGL2.nvgluCreateFramebuffer(nvg.getContext(), mc.displayWidth, mc.displayHeight, 0);
+			fb = NanoVGManager.createFramebuffer(nvg.getContext(), mc.displayWidth, mc.displayHeight, 0);
 		}
 		
-		NanoVGGL2.nvgluBindFramebuffer(nvg.getContext(), fb);
+		NanoVGManager.bindFramebuffer(nvg.getContext(), fb);
 
 		GL11.glViewport(0, 0, mc.displayWidth, mc.displayHeight);
 
@@ -70,7 +69,7 @@ public class ScreenAlpha {
 		NanoVGManager nvg = Soar.getInstance().getNanoVGManager();
 		
 		if(fb != null) {
-			NanoVGGL2.nvgluDeleteFramebuffer(nvg.getContext(), fb);
+			NanoVGManager.deleteFramebuffer(nvg.getContext(), fb);
 			fb = null;
 		}
 	}

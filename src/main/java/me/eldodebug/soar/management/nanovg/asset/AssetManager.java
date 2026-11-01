@@ -10,11 +10,11 @@ import java.util.HashMap;
 import org.lwjgl.nanovg.NSVGImage;
 import org.lwjgl.nanovg.NanoSVG;
 import org.lwjgl.nanovg.NanoVG;
-import org.lwjgl.nanovg.NanoVGGL2;
 import org.lwjgl.stb.STBImage;
 import org.lwjgl.system.MemoryUtil;
 
 import me.eldodebug.soar.logger.SoarLogger;
+import me.eldodebug.soar.management.nanovg.NanoVGManager;
 import me.eldodebug.soar.utils.IOUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
@@ -31,7 +31,7 @@ public class AssetManager {
 		
 		if(!glTextureCache.containsKey(texture)) {
 			
-			glTextureCache.put(texture, NanoVGGL2.nvglCreateImageFromHandle(nvg, texture, (int) width, - (int) height, 0));
+			glTextureCache.put(texture, NanoVGManager.createImageFromHandle(nvg, texture, (int) width, - (int) height, 0));
 			
 			return true;
 		}
