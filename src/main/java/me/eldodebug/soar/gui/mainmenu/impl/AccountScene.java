@@ -1,8 +1,12 @@
 package me.eldodebug.soar.gui.mainmenu.impl;
 
 import java.awt.Color;
+import java.awt.Desktop;
+import java.awt.Toolkit;
+import java.awt.datatransfer.StringSelection;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.net.URI;
 
 import javax.imageio.ImageIO;
 
@@ -13,6 +17,7 @@ import me.eldodebug.soar.gui.mainmenu.GuiSoarMainMenu;
 import me.eldodebug.soar.gui.mainmenu.MainMenuScene;
 import me.eldodebug.soar.gui.mainmenu.impl.welcome.LastMessageScene;
 import me.eldodebug.soar.injection.interfaces.IMixinMinecraft;
+import me.eldodebug.soar.logger.SoarLogger;
 import me.eldodebug.soar.management.account.Account;
 import me.eldodebug.soar.management.account.AccountManager;
 import me.eldodebug.soar.management.account.AccountType;
@@ -34,6 +39,11 @@ import net.minecraft.util.Session;
 public class AccountScene extends MainMenuScene {
 
 	public CompMainMenuTextBox textBox = new CompMainMenuTextBox();
+	public CompMainMenuTextBox urlBox = new CompMainMenuTextBox();
+	
+	private boolean browserLogin;
+	
+	private static final String MICROSOFT_LOGIN_URL = "https://login.live.com/oauth20_authorize.srf?client_id=00000000402b5328&response_type=code&redirect_uri=https://login.live.com/oauth20_desktop.srf&scope=XboxLive.signin%20offline_access&prompt=login";
 	
 	private File offlineSkin;
 	
@@ -94,6 +104,22 @@ public class AccountScene extends MainMenuScene {
 		
 		nvg.drawRoundedRect(acX + acWidth - 96 - 10, acY + 86 + 25, 96, 20, 4, this.getBackgroundColor());
 		nvg.drawCenteredText(TranslateText.LOGIN.getText(), acX + acWidth - (96 / 2) - 10, acY + 86 + 31, Color.WHITE, 10F, Fonts.REGULAR);
+		
+		if (browserLogin) {
+			
+			String hint = "Browser login: paste the full redirect URL below";
+			
+			nvg.drawCenteredText(hint, sr.getScaledWidth() / 2, acY + acHeight + 10, Color.WHITE, 9, Fonts.REGULAR);
+			
+			urlBox.setBackgroundColor(this.getBackgroundColor());
+			urlBox.setFontColor(Color.WHITE);
+			urlBox.setPosition(acX, acY + acHeight + 22, 220, 20);
+			urlBox.setEmptyText(Icon.PENCIL, "URL");
+			urlBox.draw(mouseX, mouseY, partialTicks);
+			
+			nvg.drawRoundedRect(acX + (acWidth / 2) - 40, acY + acHeight + 48, 80, 18, 4, this.getBackgroundColor());
+			nvg.drawCenteredText(TranslateText.LOGIN.getText(), acX + (acWidth / 2), acY + acHeight + 52, Color.WHITE, 10, Fonts.REGULAR);
+		}
 	}
 	
 	@Override
@@ -106,7 +132,7 @@ public class AccountScene extends MainMenuScene {
 		FileManager fileManager = instance.getFileManager();
 		
 		int acWidth = 220;
-		int acHeight = 140;
+		int acHeight = 138;
 		int acX = sr.getScaledWidth() / 2 - (acWidth / 2);
 		int acY = sr.getScaledHeight() / 2 - (acHeight / 2);
 		
@@ -178,8 +204,21 @@ public class AccountScene extends MainMenuScene {
 			if(MouseUtils.isInside(mouseX, mouseY, acX + 10, acY + 29, 200, 30)) {
 				if(Mcef.isInitialized()) {
 					this.setCurrentScene(this.getSceneByClass(MicrosoftLoginScene.class));
-				} else {
+				} else if (isWindows()) {
 					accountManager.getAuthenticator().loginWithPopUpWindow(getAfterLoginRunnable());
+				} else {
+					startBrowserLogin();
+				}
+			}
+			
+			if (browserLogin) {
+				
+				if (MouseUtils.isInside(mouseX, mouseY, acX, acY + acHeight + 22, 220, 20)) {
+					urlBox.mouseClicked(mouseX, mouseY, mouseButton);
+				}
+				
+				if (MouseUtils.isInside(mouseX, mouseY, acX + (acWidth / 2) - 40, acY + acHeight + 48, 80, 18)) {
+					confirmBrowserLogin();
 				}
 			}
 		}
@@ -190,10 +229,79 @@ public class AccountScene extends MainMenuScene {
 	@Override
 	public void keyTyped(char typedChar, int keyCode) {
 		
+		if (browserLogin) {
+			
+			urlBox.keyTyped(typedChar, keyCode);
+			
+			if (keyCode == Keyboard.KEY_ESCAPE) {
+				browserLogin = false;
+			}
+			
+			return;
+		}
+		
 		textBox.keyTyped(typedChar, keyCode);
 		
 		if(keyCode == Keyboard.KEY_ESCAPE) {
 			this.setCurrentScene(this.getSceneByClass(MainScene.class));
+		}
+	}
+	
+	private static boolean isWindows() {
+		return System.getProperty("os.name", "").toLowerCase().contains("win");
+	}
+	
+	private void startBrowserLogin() {
+		
+		browserLogin = true;
+		
+		try {
+			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(MICROSOFT_LOGIN_URL), null);
+		} catch (Throwable ignored) {
+		}
+		
+		openInSystemBrowser(MICROSOFT_LOGIN_URL);
+	}
+	
+	private void confirmBrowserLogin() {
+		
+		String url = urlBox.getText().trim();
+		
+		if (!url.contains("code=")) {
+			return;
+		}
+		
+		browserLogin = false;
+		
+		Multithreading.runAsync(() -> {
+			Soar.getInstance().getAccountManager().getAuthenticator().loginWithUrl(url);
+			Soar.getInstance().getAccountManager().save();
+		});
+		
+		getAfterLoginRunnable().run();
+	}
+	
+	private static void openInSystemBrowser(String url) {
+		
+		try {
+			if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+				Desktop.getDesktop().browse(new URI(url));
+				return;
+			}
+		} catch (Throwable ignored) {
+		}
+		
+		try {
+			
+			String os = System.getProperty("os.name", "").toLowerCase();
+			
+			if (os.contains("mac")) {
+				Runtime.getRuntime().exec(new String[] {"open", url});
+			} else if (!os.contains("win")) {
+				Runtime.getRuntime().exec(new String[] {"xdg-open", url});
+			}
+		} catch (Throwable e) {
+			SoarLogger.error("Failed to open the system browser: " + e);
 		}
 	}
 	
