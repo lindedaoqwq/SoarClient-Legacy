@@ -29,6 +29,7 @@ import me.eldodebug.soar.management.nanovg.font.Icon;
 import me.eldodebug.soar.mcef.Mcef;
 import me.eldodebug.soar.ui.comp.impl.field.CompMainMenuTextBox;
 import me.eldodebug.soar.utils.ImageUtils;
+import me.eldodebug.soar.utils.IOUtils;
 import me.eldodebug.soar.utils.Multithreading;
 import me.eldodebug.soar.utils.file.FileUtils;
 import me.eldodebug.soar.utils.mouse.MouseUtils;
@@ -113,9 +114,12 @@ public class AccountScene extends MainMenuScene {
 			
 			urlBox.setBackgroundColor(this.getBackgroundColor());
 			urlBox.setFontColor(Color.WHITE);
-			urlBox.setPosition(acX, acY + acHeight + 22, 220, 20);
+			urlBox.setPosition(acX, acY + acHeight + 22, 160, 20);
 			urlBox.setEmptyText(Icon.PENCIL, "URL");
 			urlBox.draw(mouseX, mouseY, partialTicks);
+			
+			nvg.drawRoundedRect(acX + 168, acY + acHeight + 22, 52, 20, 4, this.getBackgroundColor());
+			nvg.drawCenteredText("Paste", acX + 168 + 26, acY + acHeight + 27, Color.WHITE, 9, Fonts.REGULAR);
 			
 			nvg.drawRoundedRect(acX + (acWidth / 2) - 40, acY + acHeight + 48, 80, 18, 4, this.getBackgroundColor());
 			nvg.drawCenteredText(TranslateText.LOGIN.getText(), acX + (acWidth / 2), acY + acHeight + 52, Color.WHITE, 10, Fonts.REGULAR);
@@ -213,8 +217,12 @@ public class AccountScene extends MainMenuScene {
 			
 			if (browserLogin) {
 				
-				if (MouseUtils.isInside(mouseX, mouseY, acX, acY + acHeight + 22, 220, 20)) {
+				if (MouseUtils.isInside(mouseX, mouseY, acX, acY + acHeight + 22, 160, 20)) {
 					urlBox.mouseClicked(mouseX, mouseY, mouseButton);
+				}
+				
+				if (MouseUtils.isInside(mouseX, mouseY, acX + 168, acY + acHeight + 22, 52, 20)) {
+					pasteFromClipboard();
 				}
 				
 				if (MouseUtils.isInside(mouseX, mouseY, acX + (acWidth / 2) - 40, acY + acHeight + 48, 80, 18)) {
@@ -261,6 +269,18 @@ public class AccountScene extends MainMenuScene {
 		}
 		
 		openInSystemBrowser(MICROSOFT_LOGIN_URL);
+	}
+	
+	private void pasteFromClipboard() {
+		
+		try {
+			String clipboard = IOUtils.getStringFromClipboard();
+			if (clipboard != null) {
+				urlBox.setText(clipboard.trim());
+			}
+		} catch (Throwable e) {
+			SoarLogger.error("Failed to read clipboard: " + e);
+		}
 	}
 	
 	private void confirmBrowserLogin() {
