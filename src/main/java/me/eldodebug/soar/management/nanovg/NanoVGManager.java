@@ -43,16 +43,16 @@ public class NanoVGManager {
 		if (GlUtils.isMobileGl()) {
 			// GL2 backend uses fixed function client arrays, which corrupts
 			// Minecraft's own client array draws under ANGLE/gl4es (SIGSEGV in
-			// rx::CopyNativeVertexData). Prefer the VBO based backends there.
-			long context = NanoVGGLES3.nvgCreate(flags);
-			if (context != 0) {
-				backend = BACKEND_GLES3;
-				return context;
-			}
-			context = NanoVGGL3.nvgCreate(flags);
-			if (context != 0) {
-				backend = BACKEND_GL3;
-				return context;
+			// rx::CopyNativeVertexData). GL3 uses VBOs/vertex attributes and goes
+			// through configGL, which is already patched to our function provider.
+			// (GLES3 cannot be used here: org.lwjgl.opengles.GLES is missing.)
+			try {
+				long context = NanoVGGL3.nvgCreate(flags);
+				if (context != 0) {
+					backend = BACKEND_GL3;
+					return context;
+				}
+			} catch (Throwable ignored) {
 			}
 		}
 		backend = BACKEND_GL2;
