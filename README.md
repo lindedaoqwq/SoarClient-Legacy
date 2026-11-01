@@ -1,4 +1,11 @@
 <p align="center"><img src="/.github/Resources/logo.png" alt="Legacy SoarClient" title="Legacy SoarClient"></p>
+
+> [!IMPORTANT]
+> 此项目是作者尝试复活MC客户端的尝试
+> 你可以在Actions下载
+> 此项目完全使用Vibe Coding，如果这是你的雷点那么我很抱歉，，，，，，
+> anyway enjoy the client!!
+
 The project is mainly aimed at being a modern and powerful PvP client developed by EldoDebug!
 
 ## How to launch
