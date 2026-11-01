@@ -1,5 +1,6 @@
 package me.eldodebug.soar.injection.transformer;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
 
@@ -8,36 +9,54 @@ import org.lwjgl.system.FunctionProvider;
 /**
  * Resolves OpenGL entry points for NanoVG.
  *
- * The original client was built against LWJGL 2, where
- * {@code org.lwjgl.opengl.GLContext#getFunctionAddress(String)} exists. Some
- * mobile launchers (Amethyst/Pojav on iOS) ship LWJGL 3 instead, where that
- * method is gone, so the provider falls back to the LWJGL 3 ways of obtaining
- * function pointers (GL capabilities or GLFW).
+ * The client was originally built against LWJGL 2, where
+ * {@code org.lwjgl.opengl.GLContext#getFunctionAddress(String)} exists. Desktop
+ * keeps using that path. iOS launchers (Amethyst/Pojav) run 1.8.9 on a LWJGL 3
+ * stack with a LWJGL 2 compatibility layer, where that method does not exist but
+ * the LWJGL 3 {@code GLCapabilities} object is still created and exposes every
+ * entry point as a public {@code long} field.
  */
 public class Lwjgl2FunctionProvider implements FunctionProvider {
 
     private Method getFunctionAddressMethod;
     private Object receiver;
 
+    private Object capabilities;
+    private boolean useCapabilityFields;
+
+    private final StringBuilder failures = new StringBuilder();
+
     public Lwjgl2FunctionProvider() {
-        if (tryBind("org.lwjgl.opengl.GLContext", "getFunctionAddress", String.class, null)) {
+        if (bindMethod("org.lwjgl.opengl.GLContext", "getFunctionAddress", String.class, null)) {
             return;
         }
-        if (tryBind("org.lwjgl.opengl.GLContext", "getFunctionAddress", CharSequence.class, null)) {
+        if (bindMethod("org.lwjgl.opengl.GLContext", "getFunctionAddress", CharSequence.class, null)) {
             return;
         }
-        if (tryBindCapabilities()) {
+
+        // LWJGL 3 keeps the provider it used for GLCapabilities; some mobile builds
+        // (e.g. Amethyst's patched lwjgl-opengl) expose it through GL.getFunctionProvider().
+        if (bindGlFunctionProvider()) {
             return;
         }
-        if (tryBind("org.lwjgl.glfw.GLFW", "glfwGetProcAddress", CharSequence.class, null)) {
+
+        Object glCapabilities = resolveGlCapabilities();
+        if (glCapabilities != null) {
+            this.capabilities = glCapabilities;
+            this.useCapabilityFields = true;
             return;
         }
-        throw new RuntimeException("No OpenGL function address resolver found (tried LWJGL 2/3)");
+
+        if (bindMethod("org.lwjgl.glfw.GLFW", "glfwGetProcAddress", CharSequence.class, null)) {
+            return;
+        }
+
+        throw new RuntimeException("No OpenGL function address resolver found (tried LWJGL 2/3): " + failures);
     }
 
-    private boolean tryBind(String className, String methodName, Class<?> parameterType, Object instance) {
+    private boolean bindMethod(String className, String methodName, Class<?> parameterType, Object instance) {
         try {
-            Class<?> owner = Class.forName(className);
+            Class<?> owner = Class.forName(className, false, Lwjgl2FunctionProvider.class.getClassLoader());
             Method method;
             try {
                 method = owner.getMethod(methodName, parameterType);
@@ -49,29 +68,92 @@ public class Lwjgl2FunctionProvider implements FunctionProvider {
             this.receiver = instance;
             return true;
         } catch (Throwable e) {
+            failures.append('[').append(className).append('#').append(methodName).append(": ")
+                    .append(e.getClass().getSimpleName()).append(']');
             return false;
         }
     }
 
-    private boolean tryBindCapabilities() {
+    private boolean bindGlFunctionProvider() {
         try {
-            Class<?> glClass = Class.forName("org.lwjgl.opengl.GL");
-            Object capabilities = glClass.getMethod("getCapabilities").invoke(null);
-            if (capabilities != null) {
-                Method method = capabilities.getClass().getMethod("getFunctionAddress", CharSequence.class);
-                method.setAccessible(true);
-                this.getFunctionAddressMethod = method;
-                this.receiver = capabilities;
-                return true;
+            Class<?> glClass = Class.forName("org.lwjgl.opengl.GL", false,
+                    Lwjgl2FunctionProvider.class.getClassLoader());
+            Object provider = glClass.getMethod("getFunctionProvider").invoke(null);
+            if (provider == null) {
+                failures.append("[GL.getFunctionProvider: null]");
+                return false;
+            }
+            Method method;
+            try {
+                method = provider.getClass().getMethod("getFunctionAddress", CharSequence.class);
+            } catch (NoSuchMethodException e) {
+                Class<?> providerInterface = Class.forName("org.lwjgl.system.FunctionProvider", false,
+                        Lwjgl2FunctionProvider.class.getClassLoader());
+                method = providerInterface.getMethod("getFunctionAddress", CharSequence.class);
+            }
+            method.setAccessible(true);
+            this.getFunctionAddressMethod = method;
+            this.receiver = provider;
+            return true;
+        } catch (Throwable e) {
+            failures.append("[GL.getFunctionProvider: ").append(e.getClass().getSimpleName()).append(']');
+            return false;
+        }
+    }
+
+    private Object resolveGlCapabilities() {
+        // GLContext.getCapabilities() returns a ContextCapabilities wrapper whose "cap"
+        // field is the real LWJGL 3 GLCapabilities instance.
+        try {
+            Class<?> contextClass = Class.forName("org.lwjgl.opengl.GLContext", false,
+                    Lwjgl2FunctionProvider.class.getClassLoader());
+            Object contextCapabilities = contextClass.getMethod("getCapabilities").invoke(null);
+            if (contextCapabilities != null) {
+                if (isGlCapabilities(contextCapabilities)) {
+                    return contextCapabilities;
+                }
+                Field capabilityField = contextCapabilities.getClass().getDeclaredField("cap");
+                capabilityField.setAccessible(true);
+                Object value = capabilityField.get(contextCapabilities);
+                if (value != null && isGlCapabilities(value)) {
+                    return value;
+                }
             }
         } catch (Throwable e) {
-            // Fall through to the next strategy.
+            failures.append("[GLContext.getCapabilities: ").append(e.getClass().getSimpleName()).append(']');
         }
-        return false;
+
+        try {
+            Class<?> glClass = Class.forName("org.lwjgl.opengl.GL", false,
+                    Lwjgl2FunctionProvider.class.getClassLoader());
+            Object value = glClass.getMethod("getCapabilities").invoke(null);
+            if (value != null && isGlCapabilities(value)) {
+                return value;
+            }
+        } catch (Throwable e) {
+            failures.append("[GL.getCapabilities: ").append(e.getClass().getSimpleName()).append(']');
+        }
+
+        return null;
+    }
+
+    private boolean isGlCapabilities(Object value) {
+        return value.getClass().getName().equals("org.lwjgl.opengl.GLCapabilities");
     }
 
     @Override
     public long getFunctionAddress(CharSequence functionName) {
+        if (useCapabilityFields) {
+            try {
+                Field field = capabilities.getClass().getField(functionName.toString());
+                return field.getLong(capabilities);
+            } catch (NoSuchFieldException e) {
+                return 0L;
+            } catch (Throwable e) {
+                throw new RuntimeException(e);
+            }
+        }
+
         try {
             Object address = getFunctionAddressMethod.invoke(receiver, functionName.toString());
             return ((Long) address).longValue();
