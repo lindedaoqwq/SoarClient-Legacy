@@ -2,6 +2,7 @@ package me.eldodebug.soar.utils.render;
 
 import me.eldodebug.soar.injection.interfaces.IMixinMinecraft;
 import me.eldodebug.soar.injection.interfaces.IMixinShaderGroup;
+import me.eldodebug.soar.utils.GlUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.shader.Framebuffer;
@@ -31,6 +32,14 @@ public class BlurUtils {
     }
     
     public static void drawBlurScreen(float radius) {
+    	
+    	// ShaderGroup renders full screen passes through the fixed function
+    	// client-array path, which crashes ANGLE/gl4es on iOS. Blur is cosmetic,
+    	// so simply skip it there.
+    	if (GlUtils.isMobileGl()) {
+    		mc.getFramebuffer().bindFramebuffer(true);
+    		return;
+    	}
     	
     	ScaledResolution sr = new ScaledResolution(mc);
     	
