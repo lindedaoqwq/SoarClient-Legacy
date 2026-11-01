@@ -119,35 +119,28 @@ jar {
 }
 
 // ---------------------------------------------------------------------------
-// Standalone (vanilla 1.8.9) distribution:
-//   SoarClient.jar + complete 1.8.9 libraries + vanilla client jar + start scripts
-//   + an iOS (Amethyst/Pojav) compatible version json.
+// Standalone (vanilla 1.8.9) distribution, mirroring the upstream release zip:
+//   start.bat / start.sh, libraries/*.jar (flat), minecraft/1.8.9.jar,
+//   minecraft/SoarClient.jar, natives/ (Windows), game/
 // ---------------------------------------------------------------------------
 
 def distDir = new File(buildDir, "dist")
 def libraryCacheDir = new File(buildDir, "cache/libraries")
 def localLibs = [
-        'Java-WebSocket-1.5.4.jar'                 : 'local.soar:java-websocket:1.5.4',
-        'ViaVersion-4.7.0-1.20-pre2-SNAPSHOT.jar'  : 'local.soar:viaversion:4.7.0',
-        'ViaBackwards-4.7.0-1.20-pre1-SNAPSHOT.jar': 'local.soar:viabackwards:4.7.0',
-        'ViaRewind-2.0.4-SNAPSHOT.jar'              : 'local.soar:viarewind:2.0.4',
-        'jcef.jar'                                  : 'local.soar:jcef:1.0',
-        'jfxrt.jar'                                 : 'local.soar:jfxrt:8.0',
-        'jfxswt.jar'                                : 'local.soar:jfxswt:8.0',
-        'lwjgl-soar.jar'                            : 'local.soar:lwjgl-soar:2.9.4',
-        'lwjgl-soar-natives.jar'                    : 'local.soar:lwjgl-soar-natives:2.9.4',
-        'slf4j-api-2.0.7.jar'                       : 'local.soar:slf4j-api:2.0.7',
-        'snakeyaml-2.0.jar'                         : 'local.soar:snakeyaml:2.0'
-]
-def extraLibraries = localLibs.values().collect { [name: it] } + [
-        [name: 'net.minecraft:launchwrapper:1.12'],
-        [name: 'local.soar:soarclient:Release']
+        'Java-WebSocket-1.5.4.jar',
+        'ViaVersion-4.7.0-1.20-pre2-SNAPSHOT.jar',
+        'ViaBackwards-4.7.0-1.20-pre1-SNAPSHOT.jar',
+        'ViaRewind-2.0.4-SNAPSHOT.jar',
+        'jcef.jar',
+        'jfxrt.jar',
+        'jfxswt.jar',
+        'lwjgl-soar.jar',
+        'lwjgl-soar-natives.jar',
+        'slf4j-api-2.0.7.jar',
+        'snakeyaml-2.0.jar'
 ]
 
-def coordsToPath = { String coords ->
-    def parts = coords.split(':')
-    return parts[0].replace('.', '/') + '/' + parts[1] + '/' + parts[2] + '/' + parts[1] + '-' + parts[2] + '.jar'
-}
+def flatName = { String path -> path.tokenize('/').last() }
 
 def downloadFile = { String url, File dest ->
     if (dest.exists() && dest.length() > 100) {
@@ -169,6 +162,30 @@ def downloadFile = { String url, File dest ->
     }
 }
 
+def extractJar = { File jarFile, File targetDir ->
+    def zip = new java.util.zip.ZipFile(jarFile)
+    try {
+        zip.entries().each { entry ->
+            if (!entry.isDirectory() && !entry.name.startsWith('META-INF/')) {
+                def target = new File(targetDir, flatName(entry.name))
+                target.parentFile.mkdirs()
+                zip.getInputStream(entry).withCloseable { input ->
+                    target.withOutputStream { output ->
+                        byte[] buffer = new byte[8192]
+                        int read
+                        while ((read = input.read(buffer)) != -1) {
+                            output.write(buffer, 0, read)
+                        }
+                    }
+                }
+            }
+        }
+    } finally {
+        zip.close()
+    }
+}
+
+
 task prepareDist(dependsOn: ['reobfJar', 'getVersionJson']) {
     group = 'distribution'
     description = 'Assembles the standalone 1.8.9 classpath distribution.'
@@ -185,9 +202,11 @@ task prepareDist(dependsOn: ['reobfJar', 'getVersionJson']) {
         }
         def versionJson = new groovy.json.JsonSlurper().parse(versionJsonFile)
 
-        def libraryFiles = []
+        def tweakClass = "me.eldodebug.soar.injection.mixin.SoarTweaker"
+        def librariesDir = new File(distDir, "libraries")
+        librariesDir.mkdirs()
 
-        // 1. Complete vanilla 1.8.9 libraries (downloaded into maven layout).
+        // 1. Complete vanilla 1.8.9 libraries, flat like the upstream release zip.
         versionJson.libraries.each { library ->
             def artifact = library.downloads?.artifact
             if (artifact == null || artifact.path == null || artifact.url == null) {
@@ -195,106 +214,104 @@ task prepareDist(dependsOn: ['reobfJar', 'getVersionJson']) {
             }
             def cached = new File(libraryCacheDir, artifact.path)
             downloadFile(artifact.url, cached)
-            def destination = new File(distDir, "libraries/" + artifact.path)
-            destination.parentFile.mkdirs()
+            def destination = new File(librariesDir, flatName(artifact.path))
             destination.bytes = cached.bytes
-            libraryFiles << destination
         }
 
         // 2. The client's own dependencies from libs/.
-        localLibs.each { fileName, coords ->
+        localLibs.each { fileName ->
             def source = new File(projectDir, "libs/" + fileName)
             if (!source.isFile()) {
                 throw new GradleException("Missing bundled library: ${source}")
             }
-            def destination = new File(distDir, "libraries/" + coordsToPath(coords))
-            destination.parentFile.mkdirs()
-            destination.bytes = source.bytes
-            libraryFiles << destination
+            new File(librariesDir, fileName).bytes = source.bytes
         }
 
         // 3. Launchwrapper (vanilla does not ship it, the client needs it).
-        def launchWrapper = new File(distDir, "libraries/" + coordsToPath('net.minecraft:launchwrapper:1.12'))
-        def launchWrapperCache = new File(libraryCacheDir, coordsToPath('net.minecraft:launchwrapper:1.12'))
+        def launchWrapperCache = new File(libraryCacheDir, "net/minecraft/launchwrapper/1.12/launchwrapper-1.12.jar")
         downloadFile("https://libraries.minecraft.net/net/minecraft/launchwrapper/1.12/launchwrapper-1.12.jar", launchWrapperCache)
-        launchWrapper.parentFile.mkdirs()
-        launchWrapper.bytes = launchWrapperCache.bytes
-        libraryFiles << launchWrapper
+        new File(librariesDir, "launchwrapper-1.12.jar").bytes = launchWrapperCache.bytes
 
-        // 4. The reobfuscated client jar.
-        def clientJar = new File(distDir, "libraries/" + coordsToPath('local.soar:soarclient:Release'))
-        clientJar.parentFile.mkdirs()
-        clientJar.bytes = tasks.reobfJar.jar.bytes
-        libraryFiles << clientJar
+        // 3b. ASM is used directly by the lwjgl transformer (the client jar only shades Mixin's copy).
+        def asmCache = new File(libraryCacheDir, "org/ow2/asm/asm-all/5.0.3/asm-all-5.0.3.jar")
+        downloadFile("https://libraries.minecraft.net/org/ow2/asm/asm-all/5.0.3/asm-all-5.0.3.jar", asmCache)
+        new File(librariesDir, "asm-all-5.0.3.jar").bytes = asmCache.bytes
 
-        // 5. Vanilla client jar, used both as the version jar and for start scripts.
+        // 4. minecraft/1.8.9.jar + minecraft/SoarClient.jar
         def vanillaClient = new File(gradle.gradleUserHomeDir, "caches/minecraft/net/minecraft/minecraft/1.8.9/minecraft-1.8.9.jar")
         if (!vanillaClient.isFile()) {
             throw new GradleException("Missing vanilla client jar: ${vanillaClient}")
         }
-        def versionJar = new File(distDir, "versions/SoarClient/SoarClient.jar")
-        versionJar.parentFile.mkdirs()
-        versionJar.bytes = vanillaClient.bytes
+        def minecraftDir = new File(distDir, "minecraft")
+        minecraftDir.mkdirs()
+        new File(minecraftDir, "1.8.9.jar").bytes = vanillaClient.bytes
+        new File(minecraftDir, "SoarClient.jar").bytes = tasks.reobfJar.jar.bytes
 
-        // 6. Version json for iOS launchers (Amethyst / Pojav style, inheritsFrom 1.8.9).
-        def versionDir = new File(distDir, "versions/SoarClient")
-        def baseVersionDir = new File(distDir, "versions/1.8.9")
-        baseVersionDir.mkdirs()
-        new File(baseVersionDir, "1.8.9.json").bytes = versionJsonFile.bytes
-        def tweakClass = "me.eldodebug.soar.injection.mixin.SoarTweaker"
-        def customVersion = [
-                id                 : 'SoarClient',
-                inheritsFrom       : '1.8.9',
-                type               : 'release',
-                mainClass          : 'net.minecraft.launchwrapper.Launch',
-                minecraftArguments : versionJson.minecraftArguments + " --tweakClass " + tweakClass,
-                libraries          : extraLibraries.collect { [name: it.name, downloads: [artifact: [path: coordsToPath(it.name)]]] }
-        ]
-        def json = new groovy.json.JsonBuilder(customVersion)
-        new File(versionDir, "SoarClient.json").withWriter('UTF-8') { it.write(json.toPrettyString()) }
+        // 5. Windows natives, extracted flat like the upstream release zip.
+        def nativesDir = new File(distDir, "natives")
+        nativesDir.mkdirs()
+        versionJson.libraries.each { library ->
+            if (library.name.startsWith('org.lwjgl.lwjgl:lwjgl-platform:2.9.2')) {
+                return
+            }
+            def windowsClassifier = library.natives?.windows
+            if (windowsClassifier == null) {
+                return
+            }
+            def classifier = windowsClassifier.contains('${arch}') ? 'natives-windows-64' : windowsClassifier
+            def nativeArtifact = library.downloads?.classifiers?.get(classifier)
+            if (nativeArtifact == null || nativeArtifact.url == null) {
+                return
+            }
+            def cached = new File(libraryCacheDir, nativeArtifact.path)
+            downloadFile(nativeArtifact.url, cached)
+            extractJar(cached, nativesDir)
+        }
 
-        // 7. Start scripts (relative paths, explicit classpath).
-        def classpathEntries = libraryFiles.collect { file ->
-            file.absolutePath.substring(distDir.absolutePath.length() + 1)
-        } + ["versions/SoarClient/SoarClient.jar"]
+        new File(distDir, "game").mkdirs()
 
-        def batClasspath = classpathEntries.collect { '%DIR%\\' + it.replace('/', '\\') }.join(';')
-        def shClasspath = classpathEntries.collect { '$DIR/' + it }.join(':')
-
+        // 6. Start scripts, same classpath convention as the upstream zip.
         new File(distDir, "start.bat").withWriter('UTF-8') { writer ->
             writer.write("@echo off\n")
-            writer.write("setlocal\n")
+            writer.write("setlocal enabledelayedexpansion\n")
             writer.write("set DIR=%~dp0\n")
-            writer.write("set JAVA=javaw\n")
+            writer.write("if exist \"%DIR%java\\bin\\javaw.exe\" (\n")
+            writer.write("    set JAVA_EXEC=\"%DIR%java\\bin\\javaw.exe\"\n")
+            writer.write(") else (\n")
+            writer.write("    set JAVA_EXEC=javaw\n")
+            writer.write(")\n")
             writer.write("if not exist \"%DIR%game\" mkdir \"%DIR%game\"\n")
-            writer.write("set CP=${batClasspath}\n")
-            writer.write("\"%JAVA%\" -Xmx4G -Djava.library.path=\"%DIR%natives\" -cp \"%CP%\" net.minecraft.launchwrapper.Launch ")
-            writer.write("--version 1.8.9 --username \"Soar User\" --uuid 0 --accessToken 0 ")
+            writer.write("set CP=\n")
+            writer.write("for %%f in (\"%DIR%libraries\\*.jar\") do set CP=!CP!%%f;\n")
+            writer.write("set CP=%CP%%DIR%minecraft\\1.8.9.jar;%DIR%minecraft\\SoarClient.jar\n")
+            writer.write("%JAVA_EXEC% -Xmx4G -Djava.library.path=\"%DIR%natives\" -cp \"%CP%\" net.minecraft.launchwrapper.Launch ")
+            writer.write("--accessToken 0 --version 1.8.9 --username \"Soar User\" --uuid 0 ")
             writer.write("--gameDir \"%DIR%game\" --assetsDir \"%DIR%assets\" --assetIndex 1.8 ")
             writer.write("--tweakClass ${tweakClass}\n")
+            writer.write("endlocal\n")
         }
 
         new File(distDir, "start.sh").withWriter('UTF-8') { writer ->
-            writer.write("#!/bin/sh\n")
-            writer.write("DIR=\$(cd \"\$(dirname \"\$0\")\" && pwd)\n")
-            writer.write("mkdir -p \"\$DIR/game\"\n")
-            writer.write("CP=${shClasspath}\n")
-            writer.write("exec java -Xmx4G -Djava.library.path=\"\$DIR/natives\" -cp \"\$CP\" net.minecraft.launchwrapper.Launch ")
-            writer.write("--version 1.8.9 --username \"Soar User\" --uuid 0 --accessToken 0 ")
-            writer.write("--gameDir \"\$DIR/game\" --assetsDir \"\$DIR/assets\" --assetIndex 1.8 ")
+            writer.write('#!/bin/sh\n')
+            writer.write('DIR=$(cd "$(dirname "$0")" && pwd)\n')
+            writer.write('mkdir -p "$DIR/game"\n')
+            writer.write('CP=""\n')
+            writer.write('for jar in "$DIR"/libraries/*.jar; do CP="$CP:$jar"; done\n')
+            writer.write('CP="$DIR/minecraft/1.8.9.jar:$DIR/minecraft/SoarClient.jar$CP"\n')
+            writer.write('exec java -Xmx4G -Djava.library.path="$DIR/natives" -cp "$CP" net.minecraft.launchwrapper.Launch ')
+            writer.write('--accessToken 0 --version 1.8.9 --username "Soar User" --uuid 0 ')
+            writer.write('--gameDir "$DIR/game" --assetsDir "$DIR/assets" --assetIndex 1.8 ')
             writer.write("--tweakClass ${tweakClass}\n")
         }
         new File(distDir, "start.sh").setExecutable(true)
 
         new File(distDir, "安装说明.txt").withWriter('UTF-8') { writer ->
-            writer.write("SoarClient standalone (vanilla 1.8.9)\n")
+            writer.write("SoarClient standalone (vanilla 1.8.9, upstream zip layout)\n")
             writer.write("\n")
-            writer.write("桌面端：把 assets/ 和 natives/ 补全后运行 start.bat (Windows) 或 start.sh (Linux/macOS)。\n")
-            writer.write("iOS (Amethyst/Pojav)：\n")
-            writer.write("1. 把 libraries/ 下的全部文件复制到启动器的 libraries/ 目录（保持 maven 子目录结构）。\n")
-            writer.write("2. 把 versions/ 下的 SoarClient 和 1.8.9 目录复制到启动器的 versions/ 目录。\n")
-            writer.write("3. 在启动器中新建/选择版本 SoarClient（继承 1.8.9，非 Forge），启动即可。\n")
-            writer.write("   （若启动器里已有原版 1.8.9，可跳过 versions/1.8.9/；assets 由启动器提供。）\n")
+            writer.write("Windows：双击 start.bat。需要 Java 8；也可以把 JRE 解压成 java/ 目录（脚本会自动使用）。\n")
+            writer.write("Linux/macOS：./start.sh（需自行把对应平台的 LWJGL natives 放进 natives/）。\n")
+            writer.write("assets/ 未内置：把 1.8 资源放进 assets/，或改 start 脚本里的 --assetsDir 指向启动器资源目录。\n")
+            writer.write("Forge 用户：改用 SoarClient-Forge-*-full.jar 放进 mods/，不要用这个包。\n")
         }
 
         println "Distribution assembled in ${distDir}"
