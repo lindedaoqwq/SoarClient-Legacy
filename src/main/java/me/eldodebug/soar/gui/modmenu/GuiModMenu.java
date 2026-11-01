@@ -58,6 +58,7 @@ public class GuiModMenu extends GuiScreen {
 	private Scroll pageScroll = new Scroll();
 	
 	private boolean draggingPageScroll;
+	private boolean draggingContentScroll;
 	
 	private boolean toEditHUD, canClose;
 	
@@ -100,6 +101,7 @@ public class GuiModMenu extends GuiScreen {
 		categoryScroll.resetAll();
 		pageScroll.resetAll();
 		draggingPageScroll = false;
+		draggingContentScroll = false;
 		toEditHUD = false;
 		canClose = true;
 	}
@@ -135,6 +137,16 @@ public class GuiModMenu extends GuiScreen {
 			drawPageScrollBar(sr, pageMax, Math.min(introAnimation.getValueFloat(), 1));
 		}
 		
+		if (draggingContentScroll) {
+			if (Mouse.isButtonDown(0)) {
+				updateContentScroll(mouseY, sr);
+			} else {
+				draggingContentScroll = false;
+			}
+		}
+		
+		drawContentScrollBar(sr, Math.min(introAnimation.getValueFloat(), 1));
+		
 		new EventRenderNotification().call();
 		
 		super.drawScreen(mouseX, mouseY, partialTicks);
@@ -161,7 +173,6 @@ public class GuiModMenu extends GuiScreen {
 	}
 	
 	private void drawPageScrollBar(ScaledResolution sr, float max, float alpha) {
-		
 		Soar instance = Soar.getInstance();
 		NanoVGManager nvg = instance.getNanoVGManager();
 		ColorPalette palette = instance.getColorManager().getPalette();
@@ -174,6 +185,71 @@ public class GuiModMenu extends GuiScreen {
 		float visible = sr.getScaledHeight();
 		float thumbHeight = Math.max(24.0F, barHeight * (visible / (visible + max)));
 		float progress = Math.max(0.0F, Math.min(1.0F, -pageScroll.getValue() / max));
+		float thumbY = top + progress * (barHeight - thumbHeight);
+		
+		Color trackColor = palette.getBackgroundColor(ColorType.DARK);
+		trackColor = new Color(trackColor.getRed(), trackColor.getGreen(), trackColor.getBlue(), (int) (trackColor.getAlpha() * alpha));
+		
+		nvg.drawRoundedRect(barX, top, 4, barHeight, 2, trackColor);
+		nvg.drawGradientRoundedRect(barX, thumbY, 4, thumbHeight, 2,
+				ColorUtils.applyAlpha(currentColor.getColor1(), (int) (255 * alpha)),
+				ColorUtils.applyAlpha(currentColor.getColor2(), (int) (255 * alpha)));
+	}
+	
+	private Scroll getContentScroll() {
+		return scroll;
+	}
+	
+	private float getContentScrollBarX(ScaledResolution sr) {
+		return Math.min(x + width - 18, sr.getScaledWidth() - 18);
+	}
+	
+	private float getContentScrollTop() {
+		return Math.max(8.0F, y + 36 + pageScroll.getValue());
+	}
+	
+	private float getContentScrollBottom(ScaledResolution sr) {
+		return Math.min(y + height - 6 + pageScroll.getValue(), sr.getScaledHeight() - 6);
+	}
+	
+	private void updateContentScroll(int mouseY, ScaledResolution sr) {
+		
+		Scroll contentScroll = getContentScroll();
+		float max = contentScroll.getMaxScroll();
+		float top = getContentScrollTop();
+		float bottom = getContentScrollBottom(sr);
+		
+		if (max <= 0 || bottom <= top) {
+			return;
+		}
+		
+		float progress = (mouseY - top) / (bottom - top);
+		progress = Math.max(0.0F, Math.min(1.0F, progress));
+		
+		contentScroll.setScrollPosition(-progress * max);
+	}
+	
+	private void drawContentScrollBar(ScaledResolution sr, float alpha) {
+		
+		Scroll contentScroll = getContentScroll();
+		float max = contentScroll.getMaxScroll();
+		float top = getContentScrollTop();
+		float bottom = getContentScrollBottom(sr);
+		float barHeight = bottom - top;
+		
+		if (max <= 0 || barHeight < 30) {
+			return;
+		}
+		
+		Soar instance = Soar.getInstance();
+		NanoVGManager nvg = instance.getNanoVGManager();
+		ColorPalette palette = instance.getColorManager().getPalette();
+		AccentColor currentColor = instance.getColorManager().getCurrentColor();
+		
+		float barX = getContentScrollBarX(sr);
+		float visible = Math.max(1.0F, currentCategory.getHeight());
+		float thumbHeight = Math.max(24.0F, barHeight * (visible / (visible + max)));
+		float progress = Math.max(0.0F, Math.min(1.0F, -contentScroll.getValue() / max));
 		float thumbY = top + progress * (barHeight - thumbHeight);
 		
 		Color trackColor = palette.getBackgroundColor(ColorType.DARK);
@@ -257,6 +333,7 @@ public class GuiModMenu extends GuiScreen {
 				
 				if(!c.isInitialized()) {
 					c.setInitialized(true);
+					scroll.setMaxScroll(0);
 					c.initCategory();
 					searchBox.setText("");
 					c.setCanClose(true);
@@ -317,6 +394,19 @@ public class GuiModMenu extends GuiScreen {
 			}
 		}
 		
+		if (mouseButton == 0 && getContentScroll().getMaxScroll() > 0) {
+			
+			float contentBarX = getContentScrollBarX(sr);
+			float top = getContentScrollTop();
+			float bottom = getContentScrollBottom(sr);
+			
+			if (bottom > top && MouseUtils.isInside(mouseX, mouseY, contentBarX - 3, top, 10, bottom - top)) {
+				draggingContentScroll = true;
+				updateContentScroll(mouseY, sr);
+				return;
+			}
+		}
+		
 		mouseY = (int) (mouseY - pageScroll.getValue());
 		
 		int offsetY = 0;
@@ -348,6 +438,7 @@ public class GuiModMenu extends GuiScreen {
 	@Override
 	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
 		draggingPageScroll = false;
+		draggingContentScroll = false;
 		mouseY = (int) (mouseY - pageScroll.getValue());
 		currentCategory.mouseReleased(mouseX, mouseY, mouseButton);
 	}

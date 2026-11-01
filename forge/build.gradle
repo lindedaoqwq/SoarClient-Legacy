@@ -143,6 +143,9 @@ task fatJar(type: Jar, dependsOn: 'reobfJar') {
     exclude 'module-info.class', 'META-INF/versions/**', 'META-INF/MANIFEST.MF'
     // Foreign plugin metadata made SoarClient show up as ViaBackwards / ViaRewind.
     exclude 'META-INF/sponge_plugins.json', 'META-INF/maven/**'
+    // The bundled ViaVersion/ViaBackwards jars ship Bukkit/Bungee/Velocity descriptors
+    // that mod managers read as the jar's own metadata, renaming SoarClient.
+    exclude 'plugin.yml', 'bungee.yml', 'velocity-plugin.json', 'paper-plugin.yml'
 
     manifest.attributes(
             "MixinConfigs": 'mixins.soar.json',
