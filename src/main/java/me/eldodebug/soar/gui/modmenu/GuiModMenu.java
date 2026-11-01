@@ -55,9 +55,9 @@ public class GuiModMenu extends GuiScreen {
 	
 	private Scroll scroll = new Scroll();
 	private Scroll categoryScroll = new Scroll();
-	private Scroll pageScroll = new Scroll();
 	
-	private boolean draggingPageScroll;
+	private float fitScale = 1.0F;
+	
 	private boolean draggingContentScroll;
 	
 	private boolean toEditHUD, canClose;
@@ -90,6 +90,8 @@ public class GuiModMenu extends GuiScreen {
 		width = addX * 2;
 		height = addY * 2;
 		
+		fitScale = Math.min(1.0F, Math.min((sr.getScaledWidth() - 8.0F) / width, (sr.getScaledHeight() - 8.0F) / height));
+		
 		introAnimation = new EaseBackIn(320, 1.0F, 2.0F);
 		introAnimation.setDirection(Direction.FORWARDS);
 		
@@ -99,8 +101,6 @@ public class GuiModMenu extends GuiScreen {
 		
 		scroll.resetAll();
 		categoryScroll.resetAll();
-		pageScroll.resetAll();
-		draggingPageScroll = false;
 		draggingContentScroll = false;
 		toEditHUD = false;
 		canClose = true;
@@ -113,111 +113,65 @@ public class GuiModMenu extends GuiScreen {
 		NanoVGManager nvg = instance.getNanoVGManager();
 		ScaledResolution sr = new ScaledResolution(mc);
 		
-		float pageMax = Math.max(0.0F, height - sr.getScaledHeight() + 10);
-		pageScroll.setMaxScroll(pageMax);
+		int logicalMouseX = toLogicalX(mouseX, sr);
+		int logicalMouseY = toLogicalY(mouseY, sr);
 		
-		if (draggingPageScroll) {
+		if (draggingContentScroll) {
 			if (Mouse.isButtonDown(0)) {
-				updatePageScroll(mouseY, sr);
+				updateContentScroll(logicalMouseY);
 			} else {
-				draggingPageScroll = false;
+				draggingContentScroll = false;
 			}
 		}
-		
-		pageScroll.onAnimation();
 		
 		BlurUtils.drawBlurScreen((float) (Math.min(introAnimation.getValue(), 1) * 20) + 1F);
 		screenAnimation.wrap(() -> {
 			nvg.drawShadow(x, y, width, height, 12);
 		}, 2 - introAnimation.getValueFloat(), Math.min(introAnimation.getValueFloat(), 1));
 		
-		screenAnimation.wrap(() -> drawNanoVG(mouseX, mouseY, partialTicks), this.getX(), this.getY(), this.getWidth(), this.getHeight(), 2 - introAnimation.getValueFloat(), Math.min(introAnimation.getValueFloat(), 1), true);
-		
-		if (pageMax > 0) {
-			drawPageScrollBar(sr, pageMax, Math.min(introAnimation.getValueFloat(), 1));
-		}
-		
-		if (draggingContentScroll) {
-			if (Mouse.isButtonDown(0)) {
-				updateContentScroll(mouseY, sr);
-			} else {
-				draggingContentScroll = false;
-			}
-		}
-		
-		drawContentScrollBar(sr, Math.min(introAnimation.getValueFloat(), 1));
+		screenAnimation.wrap(() -> {
+			nvg.save();
+			nvg.scale(sr.getScaledWidth() / 2.0F, sr.getScaledHeight() / 2.0F, fitScale);
+			drawNanoVG(logicalMouseX, logicalMouseY, partialTicks);
+			drawContentScrollBar(Math.min(introAnimation.getValueFloat(), 1));
+			nvg.restore();
+		}, this.getX(), this.getY(), this.getWidth(), this.getHeight(), 2 - introAnimation.getValueFloat(), Math.min(introAnimation.getValueFloat(), 1), true);
 		
 		new EventRenderNotification().call();
 		
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
 	
-	private float getPageScrollBarX(ScaledResolution sr) {
-		return Math.min(x + width - 10, sr.getScaledWidth() - 10);
+	private int toLogicalX(int mouseX, ScaledResolution sr) {
+		return (int) ((mouseX - (sr.getScaledWidth() / 2.0F)) / fitScale + (sr.getScaledWidth() / 2.0F));
 	}
 	
-	private void updatePageScroll(int mouseY, ScaledResolution sr) {
-		
-		float max = pageScroll.getMaxScroll();
-		
-		if (max <= 0) {
-			return;
-		}
-		
-		float top = 8.0F;
-		float bottom = sr.getScaledHeight() - 8.0F;
-		float progress = (mouseY - top) / (bottom - top);
-		progress = Math.max(0.0F, Math.min(1.0F, progress));
-		
-		pageScroll.setScrollPosition(-progress * max);
-	}
-	
-	private void drawPageScrollBar(ScaledResolution sr, float max, float alpha) {
-		Soar instance = Soar.getInstance();
-		NanoVGManager nvg = instance.getNanoVGManager();
-		ColorPalette palette = instance.getColorManager().getPalette();
-		AccentColor currentColor = instance.getColorManager().getCurrentColor();
-		
-		float barX = getPageScrollBarX(sr);
-		float top = 8.0F;
-		float bottom = sr.getScaledHeight() - 8.0F;
-		float barHeight = bottom - top;
-		float visible = sr.getScaledHeight();
-		float thumbHeight = Math.max(24.0F, barHeight * (visible / (visible + max)));
-		float progress = Math.max(0.0F, Math.min(1.0F, -pageScroll.getValue() / max));
-		float thumbY = top + progress * (barHeight - thumbHeight);
-		
-		Color trackColor = palette.getBackgroundColor(ColorType.DARK);
-		trackColor = new Color(trackColor.getRed(), trackColor.getGreen(), trackColor.getBlue(), (int) (trackColor.getAlpha() * alpha));
-		
-		nvg.drawRoundedRect(barX, top, 4, barHeight, 2, trackColor);
-		nvg.drawGradientRoundedRect(barX, thumbY, 4, thumbHeight, 2,
-				ColorUtils.applyAlpha(currentColor.getColor1(), (int) (255 * alpha)),
-				ColorUtils.applyAlpha(currentColor.getColor2(), (int) (255 * alpha)));
+	private int toLogicalY(int mouseY, ScaledResolution sr) {
+		return (int) ((mouseY - (sr.getScaledHeight() / 2.0F)) / fitScale + (sr.getScaledHeight() / 2.0F));
 	}
 	
 	private Scroll getContentScroll() {
 		return scroll;
 	}
 	
-	private float getContentScrollBarX(ScaledResolution sr) {
-		return Math.min(x + width - 18, sr.getScaledWidth() - 18);
+	private float getContentScrollBarX() {
+		return x + width - 8;
 	}
 	
 	private float getContentScrollTop() {
-		return Math.max(8.0F, y + 36 + pageScroll.getValue());
+		return y + 36;
 	}
 	
-	private float getContentScrollBottom(ScaledResolution sr) {
-		return Math.min(y + height - 6 + pageScroll.getValue(), sr.getScaledHeight() - 6);
+	private float getContentScrollBottom() {
+		return y + height - 6;
 	}
 	
-	private void updateContentScroll(int mouseY, ScaledResolution sr) {
+	private void updateContentScroll(int mouseY) {
 		
 		Scroll contentScroll = getContentScroll();
 		float max = contentScroll.getMaxScroll();
 		float top = getContentScrollTop();
-		float bottom = getContentScrollBottom(sr);
+		float bottom = getContentScrollBottom();
 		
 		if (max <= 0 || bottom <= top) {
 			return;
@@ -229,12 +183,12 @@ public class GuiModMenu extends GuiScreen {
 		contentScroll.setScrollPosition(-progress * max);
 	}
 	
-	private void drawContentScrollBar(ScaledResolution sr, float alpha) {
+	private void drawContentScrollBar(float alpha) {
 		
 		Scroll contentScroll = getContentScroll();
 		float max = contentScroll.getMaxScroll();
 		float top = getContentScrollTop();
-		float bottom = getContentScrollBottom(sr);
+		float bottom = getContentScrollBottom();
 		float barHeight = bottom - top;
 		
 		if (max <= 0 || barHeight < 30) {
@@ -246,7 +200,7 @@ public class GuiModMenu extends GuiScreen {
 		ColorPalette palette = instance.getColorManager().getPalette();
 		AccentColor currentColor = instance.getColorManager().getCurrentColor();
 		
-		float barX = getContentScrollBarX(sr);
+		float barX = getContentScrollBarX();
 		float visible = Math.max(1.0F, currentCategory.getHeight());
 		float thumbHeight = Math.max(24.0F, barHeight * (visible / (visible + max)));
 		float progress = Math.max(0.0F, Math.min(1.0F, -contentScroll.getValue() / max));
@@ -269,9 +223,6 @@ public class GuiModMenu extends GuiScreen {
 		ColorPalette palette = colorManager.getPalette();
 		AccentColor currentColor = colorManager.getCurrentColor();
 		File headFile = new File(instance.getFileManager().getCacheDir(), "head/" + instance.getAccountManager().getCurrentAccount().getName() + ".png");
-		
-		nvg.save();
-		nvg.translate(0, pageScroll.getValue());
 		
 		if(introAnimation.isDone(Direction.BACKWARDS)) {
 			mc.displayGuiScreen(toEditHUD ? new GuiEditHUD(true) : null);
@@ -373,41 +324,28 @@ public class GuiModMenu extends GuiScreen {
 		if(currentCategory.isShowSearchBox() && Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) && Keyboard.isKeyDown(Keyboard.KEY_F)) {
 			currentCategory.getSearchBox().setFocused(true);
 		}
-		
-		nvg.restore();
 	}
 	
 	@Override
 	public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
 		
 		ScaledResolution sr = new ScaledResolution(mc);
-		float pageMax = pageScroll.getMaxScroll();
 		
-		if (pageMax > 0 && mouseButton == 0) {
-			
-			float barX = getPageScrollBarX(sr);
-			
-			if (MouseUtils.isInside(mouseX, mouseY, barX - 3, 8, 10, sr.getScaledHeight() - 16)) {
-				draggingPageScroll = true;
-				updatePageScroll(mouseY, sr);
-				return;
-			}
-		}
+		mouseX = toLogicalX(mouseX, sr);
+		mouseY = toLogicalY(mouseY, sr);
 		
 		if (mouseButton == 0 && getContentScroll().getMaxScroll() > 0) {
 			
-			float contentBarX = getContentScrollBarX(sr);
+			float contentBarX = getContentScrollBarX();
 			float top = getContentScrollTop();
-			float bottom = getContentScrollBottom(sr);
+			float bottom = getContentScrollBottom();
 			
 			if (bottom > top && MouseUtils.isInside(mouseX, mouseY, contentBarX - 3, top, 10, bottom - top)) {
 				draggingContentScroll = true;
-				updateContentScroll(mouseY, sr);
+				updateContentScroll(mouseY);
 				return;
 			}
 		}
-		
-		mouseY = (int) (mouseY - pageScroll.getValue());
 		
 		int offsetY = 0;
 		
@@ -437,10 +375,14 @@ public class GuiModMenu extends GuiScreen {
 	
 	@Override
 	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
-		draggingPageScroll = false;
+		boolean wasDragging = draggingContentScroll;
 		draggingContentScroll = false;
-		mouseY = (int) (mouseY - pageScroll.getValue());
-		currentCategory.mouseReleased(mouseX, mouseY, mouseButton);
+		ScaledResolution sr = new ScaledResolution(mc);
+		mouseX = toLogicalX(mouseX, sr);
+		mouseY = toLogicalY(mouseY, sr);
+		if(!wasDragging) {
+			currentCategory.mouseReleased(mouseX, mouseY, mouseButton);
+		}
 	}
 	
 	@Override

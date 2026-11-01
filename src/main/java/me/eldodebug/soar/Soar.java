@@ -9,6 +9,8 @@ import org.apache.commons.lang3.ArrayUtils;
 import me.eldodebug.soar.injection.mixin.SoarTweaker;
 import me.eldodebug.soar.logger.SoarLogger;
 import me.eldodebug.soar.management.account.AccountManager;
+import me.eldodebug.soar.utils.Multithreading;
+import me.eldodebug.soar.viaversion.ViaSoar;
 import me.eldodebug.soar.management.cape.CapeManager;
 import me.eldodebug.soar.management.changelog.ChangelogManager;
 import me.eldodebug.soar.management.color.ColorManager;
@@ -95,6 +97,11 @@ public class Soar {
 		waypointManager = new WaypointManager();
 		
 		eventManager.register(new SoarHandler());
+		
+		Multithreading.runAsync(() -> {
+			ViaSoar.create();
+			ViaSoar.getInstance().initAsyncSlider();
+		});
 		
 		setupLibraryPath();
 		

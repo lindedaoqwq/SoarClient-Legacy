@@ -112,7 +112,7 @@ jar {
     exclude 'META-INF/MANIFEST.MF', 'META-INF/INDEX.LIST'
 
     manifest.attributes(
-            "MixinConfigs": 'mixins.soar.json',
+            "MixinConfigs": 'mixins.soar.json,mixins.soar.forge.json',
             "TweakClass": 'me.eldodebug.soar.injection.mixin.SoarTweaker',
             "TweakOrder": 0,
             "Manifest-Version": 1.0,
@@ -148,7 +148,7 @@ task fatJar(type: Jar, dependsOn: 'reobfJar') {
     exclude 'plugin.yml', 'bungee.yml', 'velocity-plugin.json', 'paper-plugin.yml'
 
     manifest.attributes(
-            "MixinConfigs": 'mixins.soar.json',
+            "MixinConfigs": 'mixins.soar.json,mixins.soar.forge.json',
             "TweakClass": 'me.eldodebug.soar.injection.mixin.SoarTweaker',
             "TweakOrder": 0,
             "Manifest-Version": 1.0,
