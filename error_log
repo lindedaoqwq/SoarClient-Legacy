@@ -1,0 +1,1144 @@
+[Pre-Init] Amethyst iOS Remastered INIT!
+[Pre-Init] GitHub: https://github.com/herbrine8403/Amethyst-iOS-MyRemastered
+[Pre-Init] Please try not to post this log of the remastered launcher to the original GitHub Issues for help.
+[Pre-Init] Version: 6.0.0
+[Pre-Init] Commit: c479738 (main)
+[Pre-Init] Device: iPad (9th generation)
+[Pre-Init] iPadOS 15.0 (19A340) (TrollStore)
+[Pre-init] Entitlements availability:
+* com.apple.developer.kernel.extended-virtual-addressing: YES
+* com.apple.developer.kernel.increased-memory-limit: YES
+* com.apple.private.security.no-sandbox: YES
+[SDL-FIRSTFRAME] hooked_dlsym LIVE: 1st call name=ame_sdl_firstframe_selftest_no_such_symbol handle=RTLD_DEFAULT/NULL (dlsym hook installed AND consulted; a log without this line means no rebound image ever called dlsym)
+[SDL-FIRSTFRAME] init_hookFunctions done: images=654 dlsym hook self-test=YES (calls 0->1 probe=0x0) -- self-test=NO means this process's dlsym slot was NOT rebound, so the SDL compat layer is silently inert on ANY MC version; YES + no 'SDL3 compat layer CONSULTED' later means this session simply took the GLFW/Metal path (MC <=26.2) and zero [SDLHook] lines are expected
+[Debugging] Debug log enabled: YES
+[Pre-init] Restored game directory preference (SoarClient-Test)
+[Pre-init] no-sandbox: YES, trying to enable JIT
+calling ptrace(PT_TRACE_ME)
+[Pre-init] JIT has been enabled with PT_TRACE_ME
+[i18n][I18N-ORDER] effective=zh-Hans followSystem=YES bundle=/var/containers/Bundle/Application/4443B2DF-207C-456B-A6A0-518AF419B947/AngelAuraAmethyst.app/zh-Hans.lproj coverage=0.98 bundlePref=zh-CN systemPref=zh-Hans-CN
+★ [GAME-LANDSCAPE] legacy path: iOS<16 ⇒ 初始方向走 attemptRotationToDeviceOrientation
+[UI-LAYOUT] device=iPad ⇒ card layout (auto)
+[glass] 界面风格探测:系统 < iOS 26 ⇒ 仅原生风格可用
+[glass] 风格判定: 配置=auto · 系统支持液态玻璃=否 · 实际生效=native · 自绘玻璃=关(纯系统) (SDK=Apple LLVM 17.0.0 (clang-1700.6.4.2))
+[glass] settings loaded: uiEffect=1 (0=半透明,1=毛玻璃) blurIntensity=0.70 uiOpacity=0.70
+[glass] rim: enabled=1 strength=1.00
+[glass] style: 配置=auto · 系统支持液态玻璃=否 · 实际生效=native
+[SceneDelegate] libterracotta linked, multiplayer available (lazy init)
+[glass] applyEffectToView: SYSTEM-material path(系统材质,不自绘) on UIView (blur=26.0 sat=1.80 intensity=0.70 hasBg=0)
+[glass] 原生风格 ⇒ 材质用系统 UIBlurEffect(style=7),不调用 UIGlassEffect
+[glass] 原生风格 ⇒ 跳过私有 backdrop 调参(blur=26 saturate=180% 不应用)
+[glass] applyEffectToView: SYSTEM-material path(系统材质,不自绘) on UIView (blur=26.0 sat=1.80 intensity=0.70 hasBg=0)
+[glass] applyEffectToView: SYSTEM-material path(系统材质,不自绘) on UIView (blur=26.0 sat=1.80 intensity=0.70 hasBg=0)
+[NORIGHT] right panel collapsed=1 (panel=44 extra=2)
+[glass] 界面风格探测:系统 < iOS 26 ⇒ 仅原生风格可用
+[HOME6] safeArea l=0 t=0 r=0 b=0 landscape=1
+[HOME-TOP][CARDL] restored navBarHidden=YES (returned from pushed page)
+[glass] applyEffectToView: SYSTEM-material path(系统材质,不自绘) on UIView (blur=26.0 sat=1.80 intensity=0.70 hasBg=0)
+[glass] applyEffectToView: SYSTEM-material path(系统材质,不自绘) on UIView (blur=26.0 sat=1.80 intensity=0.70 hasBg=0)
+[glass] applyEffectToView: SYSTEM-material path(系统材质,不自绘) on UIView (blur=26.0 sat=1.80 intensity=0.70 hasBg=0)
+[HOME6] safeArea l=0 t=0 r=0 b=38 landscape=1
+[SWIFT-BAR][ROT] menubar size=1056x56 hostH=0 items=5
+[HOME6] safeArea l=0 t=0 r=0 b=0 landscape=1
+[PLPreferences] Getter could not find preference general.last_update_check
+[PLPreferences] Setter could not find preference general.last_update_check
+[PLPreferences] Getter could not find preference internal.version_isolation_wizard_off
+★ [VI-FLOW] 向导已弹出（只写设置、不搬文件；可跳过；可选「以后不再提示」）
+[HOME-TOP][CARDL] appear safe.top=0 navBarHidden=1 stack=1
+[UpdateChecker] Launcher is up to date (6.0.0)
+2026-11-01 16:05:10.016 AngelAuraAmethyst[13784:1265702] Writing analzed variants.
+2026-11-01 16:05:10.017 AngelAuraAmethyst[13784:1265702] Writing analzed variants.
+[IconLoader] Initialization complete, disk cache directory: /var/mobile/Containers/Data/Application/BD00A25E-699B-4ECB-98D4-19C89C6B91FB/Library/Caches/IconLoader, mirror enabled: YES
+[LauncherCardVC] Loaded 923 remote versions
+[ROOTTAB] tap index=3
+[PLPreferences] Getter could not find preference debug.perf_probe
+2026-11-01 16:05:11.506 AngelAuraAmethyst[13784:1265702] [glass] 界面风格探测:系统 < iOS 26 ⇒ 仅原生风格可用
+2026-11-01 16:05:11.506 AngelAuraAmethyst[13784:1265702] [glass] 原生风格 ⇒ 材质用系统 UIBlurEffect(style=8),不调用 UIGlassEffect
+[glass] applyEffectToView: SYSTEM-material path(系统材质,不自绘) on UIView (blur=26.0 sat=1.80 intensity=0.70 hasBg=0)
+[ROOTTAB] tap index=0
+[HOME-TOP][CARDL] appear safe.top=0 navBarHidden=1 stack=1
+★ [GAME-LANDSCAPE] legacy path: iOS<16 ⇒ attemptRotationToDeviceOrientation(mask=24)
+★ [GAME-LANDSCAPE] ENTER (wasLocked=0) ⇒ 支持方向=仅横屏(已请求转到横屏)
+[DownloadTaskManager] updateTaskWithId:stageAtIndex:rate: invalid stage index 3 for task 7FE6EB43-38E0-4B27-A650-02CB1C253AF1
+[DownloadTaskManager] updateTaskWithId:stageAtIndex:rate: invalid stage index 4 for task 7FE6EB43-38E0-4B27-A650-02CB1C253AF1
+[MCDL] SHA1 passed for 1.8.9.json
+[MCDL] insertSafety: how to insert assetIndex?
+[MCDL] Replacing JNA 3.4.0 with 5.13.0 for iOS compatibility (required by 1.8.9-forge1.8.9-11.15.1.2318-1.8.9)
+[MCDL] Unknown artifact object for net.sf.jopt-simple:jopt-simple:4.6, attempting to generate one
+[MCDL] Warning: couldn't find SHA for /private/var/mobile/Containers/Data/Application/BD00A25E-699B-4ECB-98D4-19C89C6B91FB/Documents/Library/Application Support/minecraft/libraries/net/sf/jopt-simple/jopt-simple/4.6/jopt-simple-4.6.jar, have to assume it's good.
+[MDCL] Skipped library org.lwjgl.lwjgl:lwjgl:2.9.4-nightly-20150209
+[MDCL] Skipped library org.lwjgl.lwjgl:lwjgl_util:2.9.4-nightly-20150209
+[MDCL] Skipped library org.lwjgl.lwjgl:lwjgl-platform:2.9.4-nightly-20150209
+[MDCL] Skipped library org.lwjgl.lwjgl:lwjgl:2.9.2-nightly-20140822
+[MDCL] Skipped library org.lwjgl.lwjgl:lwjgl_util:2.9.2-nightly-20140822
+[MCDL] Unknown artifact object for org.lwjgl.lwjgl:lwjgl-platform:2.9.2-nightly-20140822, attempting to generate one
+[MDCL] Skipped library org.lwjgl.lwjgl:lwjgl-platform:2.9.2-nightly-20140822
+[MCDL] Unknown artifact object for net.java.jinput:jinput-platform:2.0.5, attempting to generate one
+[MDCL] Skipped library net.java.jinput:jinput-platform:2.0.5
+[MCDL] Unknown artifact object for tv.twitch:twitch-platform:6.5, attempting to generate one
+[MDCL] Skipped library tv.twitch:twitch-platform:6.5
+[MCDL] Unknown artifact object for tv.twitch:twitch-external-platform:4.5, attempting to generate one
+[MDCL] Skipped library tv.twitch:twitch-external-platform:4.5
+[MCDL] Unknown artifact object for net.minecraftforge:forge:1.8.9-11.15.1.2318-1.8.9, attempting to generate one
+[MCDL] Warning: couldn't find SHA for /private/var/mobile/Containers/Data/Application/BD00A25E-699B-4ECB-98D4-19C89C6B91FB/Documents/Library/Application Support/minecraft/libraries/net/minecraftforge/forge/1.8.9-11.15.1.2318-1.8.9/forge-1.8.9-11.15.1.2318-1.8.9.jar, have to assume it's good.
+[MCDL] Unknown artifact object for net.minecraft:launchwrapper:1.12, attempting to generate one
+[MCDL] Warning: couldn't find SHA for /private/var/mobile/Containers/Data/Application/BD00A25E-699B-4ECB-98D4-19C89C6B91FB/Documents/Library/Application Support/minecraft/libraries/net/minecraft/launchwrapper/1.12/launchwrapper-1.12.jar, have to assume it's good.
+[MCDL] Unknown artifact object for org.ow2.asm:asm-all:5.0.3, attempting to generate one
+[MCDL] Warning: couldn't find SHA for /private/var/mobile/Containers/Data/Application/BD00A25E-699B-4ECB-98D4-19C89C6B91FB/Documents/Library/Application Support/minecraft/libraries/org/ow2/asm/asm-all/5.0.3/asm-all-5.0.3.jar, have to assume it's good.
+[MCDL] Unknown artifact object for jline:jline:2.13, attempting to generate one
+[MCDL] Unknown artifact object for com.typesafe.akka:akka-actor_2.11:2.3.3, attempting to generate one
+[MCDL] Unknown artifact object for com.typesafe:config:1.2.1, attempting to generate one
+[MCDL] Unknown artifact object for org.scala-lang:scala-actors-migration_2.11:1.1.0, attempting to generate one
+[MCDL] Unknown artifact object for org.scala-lang:scala-compiler:2.11.1, attempting to generate one
+[MCDL] Unknown artifact object for org.scala-lang.plugins:scala-continuations-library_2.11:1.0.2, attempting to generate one
+[MCDL] Warning: couldn't find SHA for /private/var/mobile/Containers/Data/Application/BD00A25E-699B-4ECB-98D4-19C89C6B91FB/Documents/Library/Application Support/minecraft/libraries/org/scala-lang/plugins/scala-continuations-library_2.11/1.0.2/scala-continuations-library_2.11-1.0.2.jar, have to assume it's good.
+[MCDL] Unknown artifact object for org.scala-lang.plugins:scala-continuations-plugin_2.11.1:1.0.2, attempting to generate one
+[MCDL] Warning: couldn't find SHA for /private/var/mobile/Containers/Data/Application/BD00A25E-699B-4ECB-98D4-19C89C6B91FB/Documents/Library/Application Support/minecraft/libraries/org/scala-lang/plugins/scala-continuations-plugin_2.11.1/1.0.2/scala-continuations-plugin_2.11.1-1.0.2.jar, have to assume it's good.
+[MCDL] Unknown artifact object for org.scala-lang:scala-library:2.11.1, attempting to generate one
+[MCDL] Unknown artifact object for org.scala-lang:scala-parser-combinators_2.11:1.0.1, attempting to generate one
+[MCDL] Unknown artifact object for org.scala-lang:scala-reflect:2.11.1, attempting to generate one
+[MCDL] Unknown artifact object for org.scala-lang:scala-swing_2.11:1.0.1, attempting to generate one
+[MCDL] Unknown artifact object for org.scala-lang:scala-xml_2.11:1.0.2, attempting to generate one
+[MCDL] Unknown artifact object for lzma:lzma:0.0.1, attempting to generate one
+[MCDL] Warning: couldn't find SHA for /private/var/mobile/Containers/Data/Application/BD00A25E-699B-4ECB-98D4-19C89C6B91FB/Documents/Library/Application Support/minecraft/libraries/lzma/lzma/0.0.1/lzma-0.0.1.jar, have to assume it's good.
+[MCDL] Unknown artifact object for java3d:vecmath:1.5.2, attempting to generate one
+[MCDL] Warning: couldn't find SHA for /private/var/mobile/Containers/Data/Application/BD00A25E-699B-4ECB-98D4-19C89C6B91FB/Documents/Library/Application Support/minecraft/libraries/java3d/vecmath/1.5.2/vecmath-1.5.2.jar, have to assume it's good.
+[MCDL] Unknown artifact object for net.sf.trove4j:trove4j:3.0.3, attempting to generate one
+[MCDL] Warning: couldn't find SHA for /private/var/mobile/Containers/Data/Application/BD00A25E-699B-4ECB-98D4-19C89C6B91FB/Documents/Library/Application Support/minecraft/libraries/net/sf/trove4j/trove4j/3.0.3/trove4j-3.0.3.jar, have to assume it's good.
+[JIT-FLOW] [RightPanel] invokeAfterJITEnabled: isJITEnabled=1 trollstore=0 keepAttached=0 ppid=1 jb=rootless(/var/jb) (Dopamine)
+[JIT-FLOW] [RightPanel] WARNING: isJITEnabled=1 but no live JIT26 debugger (ppid=1 traced=0 exn=0); launch may hit brk #0x69
+[JIT] [RightPanel] JIT enabled with live JIT26 debugger, launching directly
+[SurfaceViewController] FPS counter setup: profileRenderer=libnggl4es.dylib, envRenderer=(null), graphicsApi=(null), isVulkan=0, configuredVulkanExpected=0 (actual path decided at runtime via pojavIsActualVulkanPath)
+[BT-MOUSE][raw] hover 手势挂载: gesture=UIHoverGestureRecognizer host=UIView userInteraction=1 phone=0
+[BT-MOUSE][raw] platform: device=iPad/other reason=viewDidLoad GCMouse.count=0 assistiveTouch=off
+[BT-MOUSE][raw] GCMouse: evt=init count=0 cur=0 mouseInput=0 pref=1 prefLocked=0 phone=0
+[Task141] launch memory from auto ratio 0.50 x 2940MB = 1470 MB
+[Task173] memorystatus entitlement present -- jetsam limit will be raised to 2494 MB (allocmem 1470 + 1024 native); heap clamp bypassed
+[Task141] final launch memory = 1470 MB (device 2940 MB, jetsam limit 2494 MB)
+Successfully set Jetsam task limit (allocmem=1470 MB, limit=2494 MB)
+[SurfaceVC] drawableSize=1620x1215 (contentsScale 1.50, resolution 75%)
+[SurfaceVC] CAMetalLayer configured: drawableSize=1620x1215, maximumDrawableCount=3, presentsWithTransaction=0, drawsAsynchronously=1, contentsScale=1.50
+[TouchController] Sender ready on port 12450
+[SurfaceViewController] Launching Minecraft with accountId: 2521574235366215637, version: 8, size: 1620x1215
+[JavaLauncher] Beginning JVM launch
+[JavaLauncher] MoltenVK performance tracking + IMMEDIATE present mode requested for VSync diagnosis
+[JavaLauncher] Framerate unlock configuration:
+[JavaLauncher]   video.disable_game_vsync=1
+[JavaLauncher]   POJAV_DISABLE_VSYNC=1
+[JavaLauncher]   UIScreen.maximumFramesPerSecond=60
+[JavaLauncher] Reading custom environment variables
+[JavaLauncher] Warning: skipped empty value custom env variable: 
+[JavaLauncher] Added custom env variable: TOUCH_CONTROLLER_PROXY=12450
+[LOG-FIX] native-crash -> /private/var/mobile/Containers/Data/Application/BD00A25E-699B-4ECB-98D4-19C89C6B91FB/Documents/instances/SoarClient-Test/native-crash.log (hardlink /private/var/mobile/Containers/Data/Application/BD00A25E-699B-4ECB-98D4-19C89C6B91FB/Documents/native-crash.log)
+[JavaLauncher] native crash capture armed -> /private/var/mobile/Containers/Data/Application/BD00A25E-699B-4ECB-98D4-19C89C6B91FB/Documents/instances/SoarClient-Test/native-crash.log
+[JB-ADAPT] native JIT confirmed (env=rootless(/var/jb) (Dopamine)): anonymous page mprotect(RX) OK -- no debugger/brk needed, launching without any external JIT tool
+[JB-ADAPT] [Headless] jailbreak env=rootless(/var/jb) (Dopamine) nativeJITReady=1 requiresDebugJITMapping=0
+[DyldLVBypass] init
+[DyldLVBypass] enabled by user (java.dyld_bypass=ON)
+[DyldLVBypass] Using redirectFunctionDirect
+[MG-FIRSTFRAME] dyld bypass mode=direct (java.dyld_bypass=ON)
+[DyldLVBypass] found dyld_mmap at 0x103952bb8
+[DyldLVBypass] hook dyld_mmap succeed!
+[MG-FIRSTFRAME] dyld_fcntl direct inline patch SKIPPED -- lethal combo (redirectFunctionDirect + own fcntl patch) => dlopen(libjli) SIGBUS livelock / no first frame. Falling back to the Dopamine-detect path; set AMETHYST_DYLD_BYPASS_FORCE_FCNTL=1 to force legacy.
+★ [GAME-LANDSCAPE] legacy path: iOS<16 ⇒ attemptRotationToDeviceOrientation(mask=24)
+★ [GAME-LANDSCAPE] ENTER (wasLocked=1) ⇒ 支持方向=仅横屏(已请求转到横屏)
+[DyldLVBypass] Dopamine hook not found
+[JavaLauncher] tolerant SIGBUS handler armed (tolerance=8, replaces SIG_IGN)
+[JavaLauncher] init_loadMobileGluesConfig: renderer=libnggl4es.dylib
+[JavaLauncher] MobileGlues config not written (renderer is not mobileglues/auto/vulkan)
+[JavaLauncher] Enabled TouchController with UDP mode
+[JavaLauncher] RENDERER is set to libnggl4es.dylib
+[JavaLauncher] NG-GL4ES renderer active (NGG_DIR_PATH=/private/var/mobile/Containers/Data/Application/BD00A25E-699B-4ECB-98D4-19C89C6B91FB/Documents/ngg)
+[JavaLauncher] graphicsApi raw=default (profile='forge', global=default)
+[JavaLauncher] GRAPHICS_API is set to default
+[VER-ISOLATE-PCL] gameDir=/var/mobile/Containers/Data/Application/BD00A25E-699B-4ECB-98D4-19C89C6B91FB/Documents/instances/SoarClient-Test (版本隔离=关, 约束版本 id=1.8.9-forge1.8.9-11.15.1.2318-1.8.9)
+[JavaLauncher] Looking for Java 8 or later
+[JavaLauncher] JAVA_HOME has been set to /private/var/containers/Bundle/Application/4443B2DF-207C-456B-A6A0-518AF419B947/AngelAuraAmethyst.app/java_runtimes/java-8-openjdk
+[Task141] launch memory from auto ratio 0.50 x 2940MB = 1470 MB
+[Task173] memorystatus entitlement present -- jetsam limit will be raised to 2494 MB (allocmem 1470 + 1024 native); heap clamp bypassed
+[Task141] final launch memory = 1470 MB (device 2940 MB, jetsam limit 2494 MB)
+[JavaLauncher] Max RAM allocation is set to 1470 MB
+[JavaLauncher] library.path = /private/var/containers/Bundle/Application/4443B2DF-207C-456B-A6A0-518AF419B947/AngelAuraAmethyst.app/Frameworks
+[VER-ISOLATE] java.io.tmpdir -> /private/var/mobile/Containers/Data/Application/BD00A25E-699B-4ECB-98D4-19C89C6B91FB/Documents/instances/SoarClient-Test/tmp
+[JavaLauncher] Published Metallum surface view: 0x1222cae10 (scale=2)
+[JavaLauncher] Added JVM property -Dmax.fps=260 (frame rate unlock layer 4)
+[JavaLauncher] Metallum agent skipped: MC major 1 < 26 (agent needs Java 21+ class files, this session runs Java 8)
+[JavaLauncher] Java 8 detected, skipping G1GC tuning (using default GC)
+[JavaLauncher] Caciocavallo: isJava8=1 libs=libs_caciocavallo mode=/p
+[JavaLauncher] Reading custom JVM flags
+[Init] Found JLI lib
+[JavaLauncher] Using LWJGL 333 (mcVersion=1.8.9-forge1.8.9-11.15.1.2318-1.8.9)
+[JavaLauncher] preloaded libnggl4es.dylib with RTLD_LOCAL before JVM start (ok)
+[JavaLauncher] Using LWJGL jar at /private/var/containers/Bundle/Application/4443B2DF-207C-456B-A6A0-518AF419B947/AngelAuraAmethyst.app/libs/lwjgl-333/lwjgl.jar
+[CwdAlign] Task97: process CWD aligned to game dir: /private/var/mobile/Containers/Data/Application/BD00A25E-699B-4ECB-98D4-19C89C6B91FB/Documents/instances/SoarClient-Test
+[AppKitStub] Task99: NSApplication/NSMenu/NSMenuItem stubs installed (iOS has no AppKit; MC 26.3 MacosUtil menu walk no-ops, numberOfItems=0)
+[Init] Calling JLI_Launch
+[JavaLauncher] tolerant SIGBUS handler armed (tolerance=8, replaces SIG_IGN)
+★ [GAME-LANDSCAPE] legacy path: iOS<16 ⇒ attemptRotationToDeviceOrientation(mask=24)
+★ [GAME-LANDSCAPE] ENTER (wasLocked=1) ⇒ 支持方向=仅横屏(已请求转到横屏)
+★ [GAME-LANDSCAPE] legacy path: iOS<16 ⇒ attemptRotationToDeviceOrientation 重评估方向(本 VC 恒 landscape)
+PatchJNAAgent: premain called
+Arc Capes DNS Injector
+Parts of Alibaba's DCM library were used, please read https://github.com/alibaba/java-dns-cache-manipulator/blob/main/README.md for more info
+Added DNS cache entry: s.optifine.net/23.95.137.176
+[PojavLauncher] VSync disabled, maxFps/maxFramerate/framerateLimit set to 260
+[PojavLauncher]   enableVsync=false
+[PojavLauncher]   maxFps=260
+[PojavLauncher]   maxFramerate=260
+[PojavLauncher]   framerateLimit=260
+[PojavLauncher]   inactivityFpsLimit=minimized
+[PojavLauncher] Task104 on-disk verification: inactivityFpsLimit=minimized maxFps=260 enableVsync=false
+[PojavLauncher] MC 26.2+ graphicsApi cleared (default)
+Library net.sf.jopt-simple:jopt-simple: Replaced version jopt-simple with jopt-simple
+[Tools] Replacing JNA 3.4.0 with 5.13.0 for iOS compatibility
+Launching Minecraft 1.8.9-forge1.8.9-11.15.1.2318-1.8.9
+Ignored non-exists file: /private/var/mobile/Containers/Data/Application/BD00A25E-699B-4ECB-98D4-19C89C6B91FB/Documents/Library/Application Support/minecraft/libraries/net/java/jinput/jinput-platform/2.0.5/jinput-platform-2.0.5.jar
+Args init finished. Now starting game
+[16:05:22] [main/INFO]: Loading tweak class name net.minecraftforge.fml.common.launcher.FMLTweaker
+[16:05:22] [main/INFO]: Using primary tweak class name net.minecraftforge.fml.common.launcher.FMLTweaker
+[16:05:22] [main/INFO]: Calling tweak class net.minecraftforge.fml.common.launcher.FMLTweaker
+[16:05:22] [main/INFO]: Forge Mod Loader version 11.15.1.2318 for Minecraft 1.8.9 loading
+[16:05:22] [main/INFO]: Java is OpenJDK 64-Bit Server VM, version 1.8.0_472-internal, running on Mac OS X:aarch64:15.0, installed at /private/var/containers/Bundle/Application/4443B2DF-207C-456B-A6A0-518AF419B947/AngelAuraAmethyst.app/java_runtimes/java-8-openjdk
+[16:05:22] [main/INFO]: Loading tweaker me.eldodebug.soar.injection.mixin.SoarTweaker from SoarClient-Release.jar
+[16:05:22] [main/INFO]: Loading tweak class name net.minecraftforge.fml.common.launcher.FMLInjectionAndSortingTweaker
+[16:05:22] [main/INFO]: Loading tweak class name me.eldodebug.soar.injection.mixin.SoarTweaker
+[16:05:22] [main/INFO]: Loading tweak class name net.minecraftforge.fml.common.launcher.FMLDeobfTweaker
+[16:05:22] [main/INFO]: Calling tweak class net.minecraftforge.fml.common.launcher.FMLInjectionAndSortingTweaker
+[16:05:22] [main/INFO]: Calling tweak class net.minecraftforge.fml.common.launcher.FMLInjectionAndSortingTweaker
+[16:05:22] [main/INFO]: Calling tweak class net.minecraftforge.fml.relauncher.CoreModManager$FMLPluginWrapper
+[16:05:24] [main/INFO]: Found valid fingerprint for Minecraft. Certificate fingerprint cd99959656f753dc28d863b46769f7f8fbaefcfc
+[16:05:24] [main/ERROR]: FML appears to be missing any signature data. This is not a good thing
+[16:05:24] [main/INFO]: Calling tweak class net.minecraftforge.fml.relauncher.CoreModManager$FMLPluginWrapper
+[16:05:24] [main/INFO]: Calling tweak class me.eldodebug.soar.injection.mixin.SoarTweaker
+[16:05:24] [main/INFO]: SpongePowered MIXIN Subsystem Version=0.7.11 Source=file:/private/var/mobile/Containers/Data/Application/BD00A25E-699B-4ECB-98D4-19C89C6B91FB/Documents/instances/SoarClient-Test/mods/SoarClient-Release.jar Service=LaunchWrapper Env=CLIENT
+[16:05:24] [main/INFO]: Compatibility level set to JAVA_8
+[16:05:24] [main/ERROR]: Mixin config mixins.soar.json does not specify "minVersion" property
+[16:05:24] [main/ERROR]: Mixin config mixins.soar.json does not specify "minVersion" property
+[16:05:24] [main/INFO]: Calling tweak class net.minecraftforge.fml.common.launcher.FMLDeobfTweaker
+[16:05:24] [main/DEBUG]: Loaded 165 rules from AccessTransformer config file forge_at.cfg
+[16:05:24] [main/DEBUG]: Validating minecraft
+[16:05:25] [main/INFO]: Loading tweak class name net.minecraftforge.fml.common.launcher.TerminalTweaker
+[16:05:25] [main/INFO]: Loading tweak class name org.spongepowered.asm.mixin.EnvironmentStateTweaker
+[16:05:25] [main/INFO]: Calling tweak class net.minecraftforge.fml.common.launcher.TerminalTweaker
+[16:05:25] [main/INFO]: Calling tweak class org.spongepowered.asm.mixin.EnvironmentStateTweaker
+[16:05:25] [main/INFO]: Initialised Mixin FML Remapper Adapter with net.minecraftforge.fml.common.asm.transformers.deobf.FMLDeobfuscatingRemapper@1a411233
+[16:05:25] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:audio.MixinSoundManager, name: me.eldodebug.soar.injection.mixin.mixins.audio.MixinSoundManager
+[16:05:25] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:block.MixinBlockFluidRenderer, name: me.eldodebug.soar.injection.mixin.mixins.block.MixinBlockFluidRenderer
+[16:05:25] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:block.MixinBlockGlass, name: me.eldodebug.soar.injection.mixin.mixins.block.MixinBlockGlass
+[16:05:25] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:block.MixinBlockPos, name: me.eldodebug.soar.injection.mixin.mixins.block.MixinBlockPos
+[16:05:25] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:block.MixinBlockRedstoneTorch, name: me.eldodebug.soar.injection.mixin.mixins.block.MixinBlockRedstoneTorch
+[16:05:25] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:block.MixinBlockStainedGlass, name: me.eldodebug.soar.injection.mixin.mixins.block.MixinBlockStainedGlass
+[16:05:25] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:block.MixinPropertyBool, name: me.eldodebug.soar.injection.mixin.mixins.block.MixinPropertyBool
+[16:05:25] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:block.MixinPropertyHelper, name: me.eldodebug.soar.injection.mixin.mixins.block.MixinPropertyHelper
+[16:05:25] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:block.MixinPropertyInteger, name: me.eldodebug.soar.injection.mixin.mixins.block.MixinPropertyInteger
+[16:05:25] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:chunk.MixinAnvilChunkLoader, name: me.eldodebug.soar.injection.mixin.mixins.chunk.MixinAnvilChunkLoader
+[16:05:25] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:chunk.MixinChunk, name: me.eldodebug.soar.injection.mixin.mixins.chunk.MixinChunk
+[16:05:25] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:chunk.MixinChunkRenderContainer, name: me.eldodebug.soar.injection.mixin.mixins.chunk.MixinChunkRenderContainer
+[16:05:25] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:chunk.MixinChunkRenderDispatcher, name: me.eldodebug.soar.injection.mixin.mixins.chunk.MixinChunkRenderDispatcher
+[16:05:25] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:chunk.MixinRenderChunk, name: me.eldodebug.soar.injection.mixin.mixins.chunk.MixinRenderChunk
+[16:05:25] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:chunk.MixinVisGraph, name: me.eldodebug.soar.injection.mixin.mixins.chunk.MixinVisGraph
+[16:05:25] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:client.MixinMinecraft, name: me.eldodebug.soar.injection.mixin.mixins.client.MixinMinecraft
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:entity.MixinAbstractClientPlayer, name: me.eldodebug.soar.injection.mixin.mixins.entity.MixinAbstractClientPlayer
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:entity.MixinBaseAttribute, name: me.eldodebug.soar.injection.mixin.mixins.entity.MixinBaseAttribute
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:entity.MixinEntity, name: me.eldodebug.soar.injection.mixin.mixins.entity.MixinEntity
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:entity.MixinEntityList, name: me.eldodebug.soar.injection.mixin.mixins.entity.MixinEntityList
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:entity.MixinEntityLivingBase, name: me.eldodebug.soar.injection.mixin.mixins.entity.MixinEntityLivingBase
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:entity.MixinEntityOtherPlayerMP, name: me.eldodebug.soar.injection.mixin.mixins.entity.MixinEntityOtherPlayerMP
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:entity.MixinEntityPlayer, name: me.eldodebug.soar.injection.mixin.mixins.entity.MixinEntityPlayer
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:entity.MixinEntityPlayerSP, name: me.eldodebug.soar.injection.mixin.mixins.entity.MixinEntityPlayerSP
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:entity.MixinEntityXPOrb, name: me.eldodebug.soar.injection.mixin.mixins.entity.MixinEntityXPOrb
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:entity.MixinRenderPlayer, name: me.eldodebug.soar.injection.mixin.mixins.entity.MixinRenderPlayer
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:gui.MixinChatLine, name: me.eldodebug.soar.injection.mixin.mixins.gui.MixinChatLine
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:gui.MixinFontRenderer, name: me.eldodebug.soar.injection.mixin.mixins.gui.MixinFontRenderer
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:gui.MixinGuiChat, name: me.eldodebug.soar.injection.mixin.mixins.gui.MixinGuiChat
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:gui.MixinGuiContainer, name: me.eldodebug.soar.injection.mixin.mixins.gui.MixinGuiContainer
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:gui.MixinGuiDownloadTerrain, name: me.eldodebug.soar.injection.mixin.mixins.gui.MixinGuiDownloadTerrain
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:gui.MixinGuiGameOver, name: me.eldodebug.soar.injection.mixin.mixins.gui.MixinGuiGameOver
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:gui.MixinGuiIngame, name: me.eldodebug.soar.injection.mixin.mixins.gui.MixinGuiIngame
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:gui.MixinGuiLanguage, name: me.eldodebug.soar.injection.mixin.mixins.gui.MixinGuiLanguage
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:gui.MixinGuiMultiplayer, name: me.eldodebug.soar.injection.mixin.mixins.gui.MixinGuiMultiplayer
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:gui.MixinGuiOptions, name: me.eldodebug.soar.injection.mixin.mixins.gui.MixinGuiOptions
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:gui.MixinGuiPlayerTabOverlay, name: me.eldodebug.soar.injection.mixin.mixins.gui.MixinGuiPlayerTabOverlay
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:gui.MixinGuiNewChat, name: me.eldodebug.soar.injection.mixin.mixins.gui.MixinGuiNewChat
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:gui.MixinGuiScreen, name: me.eldodebug.soar.injection.mixin.mixins.gui.MixinGuiScreen
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:gui.MixinGuiScreenBook, name: me.eldodebug.soar.injection.mixin.mixins.gui.MixinGuiScreenBook
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:gui.MixinGuiScreenResourcePacks, name: me.eldodebug.soar.injection.mixin.mixins.gui.MixinGuiScreenResourcePacks
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:item.MixinEntityItem, name: me.eldodebug.soar.injection.mixin.mixins.item.MixinEntityItem
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:item.MixinItemBlock, name: me.eldodebug.soar.injection.mixin.mixins.item.MixinItemBlock
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:item.MixinItemFood, name: me.eldodebug.soar.injection.mixin.mixins.item.MixinItemFood
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:item.MixinItemStack, name: me.eldodebug.soar.injection.mixin.mixins.item.MixinItemStack
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:item.MixinRenderItem, name: me.eldodebug.soar.injection.mixin.mixins.item.MixinRenderItem
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:layer.MixinLayerArmorBase, name: me.eldodebug.soar.injection.mixin.mixins.layer.MixinLayerArmorBase
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:layer.MixinLayerArrow, name: me.eldodebug.soar.injection.mixin.mixins.layer.MixinLayerArrow
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:layer.MixinLayerCreeperCharge, name: me.eldodebug.soar.injection.mixin.mixins.layer.MixinLayerCreeperCharge
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:layer.MixinLayerHeldItem, name: me.eldodebug.soar.injection.mixin.mixins.layer.MixinLayerHeldItem
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:layer.MixinLayerSpiderEyes, name: me.eldodebug.soar.injection.mixin.mixins.layer.MixinLayerSpiderEyes
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:layer.MixinLayerWitherAura, name: me.eldodebug.soar.injection.mixin.mixins.layer.MixinLayerWitherAura
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:lwjgl.MixinLinuxKeyboard, name: me.eldodebug.soar.injection.mixin.mixins.lwjgl.MixinLinuxKeyboard
+[16:05:26] [main/WARN]: Error loading class: org/lwjgl/opengl/LinuxKeyboard (java.lang.ClassNotFoundException: The specified class 'org.lwjgl.opengl.LinuxKeyboard' was not found)
+[16:05:26] [main/WARN]: @Mixin target org.lwjgl.opengl.LinuxKeyboard was not found mixins.soar.json:lwjgl.MixinLinuxKeyboard
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:lwjgl.MixinLinuxKeycodes, name: me.eldodebug.soar.injection.mixin.mixins.lwjgl.MixinLinuxKeycodes
+[16:05:26] [main/WARN]: Error loading class: org/lwjgl/opengl/LinuxKeycodes (java.lang.ClassNotFoundException: The specified class 'org.lwjgl.opengl.LinuxKeycodes' was not found)
+[16:05:26] [main/WARN]: @Mixin target org.lwjgl.opengl.LinuxKeycodes was not found mixins.soar.json:lwjgl.MixinLinuxKeycodes
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:lwjgl.MixinWindowsDisplay, name: me.eldodebug.soar.injection.mixin.mixins.lwjgl.MixinWindowsDisplay
+[16:05:26] [main/WARN]: Error loading class: org/lwjgl/opengl/WindowsDisplay (java.lang.ClassNotFoundException: The specified class 'org.lwjgl.opengl.WindowsDisplay' was not found)
+[16:05:26] [main/WARN]: @Mixin target org.lwjgl.opengl.WindowsDisplay was not found mixins.soar.json:lwjgl.MixinWindowsDisplay
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:model.MixinFaceBakery, name: me.eldodebug.soar.injection.mixin.mixins.model.MixinFaceBakery
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:model.MixinModelBox, name: me.eldodebug.soar.injection.mixin.mixins.model.MixinModelBox
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:model.MixinModelPlayer, name: me.eldodebug.soar.injection.mixin.mixins.model.MixinModelPlayer
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:multiplayer.MixinPlayerControllerMP, name: me.eldodebug.soar.injection.mixin.mixins.multiplayer.MixinPlayerControllerMP
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:nbt.MixinNBTTagString, name: me.eldodebug.soar.injection.mixin.mixins.nbt.MixinNBTTagString
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:network.MixinC08PacketPlayerBlockPlacement, name: me.eldodebug.soar.injection.mixin.mixins.network.MixinC08PacketPlayerBlockPlacement
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:network.MixinC17PacketCustomPayload, name: me.eldodebug.soar.injection.mixin.mixins.network.MixinC17PacketCustomPayload
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:network.MixinLazyLoadBase, name: me.eldodebug.soar.injection.mixin.mixins.network.MixinLazyLoadBase
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:network.MixinNetHandlerPlayClient, name: me.eldodebug.soar.injection.mixin.mixins.network.MixinNetHandlerPlayClient
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:network.MixinNetworkManager, name: me.eldodebug.soar.injection.mixin.mixins.network.MixinNetworkManager
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:network.MixinNetworkManager5, name: me.eldodebug.soar.injection.mixin.mixins.network.MixinNetworkManager5
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:network.MixinPacketThreadUtil, name: me.eldodebug.soar.injection.mixin.mixins.network.MixinPacketThreadUtil
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:network.MixinS14PacketEntity, name: me.eldodebug.soar.injection.mixin.mixins.network.MixinS14PacketEntity
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:network.MixinS3FPacketCustomPayload, name: me.eldodebug.soar.injection.mixin.mixins.network.MixinS3FPacketCustomPayload
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:optifine.MixinLightMap, name: me.eldodebug.soar.injection.mixin.mixins.optifine.MixinLightMap
+[16:05:26] [main/WARN]: Error loading class: net/optifine/LightMap (java.lang.ClassNotFoundException: The specified class 'net.optifine.LightMap' was not found)
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:render.MixinAmbientOcclusionFace, name: me.eldodebug.soar.injection.mixin.mixins.render.MixinAmbientOcclusionFace
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:render.MixinBlockModelRenderer, name: me.eldodebug.soar.injection.mixin.mixins.render.MixinBlockModelRenderer
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:render.MixinEntityRenderer, name: me.eldodebug.soar.injection.mixin.mixins.render.MixinEntityRenderer
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:render.MixinInventoryEffectRenderer, name: me.eldodebug.soar.injection.mixin.mixins.render.MixinInventoryEffectRenderer
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:render.MixinItemRenderer, name: me.eldodebug.soar.injection.mixin.mixins.render.MixinItemRenderer
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:render.MixinRender, name: me.eldodebug.soar.injection.mixin.mixins.render.MixinRender
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:render.MixinRenderEntityItem, name: me.eldodebug.soar.injection.mixin.mixins.render.MixinRenderEntityItem
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:render.MixinRendererLivingEntity, name: me.eldodebug.soar.injection.mixin.mixins.render.MixinRendererLivingEntity
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:render.MixinRenderGlobal, name: me.eldodebug.soar.injection.mixin.mixins.render.MixinRenderGlobal
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:render.MixinRenderManager, name: me.eldodebug.soar.injection.mixin.mixins.render.MixinRenderManager
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:render.MixinRenderTNTPrimed, name: me.eldodebug.soar.injection.mixin.mixins.render.MixinRenderTNTPrimed
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:render.MixinWorldRenderer, name: me.eldodebug.soar.injection.mixin.mixins.render.MixinWorldRenderer
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:resources.MixinResourcePackRepository, name: me.eldodebug.soar.injection.mixin.mixins.resources.MixinResourcePackRepository
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:scoreboard.MixinScoreboard, name: me.eldodebug.soar.injection.mixin.mixins.scoreboard.MixinScoreboard
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:server.MixinMinecraftServer, name: me.eldodebug.soar.injection.mixin.mixins.server.MixinMinecraftServer
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:settings.MixinGameSettings, name: me.eldodebug.soar.injection.mixin.mixins.settings.MixinGameSettings
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:shader.MixinShaderGroup, name: me.eldodebug.soar.injection.mixin.mixins.shader.MixinShaderGroup
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:texture.MixinTextureMap, name: me.eldodebug.soar.injection.mixin.mixins.texture.MixinTextureMap
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:tileentity.MixinTileEntityBannerRenderer, name: me.eldodebug.soar.injection.mixin.mixins.tileentity.MixinTileEntityBannerRenderer
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:tileentity.MixinTileEntityRendererDispatcher, name: me.eldodebug.soar.injection.mixin.mixins.tileentity.MixinTileEntityRendererDispatcher
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:tileentity.MixinTileEntitySkullRenderer, name: me.eldodebug.soar.injection.mixin.mixins.tileentity.MixinTileEntitySkullRenderer
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:util.MixinMouseHelper, name: me.eldodebug.soar.injection.mixin.mixins.util.MixinMouseHelper
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:util.MixinNBTTagString, name: me.eldodebug.soar.injection.mixin.mixins.util.MixinNBTTagString
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:util.MixinScreenshotHelper, name: me.eldodebug.soar.injection.mixin.mixins.util.MixinScreenshotHelper
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:vertex.MixinVertexBuffer, name: me.eldodebug.soar.injection.mixin.mixins.vertex.MixinVertexBuffer
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:vertex.MixinVertexFormat, name: me.eldodebug.soar.injection.mixin.mixins.vertex.MixinVertexFormat
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:world.MixinChunkCache, name: me.eldodebug.soar.injection.mixin.mixins.world.MixinChunkCache
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:world.MixinNodeProcessor, name: me.eldodebug.soar.injection.mixin.mixins.world.MixinNodeProcessor
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:world.MixinWorld, name: me.eldodebug.soar.injection.mixin.mixins.world.MixinWorld
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:world.MixinWorldChunkManager, name: me.eldodebug.soar.injection.mixin.mixins.world.MixinWorldChunkManager
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:world.MixinWorldClient, name: me.eldodebug.soar.injection.mixin.mixins.world.MixinWorldClient
+[16:05:26] [main/ERROR]: Classloader restrictions [PACKAGE_CLASSLOADER_EXCLUSION] encountered loading mixins.soar.json:world.MixinWorldInfo, name: me.eldodebug.soar.injection.mixin.mixins.world.MixinWorldInfo
+[16:05:27] [main/ERROR]: mixins.soar.json:block.MixinBlockGlass: Super class 'afh' of block.MixinBlockGlass was not found in the hierarchy of target class 'net/minecraft/block/BlockGlass'
+org.spongepowered.asm.mixin.transformer.throwables.InvalidMixinException: Super class 'afh' of block.MixinBlockGlass was not found in the hierarchy of target class 'net/minecraft/block/BlockGlass'
+	at org.spongepowered.asm.mixin.transformer.MixinInfo$SubType$Standard.validate(MixinInfo.java:555) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinInfo$State.validate(MixinInfo.java:291) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinInfo.validate(MixinInfo.java:827) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinConfig.postInitialise(MixinConfig.java:528) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.prepareConfigs(MixinTransformer.java:675) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.select(MixinTransformer.java:572) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.checkSelect(MixinTransformer.java:548) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.transformClassBytes(MixinTransformer.java:451) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.Proxy.transform(Proxy.java:72) [SoarClient-Release.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.runTransformers(LaunchClassLoader.java:279) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.findClass(LaunchClassLoader.java:176) [launchwrapper-1.12.jar:?]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:418) [?:1.8.0_472-internal]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:351) [?:1.8.0_472-internal]
+	at java.lang.Class.forName0(Native Method) [?:1.8.0_472-internal]
+	at java.lang.Class.forName(Class.java:348) [?:1.8.0_472-internal]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:131) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_472-internal]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_472-internal]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_472-internal]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_472-internal]
+	at net.kdt.pojavlaunch.Tools.launchMinecraft(Tools.java:108) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.launchMinecraft(PojavLauncher.java:309) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.main(PojavLauncher.java:53) [launcher.jar:?]
+[16:05:27] [main/ERROR]: mixins.soar.json:block.MixinBlockPos: Super class 'df' of block.MixinBlockPos was not found in the hierarchy of target class 'net/minecraft/util/BlockPos'
+org.spongepowered.asm.mixin.transformer.throwables.InvalidMixinException: Super class 'df' of block.MixinBlockPos was not found in the hierarchy of target class 'net/minecraft/util/BlockPos'
+	at org.spongepowered.asm.mixin.transformer.MixinInfo$SubType$Standard.validate(MixinInfo.java:555) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinInfo$State.validate(MixinInfo.java:291) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinInfo.validate(MixinInfo.java:827) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinConfig.postInitialise(MixinConfig.java:528) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.prepareConfigs(MixinTransformer.java:675) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.select(MixinTransformer.java:572) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.checkSelect(MixinTransformer.java:548) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.transformClassBytes(MixinTransformer.java:451) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.Proxy.transform(Proxy.java:72) [SoarClient-Release.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.runTransformers(LaunchClassLoader.java:279) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.findClass(LaunchClassLoader.java:176) [launchwrapper-1.12.jar:?]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:418) [?:1.8.0_472-internal]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:351) [?:1.8.0_472-internal]
+	at java.lang.Class.forName0(Native Method) [?:1.8.0_472-internal]
+	at java.lang.Class.forName(Class.java:348) [?:1.8.0_472-internal]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:131) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_472-internal]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_472-internal]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_472-internal]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_472-internal]
+	at net.kdt.pojavlaunch.Tools.launchMinecraft(Tools.java:108) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.launchMinecraft(PojavLauncher.java:309) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.main(PojavLauncher.java:53) [launcher.jar:?]
+[16:05:27] [main/ERROR]: mixins.soar.json:block.MixinBlockStainedGlass: Super class 'afh' of block.MixinBlockStainedGlass was not found in the hierarchy of target class 'net/minecraft/block/BlockStainedGlass'
+org.spongepowered.asm.mixin.transformer.throwables.InvalidMixinException: Super class 'afh' of block.MixinBlockStainedGlass was not found in the hierarchy of target class 'net/minecraft/block/BlockStainedGlass'
+	at org.spongepowered.asm.mixin.transformer.MixinInfo$SubType$Standard.validate(MixinInfo.java:555) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinInfo$State.validate(MixinInfo.java:291) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinInfo.validate(MixinInfo.java:827) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinConfig.postInitialise(MixinConfig.java:528) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.prepareConfigs(MixinTransformer.java:675) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.select(MixinTransformer.java:572) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.checkSelect(MixinTransformer.java:548) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.transformClassBytes(MixinTransformer.java:451) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.Proxy.transform(Proxy.java:72) [SoarClient-Release.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.runTransformers(LaunchClassLoader.java:279) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.findClass(LaunchClassLoader.java:176) [launchwrapper-1.12.jar:?]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:418) [?:1.8.0_472-internal]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:351) [?:1.8.0_472-internal]
+	at java.lang.Class.forName0(Native Method) [?:1.8.0_472-internal]
+	at java.lang.Class.forName(Class.java:348) [?:1.8.0_472-internal]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:131) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_472-internal]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_472-internal]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_472-internal]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_472-internal]
+	at net.kdt.pojavlaunch.Tools.launchMinecraft(Tools.java:108) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.launchMinecraft(PojavLauncher.java:309) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.main(PojavLauncher.java:53) [launcher.jar:?]
+[16:05:27] [main/ERROR]: mixins.soar.json:entity.MixinEntityLivingBase: Super class 'pk' of entity.MixinEntityLivingBase was not found in the hierarchy of target class 'net/minecraft/entity/EntityLivingBase'
+org.spongepowered.asm.mixin.transformer.throwables.InvalidMixinException: Super class 'pk' of entity.MixinEntityLivingBase was not found in the hierarchy of target class 'net/minecraft/entity/EntityLivingBase'
+	at org.spongepowered.asm.mixin.transformer.MixinInfo$SubType$Standard.validate(MixinInfo.java:555) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinInfo$State.validate(MixinInfo.java:291) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinInfo.validate(MixinInfo.java:827) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinConfig.postInitialise(MixinConfig.java:528) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.prepareConfigs(MixinTransformer.java:675) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.select(MixinTransformer.java:572) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.checkSelect(MixinTransformer.java:548) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.transformClassBytes(MixinTransformer.java:451) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.Proxy.transform(Proxy.java:72) [SoarClient-Release.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.runTransformers(LaunchClassLoader.java:279) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.findClass(LaunchClassLoader.java:176) [launchwrapper-1.12.jar:?]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:418) [?:1.8.0_472-internal]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:351) [?:1.8.0_472-internal]
+	at java.lang.Class.forName0(Native Method) [?:1.8.0_472-internal]
+	at java.lang.Class.forName(Class.java:348) [?:1.8.0_472-internal]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:131) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_472-internal]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_472-internal]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_472-internal]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_472-internal]
+	at net.kdt.pojavlaunch.Tools.launchMinecraft(Tools.java:108) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.launchMinecraft(PojavLauncher.java:309) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.main(PojavLauncher.java:53) [launcher.jar:?]
+[16:05:27] [main/ERROR]: mixins.soar.json:entity.MixinRenderPlayer: Super class 'bjl' of entity.MixinRenderPlayer was not found in the hierarchy of target class 'net/minecraft/client/renderer/entity/RenderPlayer'
+org.spongepowered.asm.mixin.transformer.throwables.InvalidMixinException: Super class 'bjl' of entity.MixinRenderPlayer was not found in the hierarchy of target class 'net/minecraft/client/renderer/entity/RenderPlayer'
+	at org.spongepowered.asm.mixin.transformer.MixinInfo$SubType$Standard.validate(MixinInfo.java:555) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinInfo$State.validate(MixinInfo.java:291) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinInfo.validate(MixinInfo.java:827) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinConfig.postInitialise(MixinConfig.java:528) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.prepareConfigs(MixinTransformer.java:675) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.select(MixinTransformer.java:572) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.checkSelect(MixinTransformer.java:548) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.transformClassBytes(MixinTransformer.java:451) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.Proxy.transform(Proxy.java:72) [SoarClient-Release.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.runTransformers(LaunchClassLoader.java:279) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.findClass(LaunchClassLoader.java:176) [launchwrapper-1.12.jar:?]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:418) [?:1.8.0_472-internal]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:351) [?:1.8.0_472-internal]
+	at java.lang.Class.forName0(Native Method) [?:1.8.0_472-internal]
+	at java.lang.Class.forName(Class.java:348) [?:1.8.0_472-internal]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:131) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_472-internal]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_472-internal]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_472-internal]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_472-internal]
+	at net.kdt.pojavlaunch.Tools.launchMinecraft(Tools.java:108) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.launchMinecraft(PojavLauncher.java:309) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.main(PojavLauncher.java:53) [launcher.jar:?]
+[16:05:27] [main/ERROR]: mixins.soar.json:gui.MixinGuiChat: Super class 'axu' of gui.MixinGuiChat was not found in the hierarchy of target class 'net/minecraft/client/gui/GuiChat'
+org.spongepowered.asm.mixin.transformer.throwables.InvalidMixinException: Super class 'axu' of gui.MixinGuiChat was not found in the hierarchy of target class 'net/minecraft/client/gui/GuiChat'
+	at org.spongepowered.asm.mixin.transformer.MixinInfo$SubType$Standard.validate(MixinInfo.java:555) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinInfo$State.validate(MixinInfo.java:291) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinInfo.validate(MixinInfo.java:827) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinConfig.postInitialise(MixinConfig.java:528) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.prepareConfigs(MixinTransformer.java:675) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.select(MixinTransformer.java:572) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.checkSelect(MixinTransformer.java:548) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.transformClassBytes(MixinTransformer.java:451) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.Proxy.transform(Proxy.java:72) [SoarClient-Release.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.runTransformers(LaunchClassLoader.java:279) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.findClass(LaunchClassLoader.java:176) [launchwrapper-1.12.jar:?]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:418) [?:1.8.0_472-internal]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:351) [?:1.8.0_472-internal]
+	at java.lang.Class.forName0(Native Method) [?:1.8.0_472-internal]
+	at java.lang.Class.forName(Class.java:348) [?:1.8.0_472-internal]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:131) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_472-internal]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_472-internal]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_472-internal]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_472-internal]
+	at net.kdt.pojavlaunch.Tools.launchMinecraft(Tools.java:108) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.launchMinecraft(PojavLauncher.java:309) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.main(PojavLauncher.java:53) [launcher.jar:?]
+[16:05:27] [main/ERROR]: mixins.soar.json:gui.MixinGuiContainer: Super class 'axu' of gui.MixinGuiContainer was not found in the hierarchy of target class 'net/minecraft/client/gui/inventory/GuiContainer'
+org.spongepowered.asm.mixin.transformer.throwables.InvalidMixinException: Super class 'axu' of gui.MixinGuiContainer was not found in the hierarchy of target class 'net/minecraft/client/gui/inventory/GuiContainer'
+	at org.spongepowered.asm.mixin.transformer.MixinInfo$SubType$Standard.validate(MixinInfo.java:555) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinInfo$State.validate(MixinInfo.java:291) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinInfo.validate(MixinInfo.java:827) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinConfig.postInitialise(MixinConfig.java:528) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.prepareConfigs(MixinTransformer.java:675) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.select(MixinTransformer.java:572) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.checkSelect(MixinTransformer.java:548) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.transformClassBytes(MixinTransformer.java:451) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.Proxy.transform(Proxy.java:72) [SoarClient-Release.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.runTransformers(LaunchClassLoader.java:279) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.findClass(LaunchClassLoader.java:176) [launchwrapper-1.12.jar:?]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:418) [?:1.8.0_472-internal]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:351) [?:1.8.0_472-internal]
+	at java.lang.Class.forName0(Native Method) [?:1.8.0_472-internal]
+	at java.lang.Class.forName(Class.java:348) [?:1.8.0_472-internal]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:131) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_472-internal]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_472-internal]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_472-internal]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_472-internal]
+	at net.kdt.pojavlaunch.Tools.launchMinecraft(Tools.java:108) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.launchMinecraft(PojavLauncher.java:309) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.main(PojavLauncher.java:53) [launcher.jar:?]
+[16:05:27] [main/ERROR]: mixins.soar.json:gui.MixinGuiDownloadTerrain: Super class 'axu' of gui.MixinGuiDownloadTerrain was not found in the hierarchy of target class 'net/minecraft/client/gui/GuiDownloadTerrain'
+org.spongepowered.asm.mixin.transformer.throwables.InvalidMixinException: Super class 'axu' of gui.MixinGuiDownloadTerrain was not found in the hierarchy of target class 'net/minecraft/client/gui/GuiDownloadTerrain'
+	at org.spongepowered.asm.mixin.transformer.MixinInfo$SubType$Standard.validate(MixinInfo.java:555) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinInfo$State.validate(MixinInfo.java:291) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinInfo.validate(MixinInfo.java:827) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinConfig.postInitialise(MixinConfig.java:528) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.prepareConfigs(MixinTransformer.java:675) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.select(MixinTransformer.java:572) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.checkSelect(MixinTransformer.java:548) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.transformClassBytes(MixinTransformer.java:451) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.Proxy.transform(Proxy.java:72) [SoarClient-Release.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.runTransformers(LaunchClassLoader.java:279) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.findClass(LaunchClassLoader.java:176) [launchwrapper-1.12.jar:?]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:418) [?:1.8.0_472-internal]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:351) [?:1.8.0_472-internal]
+	at java.lang.Class.forName0(Native Method) [?:1.8.0_472-internal]
+	at java.lang.Class.forName(Class.java:348) [?:1.8.0_472-internal]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:131) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_472-internal]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_472-internal]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_472-internal]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_472-internal]
+	at net.kdt.pojavlaunch.Tools.launchMinecraft(Tools.java:108) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.launchMinecraft(PojavLauncher.java:309) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.main(PojavLauncher.java:53) [launcher.jar:?]
+[16:05:27] [main/ERROR]: mixins.soar.json:gui.MixinGuiLanguage: Super class 'axu' of gui.MixinGuiLanguage was not found in the hierarchy of target class 'net/minecraft/client/gui/GuiLanguage'
+org.spongepowered.asm.mixin.transformer.throwables.InvalidMixinException: Super class 'axu' of gui.MixinGuiLanguage was not found in the hierarchy of target class 'net/minecraft/client/gui/GuiLanguage'
+	at org.spongepowered.asm.mixin.transformer.MixinInfo$SubType$Standard.validate(MixinInfo.java:555) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinInfo$State.validate(MixinInfo.java:291) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinInfo.validate(MixinInfo.java:827) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinConfig.postInitialise(MixinConfig.java:528) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.prepareConfigs(MixinTransformer.java:675) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.select(MixinTransformer.java:572) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.checkSelect(MixinTransformer.java:548) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.transformClassBytes(MixinTransformer.java:451) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.Proxy.transform(Proxy.java:72) [SoarClient-Release.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.runTransformers(LaunchClassLoader.java:279) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.findClass(LaunchClassLoader.java:176) [launchwrapper-1.12.jar:?]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:418) [?:1.8.0_472-internal]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:351) [?:1.8.0_472-internal]
+	at java.lang.Class.forName0(Native Method) [?:1.8.0_472-internal]
+	at java.lang.Class.forName(Class.java:348) [?:1.8.0_472-internal]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:131) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_472-internal]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_472-internal]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_472-internal]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_472-internal]
+	at net.kdt.pojavlaunch.Tools.launchMinecraft(Tools.java:108) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.launchMinecraft(PojavLauncher.java:309) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.main(PojavLauncher.java:53) [launcher.jar:?]
+[16:05:27] [main/ERROR]: mixins.soar.json:gui.MixinGuiMultiplayer: Super class 'axu' of gui.MixinGuiMultiplayer was not found in the hierarchy of target class 'net/minecraft/client/gui/GuiMultiplayer'
+org.spongepowered.asm.mixin.transformer.throwables.InvalidMixinException: Super class 'axu' of gui.MixinGuiMultiplayer was not found in the hierarchy of target class 'net/minecraft/client/gui/GuiMultiplayer'
+	at org.spongepowered.asm.mixin.transformer.MixinInfo$SubType$Standard.validate(MixinInfo.java:555) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinInfo$State.validate(MixinInfo.java:291) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinInfo.validate(MixinInfo.java:827) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinConfig.postInitialise(MixinConfig.java:528) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.prepareConfigs(MixinTransformer.java:675) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.select(MixinTransformer.java:572) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.checkSelect(MixinTransformer.java:548) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.transformClassBytes(MixinTransformer.java:451) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.Proxy.transform(Proxy.java:72) [SoarClient-Release.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.runTransformers(LaunchClassLoader.java:279) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.findClass(LaunchClassLoader.java:176) [launchwrapper-1.12.jar:?]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:418) [?:1.8.0_472-internal]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:351) [?:1.8.0_472-internal]
+	at java.lang.Class.forName0(Native Method) [?:1.8.0_472-internal]
+	at java.lang.Class.forName(Class.java:348) [?:1.8.0_472-internal]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:131) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_472-internal]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_472-internal]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_472-internal]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_472-internal]
+	at net.kdt.pojavlaunch.Tools.launchMinecraft(Tools.java:108) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.launchMinecraft(PojavLauncher.java:309) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.main(PojavLauncher.java:53) [launcher.jar:?]
+[16:05:27] [main/ERROR]: mixins.soar.json:gui.MixinGuiOptions: Super class 'axu' of gui.MixinGuiOptions was not found in the hierarchy of target class 'net/minecraft/client/gui/GuiOptions'
+org.spongepowered.asm.mixin.transformer.throwables.InvalidMixinException: Super class 'axu' of gui.MixinGuiOptions was not found in the hierarchy of target class 'net/minecraft/client/gui/GuiOptions'
+	at org.spongepowered.asm.mixin.transformer.MixinInfo$SubType$Standard.validate(MixinInfo.java:555) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinInfo$State.validate(MixinInfo.java:291) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinInfo.validate(MixinInfo.java:827) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinConfig.postInitialise(MixinConfig.java:528) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.prepareConfigs(MixinTransformer.java:675) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.select(MixinTransformer.java:572) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.checkSelect(MixinTransformer.java:548) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.transformClassBytes(MixinTransformer.java:451) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.Proxy.transform(Proxy.java:72) [SoarClient-Release.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.runTransformers(LaunchClassLoader.java:279) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.findClass(LaunchClassLoader.java:176) [launchwrapper-1.12.jar:?]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:418) [?:1.8.0_472-internal]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:351) [?:1.8.0_472-internal]
+	at java.lang.Class.forName0(Native Method) [?:1.8.0_472-internal]
+	at java.lang.Class.forName(Class.java:348) [?:1.8.0_472-internal]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:131) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_472-internal]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_472-internal]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_472-internal]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_472-internal]
+	at net.kdt.pojavlaunch.Tools.launchMinecraft(Tools.java:108) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.launchMinecraft(PojavLauncher.java:309) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.main(PojavLauncher.java:53) [launcher.jar:?]
+[16:05:27] [main/ERROR]: mixins.soar.json:gui.MixinGuiNewChat: Super class 'avp' of gui.MixinGuiNewChat was not found in the hierarchy of target class 'net/minecraft/client/gui/GuiNewChat'
+org.spongepowered.asm.mixin.transformer.throwables.InvalidMixinException: Super class 'avp' of gui.MixinGuiNewChat was not found in the hierarchy of target class 'net/minecraft/client/gui/GuiNewChat'
+	at org.spongepowered.asm.mixin.transformer.MixinInfo$SubType$Standard.validate(MixinInfo.java:555) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinInfo$State.validate(MixinInfo.java:291) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinInfo.validate(MixinInfo.java:827) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinConfig.postInitialise(MixinConfig.java:528) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.prepareConfigs(MixinTransformer.java:675) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.select(MixinTransformer.java:572) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.checkSelect(MixinTransformer.java:548) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.transformClassBytes(MixinTransformer.java:451) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.Proxy.transform(Proxy.java:72) [SoarClient-Release.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.runTransformers(LaunchClassLoader.java:279) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.findClass(LaunchClassLoader.java:176) [launchwrapper-1.12.jar:?]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:418) [?:1.8.0_472-internal]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:351) [?:1.8.0_472-internal]
+	at java.lang.Class.forName0(Native Method) [?:1.8.0_472-internal]
+	at java.lang.Class.forName(Class.java:348) [?:1.8.0_472-internal]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:131) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_472-internal]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_472-internal]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_472-internal]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_472-internal]
+	at net.kdt.pojavlaunch.Tools.launchMinecraft(Tools.java:108) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.launchMinecraft(PojavLauncher.java:309) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.main(PojavLauncher.java:53) [launcher.jar:?]
+[16:05:27] [main/ERROR]: mixins.soar.json:gui.MixinGuiScreenBook: Super class 'axu' of gui.MixinGuiScreenBook was not found in the hierarchy of target class 'net/minecraft/client/gui/GuiScreenBook'
+org.spongepowered.asm.mixin.transformer.throwables.InvalidMixinException: Super class 'axu' of gui.MixinGuiScreenBook was not found in the hierarchy of target class 'net/minecraft/client/gui/GuiScreenBook'
+	at org.spongepowered.asm.mixin.transformer.MixinInfo$SubType$Standard.validate(MixinInfo.java:555) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinInfo$State.validate(MixinInfo.java:291) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinInfo.validate(MixinInfo.java:827) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinConfig.postInitialise(MixinConfig.java:528) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.prepareConfigs(MixinTransformer.java:675) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.select(MixinTransformer.java:572) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.checkSelect(MixinTransformer.java:548) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.transformClassBytes(MixinTransformer.java:451) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.Proxy.transform(Proxy.java:72) [SoarClient-Release.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.runTransformers(LaunchClassLoader.java:279) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.findClass(LaunchClassLoader.java:176) [launchwrapper-1.12.jar:?]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:418) [?:1.8.0_472-internal]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:351) [?:1.8.0_472-internal]
+	at java.lang.Class.forName0(Native Method) [?:1.8.0_472-internal]
+	at java.lang.Class.forName(Class.java:348) [?:1.8.0_472-internal]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:131) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_472-internal]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_472-internal]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_472-internal]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_472-internal]
+	at net.kdt.pojavlaunch.Tools.launchMinecraft(Tools.java:108) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.launchMinecraft(PojavLauncher.java:309) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.main(PojavLauncher.java:53) [launcher.jar:?]
+[16:05:27] [main/ERROR]: mixins.soar.json:render.MixinInventoryEffectRenderer: Super class 'ayl' of render.MixinInventoryEffectRenderer was not found in the hierarchy of target class 'net/minecraft/client/renderer/InventoryEffectRenderer'
+org.spongepowered.asm.mixin.transformer.throwables.InvalidMixinException: Super class 'ayl' of render.MixinInventoryEffectRenderer was not found in the hierarchy of target class 'net/minecraft/client/renderer/InventoryEffectRenderer'
+	at org.spongepowered.asm.mixin.transformer.MixinInfo$SubType$Standard.validate(MixinInfo.java:555) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinInfo$State.validate(MixinInfo.java:291) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinInfo.validate(MixinInfo.java:827) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinConfig.postInitialise(MixinConfig.java:528) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.prepareConfigs(MixinTransformer.java:675) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.select(MixinTransformer.java:572) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.checkSelect(MixinTransformer.java:548) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.transformClassBytes(MixinTransformer.java:451) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.Proxy.transform(Proxy.java:72) [SoarClient-Release.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.runTransformers(LaunchClassLoader.java:279) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.findClass(LaunchClassLoader.java:176) [launchwrapper-1.12.jar:?]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:418) [?:1.8.0_472-internal]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:351) [?:1.8.0_472-internal]
+	at java.lang.Class.forName0(Native Method) [?:1.8.0_472-internal]
+	at java.lang.Class.forName(Class.java:348) [?:1.8.0_472-internal]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:131) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_472-internal]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_472-internal]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_472-internal]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_472-internal]
+	at net.kdt.pojavlaunch.Tools.launchMinecraft(Tools.java:108) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.launchMinecraft(PojavLauncher.java:309) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.main(PojavLauncher.java:53) [launcher.jar:?]
+[16:05:27] [main/ERROR]: mixins.soar.json:render.MixinRendererLivingEntity: Super class 'biv' of render.MixinRendererLivingEntity was not found in the hierarchy of target class 'net/minecraft/client/renderer/entity/RendererLivingEntity'
+org.spongepowered.asm.mixin.transformer.throwables.InvalidMixinException: Super class 'biv' of render.MixinRendererLivingEntity was not found in the hierarchy of target class 'net/minecraft/client/renderer/entity/RendererLivingEntity'
+	at org.spongepowered.asm.mixin.transformer.MixinInfo$SubType$Standard.validate(MixinInfo.java:555) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinInfo$State.validate(MixinInfo.java:291) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinInfo.validate(MixinInfo.java:827) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinConfig.postInitialise(MixinConfig.java:528) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.prepareConfigs(MixinTransformer.java:675) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.select(MixinTransformer.java:572) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.checkSelect(MixinTransformer.java:548) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.transformClassBytes(MixinTransformer.java:451) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.Proxy.transform(Proxy.java:72) [SoarClient-Release.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.runTransformers(LaunchClassLoader.java:279) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.findClass(LaunchClassLoader.java:176) [launchwrapper-1.12.jar:?]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:418) [?:1.8.0_472-internal]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:351) [?:1.8.0_472-internal]
+	at java.lang.Class.forName0(Native Method) [?:1.8.0_472-internal]
+	at java.lang.Class.forName(Class.java:348) [?:1.8.0_472-internal]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:131) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_472-internal]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_472-internal]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_472-internal]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_472-internal]
+	at net.kdt.pojavlaunch.Tools.launchMinecraft(Tools.java:108) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.launchMinecraft(PojavLauncher.java:309) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.main(PojavLauncher.java:53) [launcher.jar:?]
+[16:05:27] [main/INFO]: Launching wrapped minecraft {net.minecraft.client.main.Main}
+[16:05:27] [main/WARN]: Mixin apply failed mixins.soar.json:client.MixinMinecraft -> net.minecraft.client.Minecraft: org.spongepowered.asm.mixin.transformer.throwables.InvalidMixinException @Shadow method a in mixins.soar.json:client.MixinMinecraft was not located in the target class net.minecraft.client.Minecraft. Using refmap mixins.soar.refmap.json
+org.spongepowered.asm.mixin.transformer.throwables.InvalidMixinException: @Shadow method a in mixins.soar.json:client.MixinMinecraft was not located in the target class net.minecraft.client.Minecraft. Using refmap mixins.soar.refmap.json
+	at org.spongepowered.asm.mixin.transformer.MixinPreProcessorStandard.attachSpecialMethod(MixinPreProcessorStandard.java:387) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinPreProcessorStandard.attachShadowMethod(MixinPreProcessorStandard.java:360) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinPreProcessorStandard.attachMethods(MixinPreProcessorStandard.java:293) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinPreProcessorStandard.attach(MixinPreProcessorStandard.java:261) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinPreProcessorStandard.createContextFor(MixinPreProcessorStandard.java:241) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinInfo.createContextFor(MixinInfo.java:1144) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinApplicatorStandard.apply(MixinApplicatorStandard.java:267) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.TargetClassContext.applyMixins(TargetClassContext.java:353) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.apply(MixinTransformer.java:724) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.applyMixins(MixinTransformer.java:703) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.transformClassBytes(MixinTransformer.java:509) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.Proxy.transform(Proxy.java:72) [SoarClient-Release.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.runTransformers(LaunchClassLoader.java:279) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.findClass(LaunchClassLoader.java:176) [launchwrapper-1.12.jar:?]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:418) [?:1.8.0_472-internal]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:351) [?:1.8.0_472-internal]
+	at net.minecraft.client.main.Main.main(SourceFile:41) [Main.class:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_472-internal]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_472-internal]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_472-internal]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_472-internal]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_472-internal]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_472-internal]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_472-internal]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_472-internal]
+	at net.kdt.pojavlaunch.Tools.launchMinecraft(Tools.java:108) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.launchMinecraft(PojavLauncher.java:309) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.main(PojavLauncher.java:53) [launcher.jar:?]
+[16:05:27] [main/WARN]: Mixin apply failed mixins.soar.json:world.MixinWorld -> net.minecraft.world.World: org.spongepowered.asm.mixin.transformer.throwables.InvalidMixinException @Shadow method a in mixins.soar.json:world.MixinWorld was not located in the target class net.minecraft.world.World. Using refmap mixins.soar.refmap.json
+org.spongepowered.asm.mixin.transformer.throwables.InvalidMixinException: @Shadow method a in mixins.soar.json:world.MixinWorld was not located in the target class net.minecraft.world.World. Using refmap mixins.soar.refmap.json
+	at org.spongepowered.asm.mixin.transformer.MixinPreProcessorStandard.attachSpecialMethod(MixinPreProcessorStandard.java:387) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinPreProcessorStandard.attachShadowMethod(MixinPreProcessorStandard.java:360) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinPreProcessorStandard.attachMethods(MixinPreProcessorStandard.java:293) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinPreProcessorStandard.attach(MixinPreProcessorStandard.java:261) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinPreProcessorStandard.createContextFor(MixinPreProcessorStandard.java:241) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinInfo.createContextFor(MixinInfo.java:1144) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinApplicatorStandard.apply(MixinApplicatorStandard.java:267) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.TargetClassContext.applyMixins(TargetClassContext.java:353) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.apply(MixinTransformer.java:724) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.applyMixins(MixinTransformer.java:703) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.transformClassBytes(MixinTransformer.java:509) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.Proxy.transform(Proxy.java:72) [SoarClient-Release.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.runTransformers(LaunchClassLoader.java:279) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.findClass(LaunchClassLoader.java:176) [launchwrapper-1.12.jar:?]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:418) [?:1.8.0_472-internal]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:351) [?:1.8.0_472-internal]
+	at net.minecraft.client.main.Main.main(SourceFile:41) [Main.class:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_472-internal]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_472-internal]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_472-internal]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_472-internal]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_472-internal]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_472-internal]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_472-internal]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_472-internal]
+	at net.kdt.pojavlaunch.Tools.launchMinecraft(Tools.java:108) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.launchMinecraft(PojavLauncher.java:309) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.main(PojavLauncher.java:53) [launcher.jar:?]
+[16:05:27] [main/WARN]: Mixin apply failed mixins.soar.json:world.MixinWorldClient -> net.minecraft.client.multiplayer.WorldClient: org.spongepowered.asm.mixin.transformer.throwables.InvalidMixinException Shadow field I was not located in the target class net.minecraft.client.multiplayer.WorldClient. Using refmap mixins.soar.refmap.json
+org.spongepowered.asm.mixin.transformer.throwables.InvalidMixinException: Shadow field I was not located in the target class net.minecraft.client.multiplayer.WorldClient. Using refmap mixins.soar.refmap.json
+	at org.spongepowered.asm.mixin.transformer.MixinPreProcessorStandard.attachFields(MixinPreProcessorStandard.java:563) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinPreProcessorStandard.attach(MixinPreProcessorStandard.java:263) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinPreProcessorStandard.createContextFor(MixinPreProcessorStandard.java:241) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinInfo.createContextFor(MixinInfo.java:1144) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinApplicatorStandard.apply(MixinApplicatorStandard.java:267) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.TargetClassContext.applyMixins(TargetClassContext.java:353) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.apply(MixinTransformer.java:724) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.applyMixins(MixinTransformer.java:703) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.transformClassBytes(MixinTransformer.java:509) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.Proxy.transform(Proxy.java:72) [SoarClient-Release.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.runTransformers(LaunchClassLoader.java:279) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.findClass(LaunchClassLoader.java:176) [launchwrapper-1.12.jar:?]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:418) [?:1.8.0_472-internal]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:351) [?:1.8.0_472-internal]
+	at net.minecraft.client.main.Main.main(SourceFile:41) [Main.class:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_472-internal]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_472-internal]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_472-internal]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_472-internal]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_472-internal]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_472-internal]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_472-internal]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_472-internal]
+	at net.kdt.pojavlaunch.Tools.launchMinecraft(Tools.java:108) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.launchMinecraft(PojavLauncher.java:309) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.main(PojavLauncher.java:53) [launcher.jar:?]
+[16:05:27] [main/WARN]: Mixin apply failed mixins.soar.json:entity.MixinEntityPlayer -> net.minecraft.entity.player.EntityPlayer: org.spongepowered.asm.mixin.injection.throwables.InvalidInjectionException @Inject annotation on handler$attackEntity$zbc000 specifies a target class 'wn', which is not supported
+org.spongepowered.asm.mixin.injection.throwables.InvalidInjectionException: @Inject annotation on handler$attackEntity$zbc000 specifies a target class 'wn', which is not supported
+	at org.spongepowered.asm.mixin.injection.struct.InjectionInfo.parseTargets(InjectionInfo.java:190) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.injection.struct.InjectionInfo.readAnnotation(InjectionInfo.java:172) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.injection.struct.InjectionInfo.<init>(InjectionInfo.java:159) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.injection.struct.InjectionInfo.<init>(InjectionInfo.java:151) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.injection.struct.CallbackInjectionInfo.<init>(CallbackInjectionInfo.java:44) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.injection.struct.InjectionInfo.parse(InjectionInfo.java:472) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTargetContext.prepareInjections(MixinTargetContext.java:1180) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinApplicatorStandard.prepareInjections(MixinApplicatorStandard.java:929) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinApplicatorStandard.applyMixin(MixinApplicatorStandard.java:317) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinApplicatorStandard.apply(MixinApplicatorStandard.java:280) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.TargetClassContext.applyMixins(TargetClassContext.java:353) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.apply(MixinTransformer.java:724) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.applyMixins(MixinTransformer.java:703) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.transformClassBytes(MixinTransformer.java:509) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.Proxy.transform(Proxy.java:72) [SoarClient-Release.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.runTransformers(LaunchClassLoader.java:279) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.findClass(LaunchClassLoader.java:176) [launchwrapper-1.12.jar:?]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:418) [?:1.8.0_472-internal]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:351) [?:1.8.0_472-internal]
+	at net.minecraft.client.main.Main.main(SourceFile:41) [Main.class:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_472-internal]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_472-internal]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_472-internal]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_472-internal]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_472-internal]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_472-internal]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_472-internal]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_472-internal]
+	at net.kdt.pojavlaunch.Tools.launchMinecraft(Tools.java:108) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.launchMinecraft(PojavLauncher.java:309) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.main(PojavLauncher.java:53) [launcher.jar:?]
+[16:05:27] [main/WARN]: Mixin apply failed mixins.soar.json:entity.MixinEntity -> net.minecraft.entity.Entity: org.spongepowered.asm.mixin.injection.throwables.InvalidInjectionException @Inject annotation on handler$checkGroundState$zzo000 specifies a target class 'pk', which is not supported
+org.spongepowered.asm.mixin.injection.throwables.InvalidInjectionException: @Inject annotation on handler$checkGroundState$zzo000 specifies a target class 'pk', which is not supported
+	at org.spongepowered.asm.mixin.injection.struct.InjectionInfo.parseTargets(InjectionInfo.java:190) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.injection.struct.InjectionInfo.readAnnotation(InjectionInfo.java:172) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.injection.struct.InjectionInfo.<init>(InjectionInfo.java:159) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.injection.struct.InjectionInfo.<init>(InjectionInfo.java:151) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.injection.struct.CallbackInjectionInfo.<init>(CallbackInjectionInfo.java:44) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.injection.struct.InjectionInfo.parse(InjectionInfo.java:472) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTargetContext.prepareInjections(MixinTargetContext.java:1180) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinApplicatorStandard.prepareInjections(MixinApplicatorStandard.java:929) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinApplicatorStandard.applyMixin(MixinApplicatorStandard.java:317) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinApplicatorStandard.apply(MixinApplicatorStandard.java:280) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.TargetClassContext.applyMixins(TargetClassContext.java:353) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.apply(MixinTransformer.java:724) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.applyMixins(MixinTransformer.java:703) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.transformClassBytes(MixinTransformer.java:509) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.Proxy.transform(Proxy.java:72) [SoarClient-Release.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.runTransformers(LaunchClassLoader.java:279) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.findClass(LaunchClassLoader.java:176) [launchwrapper-1.12.jar:?]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:418) [?:1.8.0_472-internal]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:351) [?:1.8.0_472-internal]
+	at java.lang.ClassLoader.defineClass1(Native Method) [?:1.8.0_472-internal]
+	at java.lang.ClassLoader.defineClass(ClassLoader.java:756) [?:1.8.0_472-internal]
+	at java.security.SecureClassLoader.defineClass(SecureClassLoader.java:142) [?:1.8.0_472-internal]
+	at net.minecraft.launchwrapper.LaunchClassLoader.findClass(LaunchClassLoader.java:182) [launchwrapper-1.12.jar:?]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:418) [?:1.8.0_472-internal]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:351) [?:1.8.0_472-internal]
+	at java.lang.ClassLoader.defineClass1(Native Method) [?:1.8.0_472-internal]
+	at java.lang.ClassLoader.defineClass(ClassLoader.java:756) [?:1.8.0_472-internal]
+	at java.security.SecureClassLoader.defineClass(SecureClassLoader.java:142) [?:1.8.0_472-internal]
+	at net.minecraft.launchwrapper.LaunchClassLoader.findClass(LaunchClassLoader.java:182) [launchwrapper-1.12.jar:?]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:418) [?:1.8.0_472-internal]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:351) [?:1.8.0_472-internal]
+	at net.minecraft.client.main.Main.main(SourceFile:41) [Main.class:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_472-internal]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_472-internal]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_472-internal]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_472-internal]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_472-internal]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_472-internal]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_472-internal]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_472-internal]
+	at net.kdt.pojavlaunch.Tools.launchMinecraft(Tools.java:108) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.launchMinecraft(PojavLauncher.java:309) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.main(PojavLauncher.java:53) [launcher.jar:?]
+[16:05:27] [main/WARN]: Mixin apply failed mixins.soar.json:entity.MixinEntityPlayerSP -> net.minecraft.client.entity.EntityPlayerSP: org.spongepowered.asm.mixin.injection.throwables.InvalidInjectionException @Inject annotation on handler$preOnUpdate$zbd000 specifies a target class 'bew', which is not supported
+org.spongepowered.asm.mixin.injection.throwables.InvalidInjectionException: @Inject annotation on handler$preOnUpdate$zbd000 specifies a target class 'bew', which is not supported
+	at org.spongepowered.asm.mixin.injection.struct.InjectionInfo.parseTargets(InjectionInfo.java:190) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.injection.struct.InjectionInfo.readAnnotation(InjectionInfo.java:172) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.injection.struct.InjectionInfo.<init>(InjectionInfo.java:159) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.injection.struct.InjectionInfo.<init>(InjectionInfo.java:151) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.injection.struct.CallbackInjectionInfo.<init>(CallbackInjectionInfo.java:44) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.injection.struct.InjectionInfo.parse(InjectionInfo.java:472) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTargetContext.prepareInjections(MixinTargetContext.java:1180) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinApplicatorStandard.prepareInjections(MixinApplicatorStandard.java:929) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinApplicatorStandard.applyMixin(MixinApplicatorStandard.java:317) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinApplicatorStandard.apply(MixinApplicatorStandard.java:280) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.TargetClassContext.applyMixins(TargetClassContext.java:353) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.apply(MixinTransformer.java:724) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.applyMixins(MixinTransformer.java:703) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.transformClassBytes(MixinTransformer.java:509) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.Proxy.transform(Proxy.java:72) [SoarClient-Release.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.runTransformers(LaunchClassLoader.java:279) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.findClass(LaunchClassLoader.java:176) [launchwrapper-1.12.jar:?]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:418) [?:1.8.0_472-internal]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:351) [?:1.8.0_472-internal]
+	at net.minecraft.client.main.Main.main(SourceFile:41) [Main.class:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_472-internal]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_472-internal]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_472-internal]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_472-internal]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_472-internal]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_472-internal]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_472-internal]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_472-internal]
+	at net.kdt.pojavlaunch.Tools.launchMinecraft(Tools.java:108) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.launchMinecraft(PojavLauncher.java:309) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.main(PojavLauncher.java:53) [launcher.jar:?]
+[16:05:27] [main/WARN]: Mixin apply failed mixins.soar.json:entity.MixinAbstractClientPlayer -> net.minecraft.client.entity.AbstractClientPlayer: org.spongepowered.asm.mixin.transformer.throwables.InvalidMixinException Shadow field a was not located in the target class net.minecraft.client.entity.AbstractClientPlayer. Using refmap mixins.soar.refmap.json
+org.spongepowered.asm.mixin.transformer.throwables.InvalidMixinException: Shadow field a was not located in the target class net.minecraft.client.entity.AbstractClientPlayer. Using refmap mixins.soar.refmap.json
+	at org.spongepowered.asm.mixin.transformer.MixinPreProcessorStandard.attachFields(MixinPreProcessorStandard.java:563) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinPreProcessorStandard.attach(MixinPreProcessorStandard.java:263) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinPreProcessorStandard.createContextFor(MixinPreProcessorStandard.java:241) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinInfo.createContextFor(MixinInfo.java:1144) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinApplicatorStandard.apply(MixinApplicatorStandard.java:267) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.TargetClassContext.applyMixins(TargetClassContext.java:353) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.apply(MixinTransformer.java:724) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.applyMixins(MixinTransformer.java:703) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.transformClassBytes(MixinTransformer.java:509) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.Proxy.transform(Proxy.java:72) [SoarClient-Release.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.runTransformers(LaunchClassLoader.java:279) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.findClass(LaunchClassLoader.java:176) [launchwrapper-1.12.jar:?]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:418) [?:1.8.0_472-internal]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:351) [?:1.8.0_472-internal]
+	at java.lang.ClassLoader.defineClass1(Native Method) [?:1.8.0_472-internal]
+	at java.lang.ClassLoader.defineClass(ClassLoader.java:756) [?:1.8.0_472-internal]
+	at java.security.SecureClassLoader.defineClass(SecureClassLoader.java:142) [?:1.8.0_472-internal]
+	at net.minecraft.launchwrapper.LaunchClassLoader.findClass(LaunchClassLoader.java:182) [launchwrapper-1.12.jar:?]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:418) [?:1.8.0_472-internal]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:351) [?:1.8.0_472-internal]
+	at net.minecraft.client.main.Main.main(SourceFile:41) [Main.class:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_472-internal]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_472-internal]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_472-internal]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_472-internal]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_472-internal]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_472-internal]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_472-internal]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_472-internal]
+	at net.kdt.pojavlaunch.Tools.launchMinecraft(Tools.java:108) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.launchMinecraft(PojavLauncher.java:309) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.main(PojavLauncher.java:53) [launcher.jar:?]
+[16:05:27] [main/WARN]: Mixin apply failed mixins.soar.json:gui.MixinGuiScreen -> net.minecraft.client.gui.GuiScreen: org.spongepowered.asm.mixin.transformer.throwables.InvalidMixinException Shadow field j was not located in the target class net.minecraft.client.gui.GuiScreen. Using refmap mixins.soar.refmap.json
+org.spongepowered.asm.mixin.transformer.throwables.InvalidMixinException: Shadow field j was not located in the target class net.minecraft.client.gui.GuiScreen. Using refmap mixins.soar.refmap.json
+	at org.spongepowered.asm.mixin.transformer.MixinPreProcessorStandard.attachFields(MixinPreProcessorStandard.java:563) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinPreProcessorStandard.attach(MixinPreProcessorStandard.java:263) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinPreProcessorStandard.createContextFor(MixinPreProcessorStandard.java:241) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinInfo.createContextFor(MixinInfo.java:1144) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinApplicatorStandard.apply(MixinApplicatorStandard.java:267) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.TargetClassContext.applyMixins(TargetClassContext.java:353) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.apply(MixinTransformer.java:724) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.applyMixins(MixinTransformer.java:703) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.transformClassBytes(MixinTransformer.java:509) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.Proxy.transform(Proxy.java:72) [SoarClient-Release.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.runTransformers(LaunchClassLoader.java:279) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.findClass(LaunchClassLoader.java:176) [launchwrapper-1.12.jar:?]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:418) [?:1.8.0_472-internal]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:351) [?:1.8.0_472-internal]
+	at net.minecraft.client.main.Main.main(SourceFile:41) [Main.class:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_472-internal]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_472-internal]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_472-internal]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_472-internal]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_472-internal]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_472-internal]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_472-internal]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_472-internal]
+	at net.kdt.pojavlaunch.Tools.launchMinecraft(Tools.java:108) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.launchMinecraft(PojavLauncher.java:309) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.main(PojavLauncher.java:53) [launcher.jar:?]
+[16:05:27] [main/WARN]: Mixin apply failed mixins.soar.json:gui.MixinGuiGameOver -> net.minecraft.client.gui.GuiGameOver: org.spongepowered.asm.mixin.injection.throwables.InvalidInjectionException @Inject annotation on handler$allowClickable$zbk000 specifies a target class 'axe', which is not supported
+org.spongepowered.asm.mixin.injection.throwables.InvalidInjectionException: @Inject annotation on handler$allowClickable$zbk000 specifies a target class 'axe', which is not supported
+	at org.spongepowered.asm.mixin.injection.struct.InjectionInfo.parseTargets(InjectionInfo.java:190) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.injection.struct.InjectionInfo.readAnnotation(InjectionInfo.java:172) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.injection.struct.InjectionInfo.<init>(InjectionInfo.java:159) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.injection.struct.InjectionInfo.<init>(InjectionInfo.java:151) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.injection.struct.CallbackInjectionInfo.<init>(CallbackInjectionInfo.java:44) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.injection.struct.InjectionInfo.parse(InjectionInfo.java:472) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTargetContext.prepareInjections(MixinTargetContext.java:1180) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinApplicatorStandard.prepareInjections(MixinApplicatorStandard.java:929) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinApplicatorStandard.applyMixin(MixinApplicatorStandard.java:317) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinApplicatorStandard.apply(MixinApplicatorStandard.java:280) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.TargetClassContext.applyMixins(TargetClassContext.java:353) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.apply(MixinTransformer.java:724) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.applyMixins(MixinTransformer.java:703) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.transformClassBytes(MixinTransformer.java:509) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.Proxy.transform(Proxy.java:72) [SoarClient-Release.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.runTransformers(LaunchClassLoader.java:279) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.findClass(LaunchClassLoader.java:176) [launchwrapper-1.12.jar:?]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:418) [?:1.8.0_472-internal]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:351) [?:1.8.0_472-internal]
+	at net.minecraft.client.main.Main.main(SourceFile:41) [Main.class:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_472-internal]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_472-internal]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_472-internal]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_472-internal]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_472-internal]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_472-internal]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_472-internal]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_472-internal]
+	at net.kdt.pojavlaunch.Tools.launchMinecraft(Tools.java:108) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.launchMinecraft(PojavLauncher.java:309) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.main(PojavLauncher.java:53) [launcher.jar:?]
+[16:05:27] [main/WARN]: Mixin apply failed mixins.soar.json:gui.MixinGuiIngame -> net.minecraft.client.gui.GuiIngame: org.spongepowered.asm.mixin.transformer.throwables.InvalidMixinException Shadow field j was not located in the target class net.minecraft.client.gui.GuiIngame. Using refmap mixins.soar.refmap.json
+org.spongepowered.asm.mixin.transformer.throwables.InvalidMixinException: Shadow field j was not located in the target class net.minecraft.client.gui.GuiIngame. Using refmap mixins.soar.refmap.json
+	at org.spongepowered.asm.mixin.transformer.MixinPreProcessorStandard.attachFields(MixinPreProcessorStandard.java:563) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinPreProcessorStandard.attach(MixinPreProcessorStandard.java:263) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinPreProcessorStandard.createContextFor(MixinPreProcessorStandard.java:241) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinInfo.createContextFor(MixinInfo.java:1144) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinApplicatorStandard.apply(MixinApplicatorStandard.java:267) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.TargetClassContext.applyMixins(TargetClassContext.java:353) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.apply(MixinTransformer.java:724) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.applyMixins(MixinTransformer.java:703) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.transformClassBytes(MixinTransformer.java:509) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.Proxy.transform(Proxy.java:72) [SoarClient-Release.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.runTransformers(LaunchClassLoader.java:279) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.findClass(LaunchClassLoader.java:176) [launchwrapper-1.12.jar:?]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:418) [?:1.8.0_472-internal]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:351) [?:1.8.0_472-internal]
+	at net.minecraft.client.main.Main.main(SourceFile:41) [Main.class:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_472-internal]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_472-internal]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_472-internal]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_472-internal]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_472-internal]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_472-internal]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_472-internal]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_472-internal]
+	at net.kdt.pojavlaunch.Tools.launchMinecraft(Tools.java:108) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.launchMinecraft(PojavLauncher.java:309) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.main(PojavLauncher.java:53) [launcher.jar:?]
+[16:05:28] [main/WARN]: Method overwrite conflict for toString in mixins.soar.json:util.MixinNBTTagString, previously written by me.eldodebug.soar.injection.mixin.mixins.nbt.MixinNBTTagString. Skipping method.
+[16:05:28] [main/WARN]: Mixin apply failed mixins.soar.json:nbt.MixinNBTTagString -> net.minecraft.nbt.NBTTagString: org.spongepowered.asm.mixin.injection.throwables.InvalidInjectionException @Inject annotation on handler$emptyDataCache$zcn000 specifies a target class 'ea', which is not supported
+org.spongepowered.asm.mixin.injection.throwables.InvalidInjectionException: @Inject annotation on handler$emptyDataCache$zcn000 specifies a target class 'ea', which is not supported
+	at org.spongepowered.asm.mixin.injection.struct.InjectionInfo.parseTargets(InjectionInfo.java:190) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.injection.struct.InjectionInfo.readAnnotation(InjectionInfo.java:172) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.injection.struct.InjectionInfo.<init>(InjectionInfo.java:159) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.injection.struct.InjectionInfo.<init>(InjectionInfo.java:151) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.injection.struct.CallbackInjectionInfo.<init>(CallbackInjectionInfo.java:44) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.injection.struct.InjectionInfo.parse(InjectionInfo.java:472) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTargetContext.prepareInjections(MixinTargetContext.java:1180) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinApplicatorStandard.prepareInjections(MixinApplicatorStandard.java:929) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinApplicatorStandard.applyMixin(MixinApplicatorStandard.java:317) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinApplicatorStandard.apply(MixinApplicatorStandard.java:280) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.TargetClassContext.applyMixins(TargetClassContext.java:353) ~[SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.apply(MixinTransformer.java:724) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.applyMixins(MixinTransformer.java:703) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.transformClassBytes(MixinTransformer.java:509) [SoarClient-Release.jar:?]
+	at org.spongepowered.asm.mixin.transformer.Proxy.transform(Proxy.java:72) [SoarClient-Release.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.runTransformers(LaunchClassLoader.java:279) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.LaunchClassLoader.findClass(LaunchClassLoader.java:176) [launchwrapper-1.12.jar:?]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:418) [?:1.8.0_472-internal]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:351) [?:1.8.0_472-internal]
+	at net.minecraft.client.main.Main.main(SourceFile:41) [Main.class:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_472-internal]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_472-internal]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_472-internal]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_472-internal]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_472-internal]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_472-internal]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_472-internal]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_472-internal]
+	at net.kdt.pojavlaunch.Tools.launchMinecraft(Tools.java:108) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.launchMinecraft(PojavLauncher.java:309) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.main(PojavLauncher.java:53) [launcher.jar:?]
+[SDL-FIRSTFRAME] SDL3 compat layer CONSULTED: first SDL name=SDL_PushEvent handle=RTLD_DEFAULT/NULL -- this line appears only on the SDL3 windowing path (MC 26.3+ / LWJGL 3.4.3 lwjgl-sdl); its absence on a MC 26.2 session is by design, not a hook failure
+[InputDiag] initSDLEventFuncs: PushEvent=0x0 GetWindowID=0x0 g_sdlWindow=0x0
+[JNI] JNI_OnLoadGLFW registered, class=0x11d3c2090, method=0x28096f020, keyDownBuffer=0x12212f210
+[16:05:28] [main/ERROR]: Unable to launch
+java.lang.reflect.InvocationTargetException
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_472-internal]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_472-internal]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_472-internal]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_472-internal]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_472-internal]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_472-internal]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_472-internal]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_472-internal]
+	at net.kdt.pojavlaunch.Tools.launchMinecraft(Tools.java:108) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.launchMinecraft(PojavLauncher.java:309) [launcher.jar:?]
+	at net.kdt.pojavlaunch.PojavLauncher.main(PojavLauncher.java:53) [launcher.jar:?]
+Caused by: joptsimple.MultipleArgumentsForOptionException: Found multiple arguments for option ['version'], but you asked for only one
+	at joptsimple.OptionSet.valueOf(OptionSet.java:176) ~[OptionSet.class:?]
+	at net.minecraft.client.main.Main.main(SourceFile:88) ~[Main.class:?]
+	... 13 more
+[16:05:28] [main/INFO]: [net.kdt.pojavlaunch.PojavLauncher$1:uncaughtException:40]: java.lang.reflect.InvocationTargetException
+[16:05:28] [main/INFO]: [net.kdt.pojavlaunch.PojavLauncher$1:uncaughtException:40]: 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+[16:05:28] [main/INFO]: [net.kdt.pojavlaunch.PojavLauncher$1:uncaughtException:40]: 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+[16:05:28] [main/INFO]: [net.kdt.pojavlaunch.PojavLauncher$1:uncaughtException:40]: 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+[16:05:28] [main/INFO]: [net.kdt.pojavlaunch.PojavLauncher$1:uncaughtException:40]: 	at java.lang.reflect.Method.invoke(Method.java:498)
+[16:05:28] [main/INFO]: [net.kdt.pojavlaunch.PojavLauncher$1:uncaughtException:40]: 	at net.kdt.pojavlaunch.Tools.launchMinecraft(Tools.java:108)
+[16:05:28] [main/INFO]: [net.kdt.pojavlaunch.PojavLauncher$1:uncaughtException:40]: 	at net.kdt.pojavlaunch.PojavLauncher.launchMinecraft(PojavLauncher.java:309)
+[16:05:28] [main/INFO]: [net.kdt.pojavlaunch.PojavLauncher$1:uncaughtException:40]: 	at net.kdt.pojavlaunch.PojavLauncher.main(PojavLauncher.java:53)
+[16:05:28] [main/INFO]: [java.lang.Throwable:printStackTrace:635]: Caused by: net.minecraftforge.fml.relauncher.FMLSecurityManager$ExitTrappedException
+[16:05:28] [main/INFO]: [java.lang.Throwable:printStackTrace:635]: 	at net.minecraftforge.fml.relauncher.FMLSecurityManager.checkPermission(FMLSecurityManager.java:30)
+[16:05:28] [main/INFO]: [java.lang.Throwable:printStackTrace:635]: 	at java.lang.SecurityManager.checkExit(SecurityManager.java:761)
+[16:05:28] [main/INFO]: [java.lang.Throwable:printStackTrace:635]: 	at java.lang.Runtime.exit(Runtime.java:101)
+[16:05:28] [main/INFO]: [java.lang.Throwable:printStackTrace:635]: 	at java.lang.System.exit(System.java:987)
+[16:05:28] [main/INFO]: [java.lang.Throwable:printStackTrace:635]: 	at net.minecraft.launchwrapper.Launch.launch(Launch.java:138)
+[16:05:28] [main/INFO]: [java.lang.Throwable:printStackTrace:635]: 	at net.minecraft.launchwrapper.Launch.main(Launch.java:28)
+[16:05:28] [main/INFO]: [java.lang.Throwable:printStackTrace:635]: 	... 7 more
+
+Exception: net.minecraftforge.fml.relauncher.FMLSecurityManager$ExitTrappedException thrown from the UncaughtExceptionHandler in thread "main"
+2026-11-01 16:05:28.602 AngelAuraAmethyst[13784:1265702] [glass] 界面风格探测:系统 < iOS 26 ⇒ 仅原生风格可用
+2026-11-01 16:05:28.602 AngelAuraAmethyst[13784:1265702] [glass] 原生风格 ⇒ 材质用系统 UIBlurEffect(style=8),不调用 UIGlassEffect
