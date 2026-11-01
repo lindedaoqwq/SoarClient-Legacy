@@ -32,7 +32,12 @@ public class SoarTweaker implements ITweaker {
 		catch(ClassNotFoundException e) {
 		}
 		
-        this.launchArguments.addAll(args);
+        // Under FML, FMLTweaker already forwards every launch argument (including options
+        // Launch cannot parse, such as --userProperties), so copying them here duplicates
+        // them and Minecraft's Main fails with MultipleArgumentsForOptionException.
+        if (!isForgeEnvironment()) {
+            this.launchArguments.addAll(args);
+        }
 
         if (profile != null && !hasArgument(args, "--version")) {
             launchArguments.add("--version");
