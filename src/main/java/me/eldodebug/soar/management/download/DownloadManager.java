@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import me.eldodebug.soar.Soar;
+import me.eldodebug.soar.logger.SoarLogger;
 import me.eldodebug.soar.management.download.file.DownloadFile;
 import me.eldodebug.soar.management.download.file.DownloadZipFile;
 import me.eldodebug.soar.management.file.FileManager;
@@ -35,35 +36,53 @@ public class DownloadManager {
 	
 	private void startDownloads() {
 		
-		for(DownloadFile df : downloadFiles) {
-			
-			if(!df.getOutputDir().exists()) {
-				df.getOutputDir().mkdirs();
+		try {
+			// These files are Windows only (ytdlp.exe / ffmpeg / cef windows build)
+			// and the host is often unreachable (HTTP/SSL failures). Skipping them
+			// must never block the welcome scene, which waits on isDownloaded().
+			if (!isWindows()) {
+				return;
 			}
 			
-			if(df instanceof DownloadZipFile) {
+			for(DownloadFile df : downloadFiles) {
 				
-				DownloadZipFile dzf = (DownloadZipFile) df;
-				
-				if(FileUtils.getDirectorySize(dzf.getOutputDir()) != dzf.getUnzippedSize()) {
-					
-					File outputFile = new File(dzf.getOutputDir(), dzf.getFileName());
-					
-					HttpUtils.downloadFile(dzf.getUrl(), outputFile);
-					FileUtils.unzip(outputFile, dzf.getOutputDir());
-					outputFile.delete();
+				if(!df.getOutputDir().exists()) {
+					df.getOutputDir().mkdirs();
 				}
-			} else {
 				
-				File outputFile = new File(df.getOutputDir(), df.getFileName());
-				
-				if(outputFile.length() != df.getSize()) {
-					HttpUtils.downloadFile(df.getUrl(), outputFile);
+				if(df instanceof DownloadZipFile) {
+					
+					DownloadZipFile dzf = (DownloadZipFile) df;
+					
+					if(FileUtils.getDirectorySize(dzf.getOutputDir()) != dzf.getUnzippedSize()) {
+						
+						File outputFile = new File(dzf.getOutputDir(), dzf.getFileName());
+						
+						HttpUtils.downloadFile(dzf.getUrl(), outputFile);
+						FileUtils.unzip(outputFile, dzf.getOutputDir());
+						outputFile.delete();
+					}
+				} else {
+					
+					File outputFile = new File(df.getOutputDir(), df.getFileName());
+					
+					if(outputFile.length() != df.getSize()) {
+						HttpUtils.downloadFile(df.getUrl(), outputFile);
+					}
 				}
 			}
+			
+			checkFiles();
+		} catch (Exception e) {
+			SoarLogger.error("Failed to download client data", e);
+		} finally {
+			downloaded = true;
 		}
-		
-		checkFiles();
+	}
+	
+	private static boolean isWindows() {
+		String os = System.getProperty("os.name", "");
+		return os.toLowerCase().contains("win");
 	}
 	
 	private void checkFiles() {
@@ -75,14 +94,14 @@ public class DownloadManager {
 				DownloadZipFile dzf = (DownloadZipFile) df;
 				
 				if(FileUtils.getDirectorySize(dzf.getOutputDir()) != dzf.getUnzippedSize()) {
-					startDownloads();
+					SoarLogger.error("Missing downloaded data: " + dzf.getOutputDir().getName());
 				}
 			} else {
 				
 				File outputFile = new File(df.getOutputDir(), df.getFileName());
 				
 				if(outputFile.length() != df.getSize()) {
-					startDownloads();
+					SoarLogger.error("Missing downloaded data: " + outputFile.getName());
 				}
 			}
 		}
