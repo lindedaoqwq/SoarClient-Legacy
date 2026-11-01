@@ -68,6 +68,21 @@ public class GlUtils {
      */
     public static boolean isMobileGl() {
         try {
+            String openGlLib = System.getProperty("org.lwjgl.opengl.libname", "");
+            String pojavVersion = System.getProperty("pojav.lwjgl.version", "");
+            String cacioScreen = System.getProperty("cacio.managed.screensize", "");
+            String signals = (openGlLib + ' ' + pojavVersion + ' ' + cacioScreen).toLowerCase();
+            if (signals.contains("gl4es")
+                    || signals.contains("nggl4es")
+                    || !pojavVersion.isEmpty()
+                    || !cacioScreen.isEmpty()) {
+                return true;
+            }
+        } catch (Throwable e) {
+            // Fall through to the GL string based detection.
+        }
+
+        try {
             String version = GL11.glGetString(GL11.GL_VERSION);
             String renderer = GL11.glGetString(GL11.GL_RENDERER);
             String vendor = GL11.glGetString(GL11.GL_VENDOR);
