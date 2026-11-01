@@ -1,10 +1,12 @@
 buildscript {
     repositories {
-        mavenCentral()
-        jcenter()
+        maven {
+            name = 'aliyunPublic'
+            url = 'https://maven.aliyun.com/repository/public'
+        }
         maven {
             name = "forge"
-            url = "http://files.minecraftforge.net/maven"
+            url = "https://maven.minecraftforge.net"
         }
         maven {
             name = 'sponge'
@@ -42,6 +44,11 @@ minecraft {
 
 repositories {
     maven {
+        name 'aliyunPublic'
+        url 'https://maven.aliyun.com/repository/public'
+    }
+
+    maven {
         name "jitpack"
         url "https://jitpack.io"
     }
@@ -50,8 +57,10 @@ repositories {
         name "spongepowered"
         url "https://repo.spongepowered.org/maven/"
     }
-    jcenter()
-    mavenCentral()
+    maven {
+        name "forge"
+        url "https://maven.minecraftforge.net"
+    }
 }
 
 configurations {
@@ -60,6 +69,7 @@ configurations {
 }
 
 dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
     embed('org.spongepowered:mixin:0.7.11-SNAPSHOT') {
         exclude module: 'launchwrapper'
         exclude module: 'guava'
