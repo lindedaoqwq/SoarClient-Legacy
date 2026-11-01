@@ -7,6 +7,7 @@ import org.cef.CefClient;
 import org.cef.CefSettings;
 
 import me.eldodebug.soar.Soar;
+import me.eldodebug.soar.logger.SoarLogger;
 import me.eldodebug.soar.management.file.FileManager;
 
 public final class CefUtil {
@@ -20,31 +21,44 @@ public final class CefUtil {
 
     static boolean init() {
     	
-    	FileManager fileManager = Soar.getInstance().getFileManager();
-    	File cacheDir = new File(fileManager.getCacheDir(), "mcef");
-    	
-    	if(!cacheDir.exists()) {
-    		fileManager.createDir(cacheDir);
+    	if (init) {
+    		return true;
     	}
     	
-        String[] cefSwitches = new String[]{
-                "--autoplay-policy=no-user-gesture-required",
-                "--disable-web-security"
-        };
+    	try {
+    		FileManager fileManager = Soar.getInstance().getFileManager();
+    		File cacheDir = new File(fileManager.getCacheDir(), "mcef");
+    		
+    		if(!cacheDir.exists()) {
+    			fileManager.createDir(cacheDir);
+    		}
+    		
+    		String[] cefSwitches = new String[]{
+    				"--autoplay-policy=no-user-gesture-required",
+    				"--disable-web-security"
+    		};
 
-        if (!CefApp.startup(cefSwitches)) {
-            return false;
-        }
+    		if (!CefApp.startup(cefSwitches)) {
+    			return false;
+    		}
 
-        CefSettings cefSettings = new CefSettings();
-        cefSettings.windowless_rendering_enabled = true;
-        cefSettings.background_color = cefSettings.new ColorType(0, 255, 255, 255);
-        cefSettings.cache_path = cacheDir.getAbsolutePath();
-        
-        cefAppInstance = CefApp.getInstance(cefSwitches, cefSettings);
-        cefClientInstance = cefAppInstance.createClient();
-        
-        return init = true;
+    		CefSettings cefSettings = new CefSettings();
+    		cefSettings.windowless_rendering_enabled = true;
+    		cefSettings.background_color = cefSettings.new ColorType(0, 255, 255, 255);
+    		cefSettings.cache_path = cacheDir.getAbsolutePath();
+    		
+    		cefAppInstance = CefApp.getInstance(cefSwitches, cefSettings);
+    		cefClientInstance = cefAppInstance.createClient();
+    		
+    		return init = true;
+    	} catch (Throwable e) {
+    		// CEF ships desktop natives only; on iOS (and other unsupported
+    		// platforms) loading libjcef fails with UnsatisfiedLinkError. Treat it
+    		// as "browser unavailable" instead of taking the whole client down.
+    		SoarLogger.error("CEF is unavailable on this platform: " + e);
+    		init = false;
+    		return false;
+    	}
     }
 
     static void shutdown() {

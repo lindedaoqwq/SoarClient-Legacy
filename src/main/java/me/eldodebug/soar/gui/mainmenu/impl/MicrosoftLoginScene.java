@@ -49,6 +49,10 @@ public class MicrosoftLoginScene extends MainMenuScene {
     	
     	NanoVGManager nvg = Soar.getInstance().getNanoVGManager();
     	
+    	if (!Mcef.isInitialized()) {
+    		return;
+    	}
+    	
 		Mcef.getApp().getHandle().N_DoMessageLoopWork();
 		
     	nvg.setupAndDraw(() -> drawNanoVG(mouseX, mouseY, partialTicks));
@@ -162,8 +166,10 @@ public class MicrosoftLoginScene extends MainMenuScene {
     
     @Override
     public void onSceneClosed() {
-    	browser.close();
-    	browser = null;
+    	if (browser != null) {
+    		browser.close();
+    		browser = null;
+    	}
     }
     
     private void resizeBrowser() {
