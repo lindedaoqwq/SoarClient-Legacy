@@ -92,6 +92,12 @@ public class SoarTweaker implements ITweaker {
         MixinEnvironment env = MixinEnvironment.getDefaultEnvironment();
         Mixins.addConfiguration("mixins.soar.json");
 
+        // Forge overrides GuiIngame#renderGameOverlay, so the HUD hook lives in a
+        // forge-only config that is shipped with the Forge jar.
+        if (isForgeEnvironment()) {
+            Mixins.addConfiguration("mixins.soar.forge.json");
+        }
+
         if (env.getObfuscationContext() == null) {
         	env.setObfuscationContext(isForgeEnvironment() ? "searge" : "notch");
         }
