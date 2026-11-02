@@ -23,7 +23,9 @@ public class MixinGuiIngameForge {
 
 	private static boolean soarHudHookLogged;
 
-	@Inject(method = "renderGameOverlay", at = @At("RETURN"))
+	// remap = false + searge name: the refmap resolves renderGameOverlay to its declaring
+	// class GuiIngame, and Mixin rejects an owner that differs from the target class.
+	@Inject(method = "func_175180_a", remap = false, at = @At("RETURN"))
 	public void postRenderGameOverlay(float partialTicks, CallbackInfo ci) {
 
 		Minecraft mc = Minecraft.getMinecraft();

@@ -18,6 +18,13 @@ public class SkinProtectMod extends Mod {
 	@EventTarget
 	public void onLocationSkin(EventLocationSkin event) {
 		
+		if(event.getPlayerInfo() == null || event.getPlayerInfo().getGameProfile() == null
+				|| event.getPlayerInfo().getGameProfile().getId() == null
+				|| mc.thePlayer == null || mc.thePlayer.getGameProfile() == null
+				|| mc.thePlayer.getGameProfile().getId() == null) {
+			return;
+		}
+		
 		String uuid = UUIDTypeAdapter.fromUUID(event.getPlayerInfo().getGameProfile().getId());
 		String pUuid = UUIDTypeAdapter.fromUUID(mc.thePlayer.getGameProfile().getId());
 		

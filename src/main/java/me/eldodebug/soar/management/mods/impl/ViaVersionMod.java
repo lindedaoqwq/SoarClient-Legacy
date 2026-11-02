@@ -28,7 +28,9 @@ public class ViaVersionMod extends Mod {
 		if(!loaded) {
 			loaded = true;
 			Multithreading.runAsync(() -> {
-				ViaSoar.create();
+				if(ViaLoadingBase.getInstance() == null) {
+					ViaSoar.create();
+				}
 				ViaSoar.getInstance().initAsyncSlider();
 			});
 		}

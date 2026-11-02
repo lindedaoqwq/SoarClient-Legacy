@@ -83,7 +83,7 @@ public class MechvibesMod extends Mod {
 				
 				tempKeyboardVolume = keyboardVolumeSetting.getValueFloat();
 				
-				for(Map.Entry<Integer, SoundKey> map : keyMap.entrySet()) {
+				for(Map.Entry<Integer, SoundKey> map : new ArrayList<>(keyMap.entrySet())) {
 					map.getValue().setVolume(tempKeyboardVolume);
 				}
 			}
