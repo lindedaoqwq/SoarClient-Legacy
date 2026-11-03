@@ -44,6 +44,11 @@ public class AccountScene extends MainMenuScene {
 	
 	private boolean browserLogin;
 	
+	private long lastClipboardCheck;
+	private String lastClipboardValue = "";
+	
+	private static final long CLIPBOARD_CHECK_INTERVAL = 500L;
+	
 	private static final String MICROSOFT_LOGIN_URL = "https://login.live.com/oauth20_authorize.srf?client_id=00000000402b5328&response_type=code&redirect_uri=https://login.live.com/oauth20_desktop.srf&scope=XboxLive.signin%20offline_access&prompt=login";
 	
 	private File offlineSkin;
@@ -108,7 +113,9 @@ public class AccountScene extends MainMenuScene {
 		
 		if (browserLogin) {
 			
-			String hint = "Browser login: paste the full redirect URL below";
+			tickBrowserLogin();
+			
+			String hint = "After login, copy the browser URL - auto completes";
 			
 			nvg.drawCenteredText(hint, sr.getScaledWidth() / 2, acY + acHeight + 10, Color.WHITE, 9, Fonts.REGULAR);
 			
@@ -262,6 +269,8 @@ public class AccountScene extends MainMenuScene {
 	private void startBrowserLogin() {
 		
 		browserLogin = true;
+		lastClipboardCheck = 0;
+		lastClipboardValue = MICROSOFT_LOGIN_URL;
 		
 		try {
 			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(MICROSOFT_LOGIN_URL), null);
@@ -269,6 +278,39 @@ public class AccountScene extends MainMenuScene {
 		}
 		
 		openInSystemBrowser(MICROSOFT_LOGIN_URL);
+	}
+	
+	private void tickBrowserLogin() {
+		
+		long now = System.currentTimeMillis();
+		
+		if (now - lastClipboardCheck < CLIPBOARD_CHECK_INTERVAL) {
+			return;
+		}
+		
+		lastClipboardCheck = now;
+		
+		try {
+			
+			String clipboard = IOUtils.getStringFromClipboard();
+			
+			if (clipboard == null) {
+				return;
+			}
+			
+			String trimmed = clipboard.trim();
+			
+			if (!trimmed.startsWith("http") || !trimmed.contains("code=") || trimmed.equals(lastClipboardValue)) {
+				return;
+			}
+			
+			lastClipboardValue = trimmed;
+			
+			completeBrowserLogin(trimmed);
+		} catch (Throwable e) {
+			// Clipboard is not always reachable (e.g. caciocavallo on iOS); the
+			// Paste/Login controls stay available as a manual fallback.
+		}
 	}
 	
 	private void pasteFromClipboard() {
@@ -291,7 +333,14 @@ public class AccountScene extends MainMenuScene {
 			return;
 		}
 		
+		completeBrowserLogin(url);
+	}
+	
+	private void completeBrowserLogin(String url) {
+		
 		browserLogin = false;
+		
+		urlBox.setText(url);
 		
 		Multithreading.runAsync(() -> {
 			Soar.getInstance().getAccountManager().getAuthenticator().loginWithUrl(url);
