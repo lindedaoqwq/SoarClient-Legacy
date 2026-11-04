@@ -10,7 +10,6 @@ import me.eldodebug.soar.management.download.file.DownloadZipFile;
 import me.eldodebug.soar.management.file.FileManager;
 import me.eldodebug.soar.utils.Multithreading;
 import me.eldodebug.soar.utils.file.FileUtils;
-import me.eldodebug.soar.utils.network.HttpUtils;
 
 public class DownloadManager {
 
@@ -22,7 +21,10 @@ public class DownloadManager {
 		
 		FileManager fileManager = Soar.getInstance().getFileManager();
 		
-		downloaded = false;
+		// files.soarclient.com is shut down. The welcome scene waits on
+		// isDownloaded(), so never let remote downloads decide whether the client
+		// can start; only verify what is already on disk.
+		downloaded = true;
 		
 		downloadFiles.add(new DownloadFile("https://files.soarclient.com/ytdlp/ytdlp.exe",
 				"ytdlp.exe", new File(fileManager.getExternalDir(), "ytdlp"), 13947126));
@@ -36,53 +38,15 @@ public class DownloadManager {
 	
 	private void startDownloads() {
 		
+		// The CDN is offline, so downloading would only stall the startup gate on
+		// HTTP timeouts. Log the state of any files that are already present.
 		try {
-			// These files are Windows only (ytdlp.exe / ffmpeg / cef windows build)
-			// and the host is often unreachable (HTTP/SSL failures). Skipping them
-			// must never block the welcome scene, which waits on isDownloaded().
-			if (!isWindows()) {
-				return;
-			}
-			
-			for(DownloadFile df : downloadFiles) {
-				
-				if(!df.getOutputDir().exists()) {
-					df.getOutputDir().mkdirs();
-				}
-				
-				if(df instanceof DownloadZipFile) {
-					
-					DownloadZipFile dzf = (DownloadZipFile) df;
-					
-					if(FileUtils.getDirectorySize(dzf.getOutputDir()) != dzf.getUnzippedSize()) {
-						
-						File outputFile = new File(dzf.getOutputDir(), dzf.getFileName());
-						
-						HttpUtils.downloadFile(dzf.getUrl(), outputFile);
-						FileUtils.unzip(outputFile, dzf.getOutputDir());
-						outputFile.delete();
-					}
-				} else {
-					
-					File outputFile = new File(df.getOutputDir(), df.getFileName());
-					
-					if(outputFile.length() != df.getSize()) {
-						HttpUtils.downloadFile(df.getUrl(), outputFile);
-					}
-				}
-			}
-			
 			checkFiles();
 		} catch (Exception e) {
 			SoarLogger.error("Failed to download client data", e);
 		} finally {
 			downloaded = true;
 		}
-	}
-	
-	private static boolean isWindows() {
-		String os = System.getProperty("os.name", "");
-		return os.toLowerCase().contains("win");
 	}
 	
 	private void checkFiles() {

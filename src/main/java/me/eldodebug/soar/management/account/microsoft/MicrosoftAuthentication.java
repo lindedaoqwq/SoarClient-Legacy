@@ -60,7 +60,19 @@ public class MicrosoftAuthentication {
 	
     private void getMicrosoftToken(URL tokenURL) {
     	
-        JsonObject response = HttpUtils.readJson("https://login.live.com/oauth20_token.srf?client_id=00000000402b5328&grant_type=authorization_code&redirect_uri=https://login.live.com/oauth20_desktop.srf&code=" + tokenURL.toString().split("=")[1], null);
+        String url = tokenURL.toString();
+        
+        if(!url.contains("code=")) {
+        	return;
+        }
+        
+        String code = url.substring(url.indexOf("code=") + 5);
+        
+        if(code.contains("&")) {
+        	code = code.substring(0, code.indexOf('&'));
+        }
+        
+        JsonObject response = HttpUtils.readJson("https://login.live.com/oauth20_token.srf?client_id=00000000402b5328&grant_type=authorization_code&redirect_uri=https://login.live.com/oauth20_desktop.srf&code=" + code, null);
 
         getXboxLiveToken(response.get("access_token").getAsString(), response.get("refresh_token").getAsString());
     }
@@ -178,8 +190,17 @@ public class MicrosoftAuthentication {
 		}
         
         accountManager.setCurrentAccount(account);
-
-        check();
+        
+        // Persist right after the credentials are known: the post-login checks
+        // below talk to services that may be unreachable, and the account (and
+        // its refresh token) must survive a restart regardless.
+        accountManager.save();
+        
+        try {
+        	check();
+        } catch (Throwable e) {
+        	SoarLogger.error("Post login check failed", new Exception(e));
+        }
     }
 
     private void check() {

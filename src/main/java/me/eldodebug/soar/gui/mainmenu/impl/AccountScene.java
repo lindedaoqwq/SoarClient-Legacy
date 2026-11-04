@@ -115,7 +115,7 @@ public class AccountScene extends MainMenuScene {
 			
 			tickBrowserLogin();
 			
-			String hint = "After login, copy the browser URL - auto completes";
+			String hint = TranslateText.BROWSER_LOGIN_HINT.getText();
 			
 			nvg.drawCenteredText(hint, sr.getScaledWidth() / 2, acY + acHeight + 10, Color.WHITE, 9, Fonts.REGULAR);
 			
@@ -126,7 +126,7 @@ public class AccountScene extends MainMenuScene {
 			urlBox.draw(mouseX, mouseY, partialTicks);
 			
 			nvg.drawRoundedRect(acX + 168, acY + acHeight + 22, 52, 20, 4, this.getBackgroundColor());
-			nvg.drawCenteredText("Paste", acX + 168 + 26, acY + acHeight + 27, Color.WHITE, 9, Fonts.REGULAR);
+			nvg.drawCenteredText(TranslateText.PASTE.getText(), acX + 168 + 26, acY + acHeight + 27, Color.WHITE, 9, Fonts.REGULAR);
 			
 			nvg.drawRoundedRect(acX + (acWidth / 2) - 40, acY + acHeight + 48, 80, 18, 4, this.getBackgroundColor());
 			nvg.drawCenteredText(TranslateText.LOGIN.getText(), acX + (acWidth / 2), acY + acHeight + 52, Color.WHITE, 10, Fonts.REGULAR);
@@ -343,8 +343,13 @@ public class AccountScene extends MainMenuScene {
 		urlBox.setText(url);
 		
 		Multithreading.runAsync(() -> {
-			Soar.getInstance().getAccountManager().getAuthenticator().loginWithUrl(url);
-			Soar.getInstance().getAccountManager().save();
+			try {
+				Soar.getInstance().getAccountManager().getAuthenticator().loginWithUrl(url);
+			} catch (Throwable e) {
+				SoarLogger.error("Browser login failed", new Exception(e));
+			} finally {
+				Soar.getInstance().getAccountManager().save();
+			}
 		});
 		
 		getAfterLoginRunnable().run();
