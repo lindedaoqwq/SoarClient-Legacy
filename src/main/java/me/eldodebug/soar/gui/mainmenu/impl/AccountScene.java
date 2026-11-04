@@ -44,6 +44,8 @@ public class AccountScene extends MainMenuScene {
 	
 	private boolean browserLogin;
 	
+	private String loginError;
+	
 	private long lastClipboardCheck;
 	private String lastClipboardValue = "";
 	
@@ -115,9 +117,9 @@ public class AccountScene extends MainMenuScene {
 			
 			tickBrowserLogin();
 			
-			String hint = TranslateText.BROWSER_LOGIN_HINT.getText();
+			String hint = loginError != null ? loginError : TranslateText.BROWSER_LOGIN_HINT.getText();
 			
-			nvg.drawCenteredText(hint, sr.getScaledWidth() / 2, acY + acHeight + 10, Color.WHITE, 9, Fonts.REGULAR);
+			nvg.drawCenteredText(hint, sr.getScaledWidth() / 2, acY + acHeight + 10, loginError != null ? new Color(255, 85, 85) : Color.WHITE, 9, Fonts.REGULAR);
 			
 			urlBox.setBackgroundColor(this.getBackgroundColor());
 			urlBox.setFontColor(Color.WHITE);
@@ -339,20 +341,32 @@ public class AccountScene extends MainMenuScene {
 	private void completeBrowserLogin(String url) {
 		
 		browserLogin = false;
+		loginError = null;
 		
 		urlBox.setText(url);
 		
 		Multithreading.runAsync(() -> {
+			
+			boolean success = false;
+			
 			try {
-				Soar.getInstance().getAccountManager().getAuthenticator().loginWithUrl(url);
+				success = Soar.getInstance().getAccountManager().getAuthenticator().loginWithUrl(url);
 			} catch (Throwable e) {
 				SoarLogger.error("Browser login failed", new Exception(e));
-			} finally {
-				Soar.getInstance().getAccountManager().save();
 			}
+			
+			final boolean loggedIn = success;
+			
+			mc.addScheduledTask(() -> {
+				if (loggedIn) {
+					getAfterLoginRunnable().run();
+				} else {
+					browserLogin = true;
+					lastClipboardValue = "";
+					loginError = TranslateText.LOGIN_FAILED.getText();
+				}
+			});
 		});
-		
-		getAfterLoginRunnable().run();
 	}
 	
 	private static void openInSystemBrowser(String url) {

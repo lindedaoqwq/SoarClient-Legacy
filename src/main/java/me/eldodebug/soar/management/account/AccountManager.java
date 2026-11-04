@@ -102,6 +102,8 @@ public class AccountManager {
 			jsonObject.add("Accounts", jsonArray);
 			
 			gson.toJson(jsonObject, writer);
+			
+			SoarLogger.info("Saved " + accounts.size() + " account(s), current=" + currentAccount);
 		} catch (Exception e) {
 			SoarLogger.error("Failed to save account", e);
 		}
@@ -139,6 +141,8 @@ public class AccountManager {
 		} catch (Exception e) {
 			SoarLogger.error("Failed to load account", e);
 		}
+		
+		SoarLogger.info("Loaded " + accounts.size() + " account(s), current=" + currentAccount);
 	}
 	
 	public Account getCurrentAccount() {

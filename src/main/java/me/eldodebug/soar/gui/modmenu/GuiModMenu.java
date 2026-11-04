@@ -18,6 +18,7 @@ import me.eldodebug.soar.gui.modmenu.category.impl.MusicCategory;
 import me.eldodebug.soar.gui.modmenu.category.impl.ProfileCategory;
 import me.eldodebug.soar.gui.modmenu.category.impl.ScreenshotCategory;
 import me.eldodebug.soar.gui.modmenu.category.impl.SettingCategory;
+import me.eldodebug.soar.management.account.Account;
 import me.eldodebug.soar.management.color.AccentColor;
 import me.eldodebug.soar.management.color.ColorManager;
 import me.eldodebug.soar.management.color.palette.ColorPalette;
@@ -222,7 +223,8 @@ public class GuiModMenu extends GuiScreen {
 		ColorManager colorManager = instance.getColorManager();
 		ColorPalette palette = colorManager.getPalette();
 		AccentColor currentColor = colorManager.getCurrentColor();
-		File headFile = new File(instance.getFileManager().getCacheDir(), "head/" + instance.getAccountManager().getCurrentAccount().getName() + ".png");
+		Account currentAccount = instance.getAccountManager().getCurrentAccount();
+		File headFile = new File(instance.getFileManager().getCacheDir(), "head/" + (currentAccount != null ? currentAccount.getName() : "steve") + ".png");
 		
 		if(introAnimation.isDone(Direction.BACKWARDS)) {
 			mc.displayGuiScreen(toEditHUD ? new GuiEditHUD(true) : null);

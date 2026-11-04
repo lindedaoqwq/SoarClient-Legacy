@@ -8,6 +8,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import me.eldodebug.soar.logger.SoarLogger;
 import me.eldodebug.soar.utils.JsonUtils;
 import me.eldodebug.soar.utils.Multithreading;
 import me.eldodebug.soar.utils.network.HttpUtils;
@@ -17,7 +18,15 @@ public class ChangelogManager {
 	private CopyOnWriteArrayList<Changelog> changelogs = new CopyOnWriteArrayList<Changelog>();
 	
 	public ChangelogManager() {
-		Multithreading.runAsync(() -> loadChangelog());
+		Multithreading.runAsync(() -> {
+			try {
+				loadChangelog();
+			} catch (Throwable e) {
+				// The changelog host is offline; a failing remote file must not
+				// take down the async pool thread.
+				SoarLogger.error("Failed to load changelog", new Exception(e));
+			}
+		});
 	}
 	
 	private void loadChangelog() {

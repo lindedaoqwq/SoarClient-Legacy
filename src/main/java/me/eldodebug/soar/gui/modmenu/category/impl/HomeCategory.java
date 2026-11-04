@@ -8,6 +8,7 @@ import java.net.URL;
 import me.eldodebug.soar.Soar;
 import me.eldodebug.soar.gui.modmenu.GuiModMenu;
 import me.eldodebug.soar.gui.modmenu.category.Category;
+import me.eldodebug.soar.management.account.Account;
 import me.eldodebug.soar.management.account.AccountManager;
 import me.eldodebug.soar.management.changelog.Changelog;
 import me.eldodebug.soar.management.changelog.ChangelogManager;
@@ -44,7 +45,9 @@ public class HomeCategory extends Category {
 		
 		// Welcome
 		
-		File headFile = new File(instance.getFileManager().getCacheDir(), "head/" + accountManager.getCurrentAccount().getName() + ".png");
+		Account currentAccount = accountManager.getCurrentAccount();
+		
+		File headFile = new File(instance.getFileManager().getCacheDir(), "head/" + (currentAccount != null ? currentAccount.getName() : "steve") + ".png");
 		
 		nvg.drawRoundedRect(this.getX() + 15, this.getY() + 15, 202, 72, 6, palette.getBackgroundColor(ColorType.DARK));
 		nvg.drawText(TranslateText.WELCOME_TO_SOAR.getText(), this.getX() + 24, this.getY() + 24, palette.getFontColor(ColorType.DARK), 14, Fonts.MEDIUM);
@@ -55,7 +58,7 @@ public class HomeCategory extends Category {
 			nvg.drawRoundedImage(headFile, this.getX() + 24, this.getY() + 43, 36, 36, 6);
 		}
 		
-		nvg.drawText(accountManager.getCurrentAccount().getName(), this.getX() + 66, this.getY() + 46, palette.getFontColor(ColorType.DARK), 11, Fonts.MEDIUM);
+		nvg.drawText(currentAccount != null ? currentAccount.getName() : "Steve", this.getX() + 66, this.getY() + 46, palette.getFontColor(ColorType.DARK), 11, Fonts.MEDIUM);
 		
 		
 		// Music
