@@ -1,8 +1,10 @@
 package me.eldodebug.soar.management.account.microsoft;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,6 +31,8 @@ import net.minecraft.util.Session;
 
 public class MicrosoftAuthentication {
 	
+	private static final String TOKEN_URL = "https://login.live.com/oauth20_token.srf";
+	
 	private Minecraft mc = Minecraft.getMinecraft();
 	
 	private SkinDownloader skinDownloader;
@@ -41,14 +45,28 @@ public class MicrosoftAuthentication {
 	
 	public void loginWithRefreshToken(String refreshToken) {
 		
-        JsonObject response = HttpUtils.readJson("https://login.live.com/oauth20_token.srf?client_id=00000000402b5328&grant_type=refresh_token&refresh_token=" + refreshToken, null);
-
-        if(response == null || !response.has("access_token")) {
-        	SoarLogger.error("Refresh token rejected: " + response);
-        	return;
-        }
-
-        getXboxLiveToken(response.get("access_token").getAsString(), response.has("refresh_token") ? response.get("refresh_token").getAsString() : refreshToken);
+		if(refreshToken == null || refreshToken.isEmpty() || refreshToken.equals("0") || refreshToken.equals("null")) {
+			SoarLogger.error("Refresh token is missing for the current account, login required");
+			return;
+		}
+		
+		SoarLogger.info("Refreshing Microsoft token (length=" + refreshToken.length() + ")");
+		
+		try {
+			
+			JsonObject response = HttpUtils.readJson(TOKEN_URL + "?client_id=00000000402b5328&grant_type=refresh_token&refresh_token=" + encode(refreshToken), null);
+			
+			if(response == null || !response.has("access_token")) {
+				SoarLogger.error("Refresh token rejected: " + response);
+				return;
+			}
+			
+			SoarLogger.info("Refresh token accepted, exchanging with Xbox Live");
+			
+			getXboxLiveToken(response.get("access_token").getAsString(), response.has("refresh_token") ? response.get("refresh_token").getAsString() : refreshToken);
+		} catch (Throwable e) {
+			SoarLogger.error("Refresh token login failed", new Exception(e));
+		}
 	}
 	
 	public boolean loginWithUrl(String url) {
@@ -85,7 +103,7 @@ public class MicrosoftAuthentication {
     		code = code.substring(0, code.indexOf('&'));
     	}
     	
-        JsonObject response = HttpUtils.readJson("https://login.live.com/oauth20_token.srf?client_id=00000000402b5328&grant_type=authorization_code&redirect_uri=https://login.live.com/oauth20_desktop.srf&code=" + code, null);
+        JsonObject response = HttpUtils.readJson(TOKEN_URL + "?client_id=00000000402b5328&grant_type=authorization_code&redirect_uri=https://login.live.com/oauth20_desktop.srf&code=" + encode(code), null);
 
         if(response == null || !response.has("access_token") || !response.has("refresh_token")) {
         	SoarLogger.error("Authorization code exchange failed: " + response);
@@ -113,6 +131,8 @@ public class MicrosoftAuthentication {
         	SoarLogger.error("Xbox Live authentication failed: " + response);
         	return;
         }
+        
+        SoarLogger.info("Xbox Live authenticated, requesting XSTS");
         
         getXSTS(response.get("Token").getAsString(), refreshToken);
     }
@@ -152,6 +172,7 @@ public class MicrosoftAuthentication {
                     break;
             }
         } else {
+            SoarLogger.info("XSTS authorized, requesting Minecraft token");
             getMinecraftToken(response.getAsJsonObject("DisplayClaims").get("xui").getAsJsonArray().get(0).getAsJsonObject().get("uhs").getAsString(), response.get("Token").getAsString(), refreshToken);
         }
     }
@@ -167,6 +188,8 @@ public class MicrosoftAuthentication {
         	SoarLogger.error("Minecraft token request failed: " + response);
         	return;
         }
+        
+        SoarLogger.info("Minecraft token obtained, checking ownership");
         
         checkMinecraftOwnership(response.get("access_token").getAsString(), refreshToken);
     }
@@ -219,6 +242,8 @@ public class MicrosoftAuthentication {
         String name = request.get("name").getAsString();
         String uuid = request.get("id").getAsString();
         Account account = new Account(name, uuid, refreshToken, AccountType.MICROSOFT);
+        
+        SoarLogger.info("Resolved Minecraft profile: " + name + " (" + uuid + ")");
         
         if(!headDir.exists()) {
         	fileManager.createDir(headDir);
@@ -277,5 +302,13 @@ public class MicrosoftAuthentication {
 
     public SkinDownloader getSkinDownloader() {
 		return skinDownloader;
+	}
+	
+	private static String encode(String value) {
+		try {
+			return URLEncoder.encode(value, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			throw new IllegalStateException(e);
+		}
 	}
 }
