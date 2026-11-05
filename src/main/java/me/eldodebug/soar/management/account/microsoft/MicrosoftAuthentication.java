@@ -33,6 +33,8 @@ public class MicrosoftAuthentication {
 	
 	private SkinDownloader skinDownloader;
 	
+	private boolean loginSucceeded;
+	
 	public MicrosoftAuthentication() {
 		skinDownloader = new SkinDownloader();
 	}
@@ -41,17 +43,27 @@ public class MicrosoftAuthentication {
 		
         JsonObject response = HttpUtils.readJson("https://login.live.com/oauth20_token.srf?client_id=00000000402b5328&grant_type=refresh_token&refresh_token=" + refreshToken, null);
 
-        if(response.get("access_token") == null) {
+        if(response == null || !response.has("access_token")) {
+        	SoarLogger.error("Refresh token rejected: " + response);
         	return;
         }
 
-        getXboxLiveToken(response.get("access_token").getAsString(), refreshToken);
+        getXboxLiveToken(response.get("access_token").getAsString(), response.has("refresh_token") ? response.get("refresh_token").getAsString() : refreshToken);
 	}
 	
-	public void loginWithUrl(String url) {
+	public boolean loginWithUrl(String url) {
+		
+		loginSucceeded = false;
+		
 		try {
 			getMicrosoftToken(new URL(url));
-		} catch (MalformedURLException e) {}
+		} catch (MalformedURLException e) {
+			SoarLogger.error("Invalid login URL: " + url);
+		} catch (Throwable e) {
+			SoarLogger.error("Microsoft login failed", new Exception(e));
+		}
+		
+		return loginSucceeded;
 	}
 	
 	public void loginWithPopUpWindow(Runnable afterLogin) {
@@ -60,8 +72,26 @@ public class MicrosoftAuthentication {
 	
     private void getMicrosoftToken(URL tokenURL) {
     	
-        JsonObject response = HttpUtils.readJson("https://login.live.com/oauth20_token.srf?client_id=00000000402b5328&grant_type=authorization_code&redirect_uri=https://login.live.com/oauth20_desktop.srf&code=" + tokenURL.toString().split("=")[1], null);
+    	String url = tokenURL.toString();
+    	
+    	if(!url.contains("code=")) {
+    		SoarLogger.error("Login URL has no code parameter: " + url);
+    		return;
+    	}
+    	
+    	String code = url.substring(url.indexOf("code=") + 5);
+    	
+    	if(code.contains("&")) {
+    		code = code.substring(0, code.indexOf('&'));
+    	}
+    	
+        JsonObject response = HttpUtils.readJson("https://login.live.com/oauth20_token.srf?client_id=00000000402b5328&grant_type=authorization_code&redirect_uri=https://login.live.com/oauth20_desktop.srf&code=" + code, null);
 
+        if(response == null || !response.has("access_token") || !response.has("refresh_token")) {
+        	SoarLogger.error("Authorization code exchange failed: " + response);
+        	return;
+        }
+        
         getXboxLiveToken(response.get("access_token").getAsString(), response.get("refresh_token").getAsString());
     }
     
@@ -78,6 +108,11 @@ public class MicrosoftAuthentication {
         request.addProperty("TokenType", "JWT");
 
         JsonObject response = HttpUtils.postJson("https://user.auth.xboxlive.com/user/authenticate", request);
+        
+        if(response == null || !response.has("Token")) {
+        	SoarLogger.error("Xbox Live authentication failed: " + response);
+        	return;
+        }
         
         getXSTS(response.get("Token").getAsString(), refreshToken);
     }
@@ -98,6 +133,11 @@ public class MicrosoftAuthentication {
         request.addProperty("TokenType", "JWT");
 
         JsonObject response = HttpUtils.postJson("https://xsts.auth.xboxlive.com/xsts/authorize", request);
+        
+        if(response == null) {
+        	SoarLogger.error("XSTS request failed");
+        	return;
+        }
         
         if (response.has("XErr")) {
             switch (response.get("XErr").getAsString()) {
@@ -123,6 +163,11 @@ public class MicrosoftAuthentication {
 
         JsonObject response = HttpUtils.postJson("https://api.minecraftservices.com/authentication/login_with_xbox", request);
 
+        if(response == null || !response.has("access_token")) {
+        	SoarLogger.error("Minecraft token request failed: " + response);
+        	return;
+        }
+        
         checkMinecraftOwnership(response.get("access_token").getAsString(), refreshToken);
     }
     
@@ -133,6 +178,11 @@ public class MicrosoftAuthentication {
         headers.put("Authorization", "Bearer " + token);
         
         JsonObject request = HttpUtils.readJson("https://api.minecraftservices.com/entitlements/mcstore", headers);
+
+        if(request == null || !request.has("items")) {
+        	SoarLogger.error("Entitlements request failed: " + request);
+        	return;
+        }
 
         for (int i = 0; i < request.get("items").getAsJsonArray().size(); i++) {
             String itemName = request.get("items").getAsJsonArray().get(i).getAsJsonObject().get("name").getAsString();
@@ -161,6 +211,11 @@ public class MicrosoftAuthentication {
         
         JsonObject request = HttpUtils.readJson("https://api.minecraftservices.com/minecraft/profile", headers);
 
+        if(request == null || !request.has("name") || !request.has("id")) {
+        	SoarLogger.error("Minecraft profile request failed: " + request);
+        	return;
+        }
+
         String name = request.get("name").getAsString();
         String uuid = request.get("id").getAsString();
         Account account = new Account(name, uuid, refreshToken, AccountType.MICROSOFT);
@@ -173,13 +228,32 @@ public class MicrosoftAuthentication {
         
         ((IMixinMinecraft) mc).setSession(new Session(name, uuid, token, "mojang"));
         
-		if(accountManager.getAccountByName(account.getName()) == null) {
+        Account existingAccount = accountManager.getAccountByName(account.getName());
+        
+		if(existingAccount == null) {
             accountManager.getAccounts().add(account);
+		} else {
+			// Microsoft rotates the refresh token on every refresh: the stored
+			// account must be updated, otherwise the next launch reuses a token
+			// that Microsoft has already invalidated.
+			existingAccount.setRefreshToken(refreshToken);
+			existingAccount.setUuid(uuid);
+			account = existingAccount;
 		}
         
         accountManager.setCurrentAccount(account);
 
-        check();
+        // Persist the credentials right away; the check below talks to a host
+        // that may be offline and must not be able to prevent saving.
+        accountManager.save();
+        
+        loginSucceeded = true;
+
+        try {
+        	check();
+        } catch (Throwable e) {
+        	SoarLogger.error("Post login check failed", new Exception(e));
+        }
     }
 
     private void check() {

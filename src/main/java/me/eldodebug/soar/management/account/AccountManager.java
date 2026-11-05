@@ -105,6 +105,8 @@ public class AccountManager {
 		} catch (Exception e) {
 			SoarLogger.error("Failed to save account", e);
 		}
+		
+		SoarLogger.info("Saved " + accounts.size() + " account(s), current=" + currentAccount);
 	}
 	
 	public void load() {
@@ -139,6 +141,8 @@ public class AccountManager {
 		} catch (Exception e) {
 			SoarLogger.error("Failed to load account", e);
 		}
+		
+		SoarLogger.info("Loaded " + accounts.size() + " account(s), current=" + currentAccount);
 	}
 	
 	public Account getCurrentAccount() {

@@ -44,6 +44,8 @@ public class AccountScene extends MainMenuScene {
 	
 	private boolean browserLogin;
 	
+	private String loginError;
+	
 	private static final String MICROSOFT_LOGIN_URL = "https://login.live.com/oauth20_authorize.srf?client_id=00000000402b5328&response_type=code&redirect_uri=https://login.live.com/oauth20_desktop.srf&scope=XboxLive.signin%20offline_access&prompt=login";
 	
 	private File offlineSkin;
@@ -108,9 +110,9 @@ public class AccountScene extends MainMenuScene {
 		
 		if (browserLogin) {
 			
-			String hint = "Browser login: paste the full redirect URL below";
+			String hint = loginError != null ? loginError : TranslateText.BROWSER_LOGIN_HINT.getText();
 			
-			nvg.drawCenteredText(hint, sr.getScaledWidth() / 2, acY + acHeight + 10, Color.WHITE, 9, Fonts.REGULAR);
+			nvg.drawCenteredText(hint, sr.getScaledWidth() / 2, acY + acHeight + 10, loginError != null ? new Color(255, 85, 85) : Color.WHITE, 9, Fonts.REGULAR);
 			
 			urlBox.setBackgroundColor(this.getBackgroundColor());
 			urlBox.setFontColor(Color.WHITE);
@@ -119,7 +121,7 @@ public class AccountScene extends MainMenuScene {
 			urlBox.draw(mouseX, mouseY, partialTicks);
 			
 			nvg.drawRoundedRect(acX + 168, acY + acHeight + 22, 52, 20, 4, this.getBackgroundColor());
-			nvg.drawCenteredText("Paste", acX + 168 + 26, acY + acHeight + 27, Color.WHITE, 9, Fonts.REGULAR);
+			nvg.drawCenteredText(TranslateText.PASTE.getText(), acX + 168 + 26, acY + acHeight + 27, Color.WHITE, 9, Fonts.REGULAR);
 			
 			nvg.drawRoundedRect(acX + (acWidth / 2) - 40, acY + acHeight + 48, 80, 18, 4, this.getBackgroundColor());
 			nvg.drawCenteredText(TranslateText.LOGIN.getText(), acX + (acWidth / 2), acY + acHeight + 52, Color.WHITE, 10, Fonts.REGULAR);
@@ -262,6 +264,7 @@ public class AccountScene extends MainMenuScene {
 	private void startBrowserLogin() {
 		
 		browserLogin = true;
+		loginError = null;
 		
 		try {
 			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(MICROSOFT_LOGIN_URL), null);
@@ -292,13 +295,21 @@ public class AccountScene extends MainMenuScene {
 		}
 		
 		browserLogin = false;
+		loginError = null;
 		
 		Multithreading.runAsync(() -> {
-			Soar.getInstance().getAccountManager().getAuthenticator().loginWithUrl(url);
-			Soar.getInstance().getAccountManager().save();
+			
+			boolean success = Soar.getInstance().getAccountManager().getAuthenticator().loginWithUrl(url);
+			
+			mc.addScheduledTask(() -> {
+				if (success) {
+					getAfterLoginRunnable().run();
+				} else {
+					browserLogin = true;
+					loginError = TranslateText.LOGIN_FAILED.getText();
+				}
+			});
 		});
-		
-		getAfterLoginRunnable().run();
 	}
 	
 	private static void openInSystemBrowser(String url) {
