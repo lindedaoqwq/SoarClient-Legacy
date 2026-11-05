@@ -44,6 +44,8 @@ public enum TranslateText {
 	FPS("text.fps"), FOV("text.fov"), ALPHA("text.alpha"), SINGLEPLAYER("text.singleplayer"), MULTIPLAYER("text.multiplayer"),
 	LOGIN_MESSAGE("text.loginmessage"), MICROSOFT_LOGIN("text.microsoftlogin"), OFFLINE_LOGIN("text.offlinelogin"),
 	LOGIN("text.login"), BROWSER_LOGIN_HINT("text.browserlogin.hint"), LOGIN_FAILED("text.loginfailed"), PASTE("text.paste"),
+	LOGIN_STAGE_TOKEN("text.loginstage.token"), LOGIN_STAGE_XBOX("text.loginstage.xbox"), LOGIN_STAGE_XSTS("text.loginstage.xsts"),
+	LOGIN_STAGE_MINECRAFT("text.loginstage.minecraft"), LOGIN_STAGE_PROFILE("text.loginstage.profile"), LOGIN_IN_PROGRESS("text.logining"),
 	MO_BENDS("text.mobends.name"), MO_BENDS_DESCRIPTION("text.mobends.description"),
 	PACK_DISPLAY("text.packdisplay.name"), PACK_DISPLAY_DESCRIPTION("text.packdisplay.description"),
 	COMPACT("text.compact"), FOX("text.fox"), SELECT_BACKGROUND("text.selectbackground"), NIGHT("text.night"),

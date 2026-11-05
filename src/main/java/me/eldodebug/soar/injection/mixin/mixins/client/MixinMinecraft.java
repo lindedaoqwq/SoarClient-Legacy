@@ -34,6 +34,7 @@ import me.eldodebug.soar.management.mods.impl.FPSSpooferMod;
 import me.eldodebug.soar.management.mods.impl.HitDelayFixMod;
 import me.eldodebug.soar.management.mods.impl.OldAnimationsMod;
 import me.eldodebug.soar.management.mods.impl.ViaVersionMod;
+import me.eldodebug.soar.utils.OptifineUtils;
 import me.eldodebug.soar.viaversion.fixes.AttackOrder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -127,6 +128,17 @@ public abstract class MixinMinecraft implements IMixinMinecraft {
     @Inject(method = "startGame", at = @At(value = "FIELD", target = "Lnet/minecraft/client/Minecraft;ingameGUI:Lnet/minecraft/client/gui/GuiIngame;", shift = At.Shift.AFTER))
     public void preStartGame(CallbackInfo ci) {
     	Soar.getInstance().start();
+    }
+    
+    /**
+     * Re-apply the OptiFine safe options right before every resource reload
+     * (startup, pack switch, language change). OptiFine decodes custom sky /
+     * ctm / emissive data while the atlas is rebuilt, which is the exact
+     * moment the native iOS crash happens.
+     */
+    @Inject(method = "refreshResources", at = @At("HEAD"))
+    public void soar$applyOptifineCompatibilityBeforeReload(CallbackInfo ci) {
+    	OptifineUtils.applyMobileCompatibility();
     }
     
 	@Redirect(method = "runTick", at = @At(value = "INVOKE", target = "Lorg/lwjgl/input/Mouse;next()Z"))

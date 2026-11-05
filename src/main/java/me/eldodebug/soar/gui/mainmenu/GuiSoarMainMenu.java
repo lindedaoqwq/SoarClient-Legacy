@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 import me.eldodebug.soar.Soar;
@@ -367,6 +368,14 @@ public class GuiSoarMainMenu extends GuiScreen {
 	
 	@Override
 	public void handleInput() throws IOException {
+		
+		if(currentScene instanceof AccountScene && ((AccountScene) currentScene).isLoginInProgress()) {
+			// While the token is being read nothing may be clicked, typed,
+			// scrolled or escaped (Escape would close the whole menu).
+			while(Keyboard.next()) {}
+			while(Mouse.next()) {}
+			return;
+		}
 		
 		if(currentScene instanceof MicrosoftLoginScene) {
 			currentScene.handleInput();

@@ -23,6 +23,7 @@ import me.eldodebug.soar.management.account.AccountType;
 import me.eldodebug.soar.management.account.skin.SkinDownloader;
 import me.eldodebug.soar.management.cape.CapeManager;
 import me.eldodebug.soar.management.file.FileManager;
+import me.eldodebug.soar.management.language.TranslateText;
 import me.eldodebug.soar.management.profile.mainmenu.BackgroundManager;
 import me.eldodebug.soar.management.profile.mainmenu.impl.CustomBackground;
 import me.eldodebug.soar.utils.network.HttpUtils;
@@ -38,6 +39,27 @@ public class MicrosoftAuthentication {
 	private SkinDownloader skinDownloader;
 	
 	private boolean loginSucceeded;
+	
+	private volatile TranslateText loginStage;
+	
+	public TranslateText getLoginStage() {
+		return loginStage;
+	}
+	
+	private void setLoginStage(TranslateText stage) {
+		loginStage = stage;
+	}
+	
+	private volatile int loginProgress;
+	
+	public int getLoginProgress() {
+		return loginProgress;
+	}
+	
+	private void setProgress(int progress, TranslateText stage) {
+		loginProgress = progress;
+		loginStage = stage;
+	}
 	
 	public MicrosoftAuthentication() {
 		skinDownloader = new SkinDownloader();
@@ -72,6 +94,8 @@ public class MicrosoftAuthentication {
 	public boolean loginWithUrl(String url) {
 		
 		loginSucceeded = false;
+		loginProgress = 0;
+		loginStage = null;
 		
 		try {
 			getMicrosoftToken(new URL(url));
@@ -79,6 +103,10 @@ public class MicrosoftAuthentication {
 			SoarLogger.error("Invalid login URL: " + url);
 		} catch (Throwable e) {
 			SoarLogger.error("Microsoft login failed", new Exception(e));
+		} finally {
+			if(!loginSucceeded) {
+				loginStage = null;
+			}
 		}
 		
 		return loginSucceeded;
@@ -103,12 +131,16 @@ public class MicrosoftAuthentication {
     		code = code.substring(0, code.indexOf('&'));
     	}
     	
+        setProgress(10, TranslateText.LOGIN_STAGE_TOKEN);
+    	
         JsonObject response = HttpUtils.readJson(TOKEN_URL + "?client_id=00000000402b5328&grant_type=authorization_code&redirect_uri=https://login.live.com/oauth20_desktop.srf&code=" + encode(code), null);
 
         if(response == null || !response.has("access_token") || !response.has("refresh_token")) {
         	SoarLogger.error("Authorization code exchange failed: " + response);
         	return;
         }
+        
+        setProgress(20, TranslateText.LOGIN_STAGE_XBOX);
         
         getXboxLiveToken(response.get("access_token").getAsString(), response.get("refresh_token").getAsString());
     }
@@ -133,6 +165,8 @@ public class MicrosoftAuthentication {
         }
         
         SoarLogger.info("Xbox Live authenticated, requesting XSTS");
+        
+        setProgress(40, TranslateText.LOGIN_STAGE_XSTS);
         
         getXSTS(response.get("Token").getAsString(), refreshToken);
     }
@@ -173,6 +207,7 @@ public class MicrosoftAuthentication {
             }
         } else {
             SoarLogger.info("XSTS authorized, requesting Minecraft token");
+            setProgress(60, TranslateText.LOGIN_STAGE_MINECRAFT);
             getMinecraftToken(response.getAsJsonObject("DisplayClaims").get("xui").getAsJsonArray().get(0).getAsJsonObject().get("uhs").getAsString(), response.get("Token").getAsString(), refreshToken);
         }
     }
@@ -190,6 +225,8 @@ public class MicrosoftAuthentication {
         }
         
         SoarLogger.info("Minecraft token obtained, checking ownership");
+        
+        setProgress(80, TranslateText.LOGIN_STAGE_PROFILE);
         
         checkMinecraftOwnership(response.get("access_token").getAsString(), refreshToken);
     }
@@ -273,6 +310,7 @@ public class MicrosoftAuthentication {
         accountManager.save();
         
         loginSucceeded = true;
+        setProgress(100, null);
 
         try {
         	check();

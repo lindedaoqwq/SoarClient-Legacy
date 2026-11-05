@@ -67,6 +67,7 @@ public class Soar {
 	public void start() {
 		
 		OptifineUtils.disableFastRender();
+		OptifineUtils.applyMobileCompatibility();
 		this.removeOptifineZoom();
 		
 		fileManager = new FileManager();
