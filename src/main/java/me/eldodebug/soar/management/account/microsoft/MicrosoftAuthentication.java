@@ -1,8 +1,10 @@
 package me.eldodebug.soar.management.account.microsoft;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,6 +23,7 @@ import me.eldodebug.soar.management.account.AccountType;
 import me.eldodebug.soar.management.account.skin.SkinDownloader;
 import me.eldodebug.soar.management.cape.CapeManager;
 import me.eldodebug.soar.management.file.FileManager;
+import me.eldodebug.soar.management.language.TranslateText;
 import me.eldodebug.soar.management.profile.mainmenu.BackgroundManager;
 import me.eldodebug.soar.management.profile.mainmenu.impl.CustomBackground;
 import me.eldodebug.soar.utils.network.HttpUtils;
@@ -35,22 +38,54 @@ public class MicrosoftAuthentication {
 	
 	private SkinDownloader skinDownloader;
 	
+	private boolean loginSucceeded;
+	
+	private volatile TranslateText loginStage;
+	
+	public TranslateText getLoginStage() {
+		return loginStage;
+	}
+	
+	private void setLoginStage(TranslateText stage) {
+		loginStage = stage;
+	}
+	
+	private volatile int loginProgress;
+	
+	public int getLoginProgress() {
+		return loginProgress;
+	}
+	
+	private void setProgress(int progress, TranslateText stage) {
+		loginProgress = progress;
+		loginStage = stage;
+	}
+	
 	public MicrosoftAuthentication() {
 		skinDownloader = new SkinDownloader();
 	}
 	
 	public void loginWithRefreshToken(String refreshToken) {
 		
+		if(refreshToken == null || refreshToken.isEmpty() || refreshToken.equals("0") || refreshToken.equals("null")) {
+			SoarLogger.error("Refresh token is missing for the current account, login required");
+			return;
+		}
+		
+		SoarLogger.info("Refreshing Microsoft token (length=" + refreshToken.length() + ")");
+		
 		try {
 			
-			JsonObject response = HttpUtils.readJson(TOKEN_URL + "?client_id=00000000402b5328&grant_type=refresh_token&refresh_token=" + refreshToken, null);
+			JsonObject response = HttpUtils.readJson(TOKEN_URL + "?client_id=00000000402b5328&grant_type=refresh_token&refresh_token=" + encode(refreshToken), null);
 			
 			if(response == null || !response.has("access_token")) {
 				SoarLogger.error("Refresh token rejected: " + response);
 				return;
 			}
 			
-			getXboxLiveToken(response.get("access_token").getAsString(), response.get("refresh_token").getAsString());
+			SoarLogger.info("Refresh token accepted, exchanging with Xbox Live");
+			
+			getXboxLiveToken(response.get("access_token").getAsString(), response.has("refresh_token") ? response.get("refresh_token").getAsString() : refreshToken);
 		} catch (Throwable e) {
 			SoarLogger.error("Refresh token login failed", new Exception(e));
 		}
@@ -58,47 +93,59 @@ public class MicrosoftAuthentication {
 	
 	public boolean loginWithUrl(String url) {
 		
+		loginSucceeded = false;
+		loginProgress = 0;
+		loginStage = null;
+		
 		try {
-			return getMicrosoftToken(new URL(url));
+			getMicrosoftToken(new URL(url));
 		} catch (MalformedURLException e) {
 			SoarLogger.error("Invalid login URL: " + url);
-			return false;
 		} catch (Throwable e) {
 			SoarLogger.error("Microsoft login failed", new Exception(e));
-			return false;
+		} finally {
+			if(!loginSucceeded) {
+				loginStage = null;
+			}
 		}
+		
+		return loginSucceeded;
 	}
 	
 	public void loginWithPopUpWindow(Runnable afterLogin) {
 		new MicrosoftLoginWindow(afterLogin);
 	}
 	
-    private boolean getMicrosoftToken(URL tokenURL) {
+    private void getMicrosoftToken(URL tokenURL) {
     	
-        String url = tokenURL.toString();
-        
-        if(!url.contains("code=")) {
-        	SoarLogger.error("Login URL has no code parameter: " + url);
-        	return false;
-        }
-        
-        String code = url.substring(url.indexOf("code=") + 5);
-        
-        if(code.contains("&")) {
-        	code = code.substring(0, code.indexOf('&'));
-        }
-        
-        JsonObject response = HttpUtils.readJson(TOKEN_URL + "?client_id=00000000402b5328&grant_type=authorization_code&redirect_uri=https://login.live.com/oauth20_desktop.srf&code=" + code, null);
+    	String url = tokenURL.toString();
+    	
+    	if(!url.contains("code=")) {
+    		SoarLogger.error("Login URL has no code parameter: " + url);
+    		return;
+    	}
+    	
+    	String code = url.substring(url.indexOf("code=") + 5);
+    	
+    	if(code.contains("&")) {
+    		code = code.substring(0, code.indexOf('&'));
+    	}
+    	
+        setProgress(10, TranslateText.LOGIN_STAGE_TOKEN);
+    	
+        JsonObject response = HttpUtils.readJson(TOKEN_URL + "?client_id=00000000402b5328&grant_type=authorization_code&redirect_uri=https://login.live.com/oauth20_desktop.srf&code=" + encode(code), null);
 
         if(response == null || !response.has("access_token") || !response.has("refresh_token")) {
         	SoarLogger.error("Authorization code exchange failed: " + response);
-        	return false;
+        	return;
         }
         
-        return getXboxLiveToken(response.get("access_token").getAsString(), response.get("refresh_token").getAsString());
+        setProgress(20, TranslateText.LOGIN_STAGE_XBOX);
+        
+        getXboxLiveToken(response.get("access_token").getAsString(), response.get("refresh_token").getAsString());
     }
     
-    private boolean getXboxLiveToken(String token, String refreshToken) {
+    private void getXboxLiveToken(String token, String refreshToken) {
     	
         JsonObject properties = new JsonObject();
         properties.addProperty("AuthMethod", "RPS");
@@ -114,13 +161,17 @@ public class MicrosoftAuthentication {
         
         if(response == null || !response.has("Token")) {
         	SoarLogger.error("Xbox Live authentication failed: " + response);
-        	return false;
+        	return;
         }
         
-        return getXSTS(response.get("Token").getAsString(), refreshToken);
+        SoarLogger.info("Xbox Live authenticated, requesting XSTS");
+        
+        setProgress(40, TranslateText.LOGIN_STAGE_XSTS);
+        
+        getXSTS(response.get("Token").getAsString(), refreshToken);
     }
     
-    private boolean getXSTS(String token, String refreshToken) {
+    private void getXSTS(String token, String refreshToken) {
     	
         JsonPrimitive jsonToken = new JsonPrimitive(token);
         JsonArray userTokens = new JsonArray();
@@ -139,7 +190,7 @@ public class MicrosoftAuthentication {
         
         if(response == null) {
         	SoarLogger.error("XSTS request failed");
-        	return false;
+        	return;
         }
         
         if (response.has("XErr")) {
@@ -154,13 +205,14 @@ public class MicrosoftAuthentication {
                 	SoarLogger.error("The account is under 18 and must be added to a Family (https://start.ui.xboxlive.com/AddChildToFamily)");
                     break;
             }
-            return false;
+        } else {
+            SoarLogger.info("XSTS authorized, requesting Minecraft token");
+            setProgress(60, TranslateText.LOGIN_STAGE_MINECRAFT);
+            getMinecraftToken(response.getAsJsonObject("DisplayClaims").get("xui").getAsJsonArray().get(0).getAsJsonObject().get("uhs").getAsString(), response.get("Token").getAsString(), refreshToken);
         }
-        
-        return getMinecraftToken(response.getAsJsonObject("DisplayClaims").get("xui").getAsJsonArray().get(0).getAsJsonObject().get("uhs").getAsString(), response.get("Token").getAsString(), refreshToken);
     }
     
-    private boolean getMinecraftToken(String uhs, String token, String refreshToken) {
+    private void getMinecraftToken(String uhs, String token, String refreshToken) {
 
         JsonObject request = new JsonObject();
         request.addProperty("identityToken", String.format("XBL3.0 x=%s;%s", uhs, token));
@@ -169,23 +221,27 @@ public class MicrosoftAuthentication {
 
         if(response == null || !response.has("access_token")) {
         	SoarLogger.error("Minecraft token request failed: " + response);
-        	return false;
+        	return;
         }
         
-        return checkMinecraftOwnership(response.get("access_token").getAsString(), refreshToken);
+        SoarLogger.info("Minecraft token obtained, checking ownership");
+        
+        setProgress(80, TranslateText.LOGIN_STAGE_PROFILE);
+        
+        checkMinecraftOwnership(response.get("access_token").getAsString(), refreshToken);
     }
     
-    private boolean checkMinecraftOwnership(String token, String refreshToken) {
+    private void checkMinecraftOwnership(String token, String refreshToken) {
         Map<String, String> headers = new HashMap<>();
         boolean ownsMinecraft = false;
 
         headers.put("Authorization", "Bearer " + token);
         
         JsonObject request = HttpUtils.readJson("https://api.minecraftservices.com/entitlements/mcstore", headers);
-        
+
         if(request == null || !request.has("items")) {
         	SoarLogger.error("Entitlements request failed: " + request);
-        	return false;
+        	return;
         }
 
         for (int i = 0; i < request.get("items").getAsJsonArray().size(); i++) {
@@ -198,13 +254,12 @@ public class MicrosoftAuthentication {
 
         if (!ownsMinecraft) {
         	SoarLogger.error("User doesn't own Minecraft");
-        	return false;
+        } else {
+        	getMinecraftProfile(token, refreshToken);
         }
-        
-        return getMinecraftProfile(token, refreshToken);
     }
     
-    private boolean getMinecraftProfile(String token, String refreshToken) {
+    private void getMinecraftProfile(String token, String refreshToken) {
     	
     	Soar instance = Soar.getInstance();
     	AccountManager accountManager = instance.getAccountManager();
@@ -215,15 +270,17 @@ public class MicrosoftAuthentication {
         headers.put("Authorization", "Bearer " + token);
         
         JsonObject request = HttpUtils.readJson("https://api.minecraftservices.com/minecraft/profile", headers);
-        
+
         if(request == null || !request.has("name") || !request.has("id")) {
         	SoarLogger.error("Minecraft profile request failed: " + request);
-        	return false;
+        	return;
         }
 
         String name = request.get("name").getAsString();
         String uuid = request.get("id").getAsString();
         Account account = new Account(name, uuid, refreshToken, AccountType.MICROSOFT);
+        
+        SoarLogger.info("Resolved Minecraft profile: " + name + " (" + uuid + ")");
         
         if(!headDir.exists()) {
         	fileManager.createDir(headDir);
@@ -233,32 +290,33 @@ public class MicrosoftAuthentication {
         
         ((IMixinMinecraft) mc).setSession(new Session(name, uuid, token, "mojang"));
         
-		if(accountManager.getAccountByName(account.getName()) == null) {
+        Account existingAccount = accountManager.getAccountByName(account.getName());
+        
+		if(existingAccount == null) {
             accountManager.getAccounts().add(account);
 		} else {
-			// Microsoft hands out a new refresh token on every refresh and
-			// invalidates the previous one: the stored account has to be updated
-			// or the next launch reuses a dead token and asks for a fresh login.
-			Account existingAccount = accountManager.getAccountByName(account.getName());
+			// Microsoft rotates the refresh token on every refresh: the stored
+			// account must be updated, otherwise the next launch reuses a token
+			// that Microsoft has already invalidated.
 			existingAccount.setRefreshToken(refreshToken);
 			existingAccount.setUuid(uuid);
 			account = existingAccount;
 		}
         
         accountManager.setCurrentAccount(account);
-        
-        // Persist right after the credentials are known: the post-login checks
-        // below talk to services that may be unreachable, and the account (and
-        // its refresh token) must survive a restart regardless.
+
+        // Persist the credentials right away; the check below talks to a host
+        // that may be offline and must not be able to prevent saving.
         accountManager.save();
         
+        loginSucceeded = true;
+        setProgress(100, null);
+
         try {
         	check();
         } catch (Throwable e) {
         	SoarLogger.error("Post login check failed", new Exception(e));
         }
-        
-        return true;
     }
 
     private void check() {
@@ -282,5 +340,13 @@ public class MicrosoftAuthentication {
 
     public SkinDownloader getSkinDownloader() {
 		return skinDownloader;
+	}
+	
+	private static String encode(String value) {
+		try {
+			return URLEncoder.encode(value, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			throw new IllegalStateException(e);
+		}
 	}
 }

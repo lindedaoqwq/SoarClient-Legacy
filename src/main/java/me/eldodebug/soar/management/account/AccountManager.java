@@ -55,6 +55,8 @@ public class AccountManager {
 		
 		if(getAccountByName(currentAccount) != null) {
 			
+			SoarLogger.info("Restoring account " + currentAccount + " (type=" + getAccountByName(currentAccount).getType() + ", tokenLength=" + (getAccountByName(currentAccount).getRefreshToken() == null ? "null" : getAccountByName(currentAccount).getRefreshToken().length()) + ")");
+			
 			if(getAccountByName(currentAccount).getType().equals(AccountType.MICROSOFT)) {
 				Multithreading.runAsync(()-> {
 					authenticator.loginWithRefreshToken(getAccountByName(currentAccount).getRefreshToken());
@@ -102,11 +104,17 @@ public class AccountManager {
 			jsonObject.add("Accounts", jsonArray);
 			
 			gson.toJson(jsonObject, writer);
-			
-			SoarLogger.info("Saved " + accounts.size() + " account(s), current=" + currentAccount);
 		} catch (Exception e) {
 			SoarLogger.error("Failed to save account", e);
 		}
+		
+		String tokenLength = "n/a";
+		Account current = getCurrentAccount();
+		if(current != null) {
+			tokenLength = current.getRefreshToken() == null ? "null" : String.valueOf(current.getRefreshToken().length());
+		}
+		
+		SoarLogger.info("Saved " + accounts.size() + " account(s), current=" + currentAccount + ", tokenLength=" + tokenLength + " -> " + new File(fileManager.getSoarDir(), "Account.json").getAbsolutePath());
 	}
 	
 	public void load() {
@@ -142,7 +150,11 @@ public class AccountManager {
 			SoarLogger.error("Failed to load account", e);
 		}
 		
-		SoarLogger.info("Loaded " + accounts.size() + " account(s), current=" + currentAccount);
+		SoarLogger.info("Loaded " + accounts.size() + " account(s), current=" + currentAccount + " <- " + new File(fileManager.getSoarDir(), "Account.json").getAbsolutePath());
+		
+		for(Account acc : accounts) {
+			SoarLogger.info("  Account: " + acc.getName() + " type=" + acc.getType() + " tokenLength=" + (acc.getRefreshToken() == null ? "null" : acc.getRefreshToken().length()));
+		}
 	}
 	
 	public Account getCurrentAccount() {

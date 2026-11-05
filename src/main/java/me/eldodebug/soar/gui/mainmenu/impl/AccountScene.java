@@ -21,6 +21,7 @@ import me.eldodebug.soar.logger.SoarLogger;
 import me.eldodebug.soar.management.account.Account;
 import me.eldodebug.soar.management.account.AccountManager;
 import me.eldodebug.soar.management.account.AccountType;
+import me.eldodebug.soar.management.account.microsoft.MicrosoftAuthentication;
 import me.eldodebug.soar.management.file.FileManager;
 import me.eldodebug.soar.management.language.TranslateText;
 import me.eldodebug.soar.management.nanovg.NanoVGManager;
@@ -46,12 +47,18 @@ public class AccountScene extends MainMenuScene {
 	
 	private String loginError;
 	
+	private boolean loginInProgress;
+	
 	private static final String MICROSOFT_LOGIN_URL = "https://login.live.com/oauth20_authorize.srf?client_id=00000000402b5328&response_type=code&redirect_uri=https://login.live.com/oauth20_desktop.srf&scope=XboxLive.signin%20offline_access&prompt=login";
 	
 	private File offlineSkin;
 	
 	public AccountScene(GuiSoarMainMenu parent) {
 		super(parent);
+	}
+	
+	public boolean isLoginInProgress() {
+		return loginInProgress;
 	}
 
 	@Override
@@ -72,6 +79,11 @@ public class AccountScene extends MainMenuScene {
 	}
 	
 	public void drawNanoVG(int mouseX, int mouseY, float partialTicks, ScaledResolution sr, Soar instance, NanoVGManager nvg) {
+		
+		if (loginInProgress) {
+			drawLoginProgress(sr, instance, nvg);
+			return;
+		}
 		
 		int acWidth = 220;
 		int acHeight = 138;
@@ -128,8 +140,46 @@ public class AccountScene extends MainMenuScene {
 		}
 	}
 	
+	private void drawLoginProgress(ScaledResolution sr, Soar instance, NanoVGManager nvg) {
+		
+		MicrosoftAuthentication authenticator = instance.getAccountManager().getAuthenticator();
+		int progress = authenticator.getLoginProgress();
+		TranslateText stageKey = authenticator.getLoginStage();
+		
+		int width = sr.getScaledWidth();
+		int height = sr.getScaledHeight();
+		
+		nvg.drawRect(0, 0, width, height, new Color(0, 0, 0, 150));
+		
+		int panelWidth = 240;
+		int panelHeight = 86;
+		int panelX = width / 2 - panelWidth / 2;
+		int panelY = height / 2 - panelHeight / 2;
+		
+		nvg.drawRoundedRect(panelX, panelY, panelWidth, panelHeight, 8, this.getBackgroundColor());
+		
+		nvg.drawCenteredText(TranslateText.LOGIN_IN_PROGRESS.getText(), panelX + panelWidth / 2, panelY + 16, Color.WHITE, 14, Fonts.REGULAR);
+		
+		if (stageKey != null) {
+			nvg.drawCenteredText(stageKey.getText(), panelX + panelWidth / 2, panelY + 42, new Color(210, 210, 210), 9, Fonts.REGULAR);
+		}
+		
+		int barX = panelX + 20;
+		int barY = panelY + 60;
+		int barWidth = panelWidth - 40;
+		
+		nvg.drawRoundedRect(barX, barY, barWidth, 6, 3, new Color(255, 255, 255, 40));
+		nvg.drawRoundedRect(barX, barY, Math.max(3, barWidth * progress / 100), 6, 3, instance.getColorManager().getCurrentColor().getInterpolateColor());
+		
+		nvg.drawCenteredText(progress + "%", panelX + panelWidth / 2, panelY + 70, Color.WHITE, 8, Fonts.REGULAR);
+	}
+	
 	@Override
 	public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
+		
+		if (loginInProgress) {
+			return;
+		}
 		
 		ScaledResolution sr = new ScaledResolution(mc);
 		
@@ -239,6 +289,10 @@ public class AccountScene extends MainMenuScene {
 	@Override
 	public void keyTyped(char typedChar, int keyCode) {
 		
+		if (loginInProgress) {
+			return;
+		}
+		
 		if (browserLogin) {
 			
 			urlBox.keyTyped(typedChar, keyCode);
@@ -294,28 +348,18 @@ public class AccountScene extends MainMenuScene {
 			return;
 		}
 		
-		completeBrowserLogin(url);
-	}
-	
-	private void completeBrowserLogin(String url) {
-		
 		browserLogin = false;
 		loginError = null;
+		loginInProgress = true;
 		
 		Multithreading.runAsync(() -> {
 			
-			boolean success = false;
-			
-			try {
-				success = Soar.getInstance().getAccountManager().getAuthenticator().loginWithUrl(url);
-			} catch (Throwable e) {
-				SoarLogger.error("Browser login failed", new Exception(e));
-			}
-			
-			final boolean loggedIn = success;
+			boolean success = Soar.getInstance().getAccountManager().getAuthenticator().loginWithUrl(url);
 			
 			mc.addScheduledTask(() -> {
-				if (loggedIn) {
+				loginInProgress = false;
+				
+				if (success) {
 					getAfterLoginRunnable().run();
 				} else {
 					browserLogin = true;
