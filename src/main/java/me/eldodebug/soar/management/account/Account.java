@@ -27,6 +27,14 @@ public class Account {
 		return refreshToken;
 	}
 
+	public void setRefreshToken(String refreshToken) {
+		this.refreshToken = refreshToken;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
+
 	public AccountType getType() {
 		return type;
 	}

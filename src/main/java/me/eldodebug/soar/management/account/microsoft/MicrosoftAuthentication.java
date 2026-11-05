@@ -235,6 +235,14 @@ public class MicrosoftAuthentication {
         
 		if(accountManager.getAccountByName(account.getName()) == null) {
             accountManager.getAccounts().add(account);
+		} else {
+			// Microsoft hands out a new refresh token on every refresh and
+			// invalidates the previous one: the stored account has to be updated
+			// or the next launch reuses a dead token and asks for a fresh login.
+			Account existingAccount = accountManager.getAccountByName(account.getName());
+			existingAccount.setRefreshToken(refreshToken);
+			existingAccount.setUuid(uuid);
+			account = existingAccount;
 		}
         
         accountManager.setCurrentAccount(account);

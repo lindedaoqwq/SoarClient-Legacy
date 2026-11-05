@@ -46,11 +46,6 @@ public class AccountScene extends MainMenuScene {
 	
 	private String loginError;
 	
-	private long lastClipboardCheck;
-	private String lastClipboardValue = "";
-	
-	private static final long CLIPBOARD_CHECK_INTERVAL = 500L;
-	
 	private static final String MICROSOFT_LOGIN_URL = "https://login.live.com/oauth20_authorize.srf?client_id=00000000402b5328&response_type=code&redirect_uri=https://login.live.com/oauth20_desktop.srf&scope=XboxLive.signin%20offline_access&prompt=login";
 	
 	private File offlineSkin;
@@ -114,8 +109,6 @@ public class AccountScene extends MainMenuScene {
 		nvg.drawCenteredText(TranslateText.LOGIN.getText(), acX + acWidth - (96 / 2) - 10, acY + 86 + 31, Color.WHITE, 10F, Fonts.REGULAR);
 		
 		if (browserLogin) {
-			
-			tickBrowserLogin();
 			
 			String hint = loginError != null ? loginError : TranslateText.BROWSER_LOGIN_HINT.getText();
 			
@@ -271,8 +264,7 @@ public class AccountScene extends MainMenuScene {
 	private void startBrowserLogin() {
 		
 		browserLogin = true;
-		lastClipboardCheck = 0;
-		lastClipboardValue = MICROSOFT_LOGIN_URL;
+		loginError = null;
 		
 		try {
 			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(MICROSOFT_LOGIN_URL), null);
@@ -280,39 +272,6 @@ public class AccountScene extends MainMenuScene {
 		}
 		
 		openInSystemBrowser(MICROSOFT_LOGIN_URL);
-	}
-	
-	private void tickBrowserLogin() {
-		
-		long now = System.currentTimeMillis();
-		
-		if (now - lastClipboardCheck < CLIPBOARD_CHECK_INTERVAL) {
-			return;
-		}
-		
-		lastClipboardCheck = now;
-		
-		try {
-			
-			String clipboard = IOUtils.getStringFromClipboard();
-			
-			if (clipboard == null) {
-				return;
-			}
-			
-			String trimmed = clipboard.trim();
-			
-			if (!trimmed.startsWith("http") || !trimmed.contains("code=") || trimmed.equals(lastClipboardValue)) {
-				return;
-			}
-			
-			lastClipboardValue = trimmed;
-			
-			completeBrowserLogin(trimmed);
-		} catch (Throwable e) {
-			// Clipboard is not always reachable (e.g. caciocavallo on iOS); the
-			// Paste/Login controls stay available as a manual fallback.
-		}
 	}
 	
 	private void pasteFromClipboard() {
@@ -343,8 +302,6 @@ public class AccountScene extends MainMenuScene {
 		browserLogin = false;
 		loginError = null;
 		
-		urlBox.setText(url);
-		
 		Multithreading.runAsync(() -> {
 			
 			boolean success = false;
@@ -362,7 +319,6 @@ public class AccountScene extends MainMenuScene {
 					getAfterLoginRunnable().run();
 				} else {
 					browserLogin = true;
-					lastClipboardValue = "";
 					loginError = TranslateText.LOGIN_FAILED.getText();
 				}
 			});
