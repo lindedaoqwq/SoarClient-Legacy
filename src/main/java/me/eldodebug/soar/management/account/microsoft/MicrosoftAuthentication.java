@@ -1,10 +1,8 @@
 package me.eldodebug.soar.management.account.microsoft;
 
 import java.io.File;
-import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -76,7 +74,7 @@ public class MicrosoftAuthentication {
 		
 		try {
 			
-			JsonObject response = HttpUtils.readJson(TOKEN_URL + "?client_id=00000000402b5328&grant_type=refresh_token&refresh_token=" + encode(refreshToken), null);
+			JsonObject response = HttpUtils.readJson(TOKEN_URL + "?client_id=00000000402b5328&grant_type=refresh_token&refresh_token=" + refreshToken, null);
 			
 			if(response == null || !response.has("access_token")) {
 				SoarLogger.error("Refresh token rejected: " + response);
@@ -131,9 +129,13 @@ public class MicrosoftAuthentication {
     		code = code.substring(0, code.indexOf('&'));
     	}
     	
+        // The browser hands out the code already URL-encoded; encoding it again
+        // made login.live.com reject the request.
+        SoarLogger.info("Authorization code received (length=" + code.length() + ")");
+        
         setProgress(10, TranslateText.LOGIN_STAGE_TOKEN);
     	
-        JsonObject response = HttpUtils.readJson(TOKEN_URL + "?client_id=00000000402b5328&grant_type=authorization_code&redirect_uri=https://login.live.com/oauth20_desktop.srf&code=" + encode(code), null);
+        JsonObject response = HttpUtils.readJson(TOKEN_URL + "?client_id=00000000402b5328&grant_type=authorization_code&redirect_uri=https://login.live.com/oauth20_desktop.srf&code=" + code, null);
 
         if(response == null || !response.has("access_token") || !response.has("refresh_token")) {
         	SoarLogger.error("Authorization code exchange failed: " + response);
@@ -340,13 +342,5 @@ public class MicrosoftAuthentication {
 
     public SkinDownloader getSkinDownloader() {
 		return skinDownloader;
-	}
-	
-	private static String encode(String value) {
-		try {
-			return URLEncoder.encode(value, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			throw new IllegalStateException(e);
-		}
 	}
 }

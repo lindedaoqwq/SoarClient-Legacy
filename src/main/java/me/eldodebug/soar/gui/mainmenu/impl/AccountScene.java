@@ -55,6 +55,11 @@ public class AccountScene extends MainMenuScene {
 	
 	public AccountScene(GuiSoarMainMenu parent) {
 		super(parent);
+		
+		// The Microsoft redirect URL carries a long "code" parameter; the
+		// default 256 character limit truncated it and made the code exchange
+		// fail with an unreachable/broken token.
+		urlBox.setMaxStringLength(8192);
 	}
 	
 	public boolean isLoginInProgress() {
@@ -331,26 +336,42 @@ public class AccountScene extends MainMenuScene {
 	private void pasteFromClipboard() {
 		
 		try {
-			String clipboard = IOUtils.getStringFromClipboard();
-			if (clipboard != null) {
-				urlBox.setText(clipboard.trim());
+			
+			String clipboard = extractUrl(IOUtils.getStringFromClipboard());
+			
+			if (clipboard == null || clipboard.isEmpty()) {
+				loginError = TranslateText.CLIPBOARD_EMPTY.getText();
+				return;
 			}
+			
+			loginError = null;
+			urlBox.setText(clipboard);
 		} catch (Throwable e) {
 			SoarLogger.error("Failed to read clipboard: " + e);
+			loginError = TranslateText.CLIPBOARD_EMPTY.getText();
 		}
 	}
 	
 	private void confirmBrowserLogin() {
 		
-		String url = urlBox.getText().trim();
+		String url = extractUrl(urlBox.getText());
 		
-		if (!url.contains("code=")) {
+		// Validate the pasted redirect URL before starting the login, so an
+		// incomplete/truncated link reports a clear error instead of looking
+		// like the token request itself failed.
+		if (url == null || !(url.startsWith("https://") || url.startsWith("http://")) || !url.contains("code=")) {
+			loginError = TranslateText.INVALID_URL.getText();
 			return;
 		}
 		
 		browserLogin = false;
 		loginError = null;
 		loginInProgress = true;
+		
+		// The link contains a one-time authorization code: drop it from both
+		// the clipboard and the input box as soon as the login starts.
+		urlBox.setText("");
+		clearClipboard();
 		
 		Multithreading.runAsync(() -> {
 			
@@ -367,6 +388,49 @@ public class AccountScene extends MainMenuScene {
 				}
 			});
 		});
+	}
+	
+	/**
+	 * Users copy the whole browser address bar, sometimes with surrounding
+	 * text. Keep only the plain http(s) URL so the authorization code can be
+	 * parsed reliably.
+	 */
+	private static String extractUrl(String raw) {
+		
+		if (raw == null) {
+			return null;
+		}
+		
+		String text = raw.trim();
+		int start = text.indexOf("https://");
+		
+		if (start < 0) {
+			start = text.indexOf("http://");
+		}
+		
+		if (start < 0) {
+			return text;
+		}
+		
+		text = text.substring(start);
+		int end = text.length();
+		
+		for (int i = 0; i < text.length(); i++) {
+			char c = text.charAt(i);
+			if (Character.isWhitespace(c) || c == '"' || c == '\'' || c == '<' || c == '>') {
+				end = i;
+				break;
+			}
+		}
+		
+		return text.substring(0, end).trim();
+	}
+	
+	private static void clearClipboard() {
+		try {
+			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(""), null);
+		} catch (Throwable ignored) {
+		}
 	}
 	
 	private static void openInSystemBrowser(String url) {
