@@ -113,6 +113,20 @@ public class OptifineUtils {
         // after an entity is damaged.
         setOption(settings, "ofAaLevel", 0, applied);
 
+        // Long-session crashes in single player / servers happen because the
+        // iOS JVM heap is small and OptiFine keeps extra per-world data (far
+        // loaded chunks, preloaded chunks, chunk meshes, cloud lists, shader
+        // buffers). These are the options that grow while exploring instead of
+        // only costing memory at startup.
+        setOption(settings, "ofLoadFar", false, applied);
+        setOption(settings, "ofPreloadedChunks", 0, applied);
+        setOption(settings, "ofMipmapType", 0, applied);
+        setOption(settings, "ofMultiDraw", false, applied);
+        setOption(settings, "ofChunkLoading", 0, applied);
+        setOption(settings, "ofClouds", 0, applied);
+        setOption(settings, "ofBetterGrass", 0, applied);
+        setOption(settings, "ofShaders", false, applied);
+
         SoarLogger.info("OptiFine mobile compatibility applied: "
                 + (applied.length() == 0 ? "none (unknown option names)" : applied.toString().trim()));
     }
