@@ -1,10 +1,20 @@
 package me.eldodebug.soar.utils;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.Collections;
+import java.util.IdentityHashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 import me.eldodebug.soar.injection.mixin.SoarTweaker;
 import me.eldodebug.soar.logger.SoarLogger;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.RenderGlobal;
+import net.minecraft.client.renderer.ViewFrustum;
+import net.minecraft.client.renderer.chunk.RenderChunk;
+import net.minecraft.client.renderer.vertex.VertexBuffer;
 import net.minecraft.client.settings.GameSettings;
 
 /**
@@ -12,6 +22,15 @@ import net.minecraft.client.settings.GameSettings;
  * optional content loaders crash natively (no Java stack trace), so every
  * OptiFine feature that decodes extra data from a resource pack or touches the
  * entity renderer is switched off on that stack.
+ *
+ * There is a second, purely OptiFine internal problem: with "Render Regions"
+ * enabled (default) every 256x256 block region the player visits is cached in
+ * {@code ViewFrustum.mapVboRegions} together with a shared VBO per block layer.
+ * OptiFine only clears that map when the whole ViewFrustum is rebuilt (world
+ * load / render distance change), so exploring a world or a server keeps
+ * allocating GPU/direct memory for regions that are far behind the player until
+ * the native memory runs out and the game dies. {@link #trimRenderRegions}
+ * releases the regions that no loaded render chunk uses anymore.
  */
 public class OptifineUtils {
 
@@ -19,6 +38,15 @@ public class OptifineUtils {
 
     private static boolean optifineChecked;
     private static boolean compatibilityLogged;
+
+    private static Field renderGlobalField;
+    private static Field viewFrustumField;
+    private static Field mapVboRegionsField;
+    private static Method getVertexBufferByLayerMethod;
+    private static Method getVboRegionMethod;
+    private static Method deleteGlBuffersMethod;
+
+    private static boolean regionCleanupStarted;
 
     static {
         init();
@@ -37,6 +65,40 @@ public class OptifineUtils {
         } catch (Throwable ignored) {
             // OptiFine is not installed, or its field names differ.
         }
+
+        try {
+            renderGlobalField = findFieldByType(Minecraft.class, RenderGlobal.class);
+            viewFrustumField = findFieldByType(RenderGlobal.class, ViewFrustum.class);
+            mapVboRegionsField = findFieldByName(ViewFrustum.class, "mapVboRegions");
+
+            getVertexBufferByLayerMethod = RenderChunk.class.getMethod("getVertexBufferByLayer", int.class);
+            getVboRegionMethod = VertexBuffer.class.getMethod("getVboRegion");
+
+            Class<?> vboRegionClass = Class.forName("net.optifine.render.VboRegion");
+            deleteGlBuffersMethod = vboRegionClass.getMethod("deleteGlBuffers");
+        } catch (Throwable ignored) {
+            // Plain Minecraft, or an OptiFine build without render regions.
+        }
+    }
+
+    private static Field findFieldByType(Class<?> owner, Class<?> type) {
+        for (Field field : owner.getDeclaredFields()) {
+            if (field.getType() == type) {
+                field.setAccessible(true);
+                return field;
+            }
+        }
+        return null;
+    }
+
+    private static Field findFieldByName(Class<?> owner, String name) {
+        for (Field field : owner.getDeclaredFields()) {
+            if (field.getName().equals(name)) {
+                field.setAccessible(true);
+                return field;
+            }
+        }
+        return null;
     }
 
     public static void disableFastRender() {
@@ -113,22 +175,192 @@ public class OptifineUtils {
         // after an entity is damaged.
         setOption(settings, "ofAaLevel", 0, applied);
 
-        // Long-session crashes in single player / servers happen because the
-        // iOS JVM heap is small and OptiFine keeps extra per-world data (far
-        // loaded chunks, preloaded chunks, chunk meshes, cloud lists, shader
-        // buffers). These are the options that grow while exploring instead of
-        // only costing memory at startup.
-        setOption(settings, "ofLoadFar", false, applied);
-        setOption(settings, "ofPreloadedChunks", 0, applied);
-        setOption(settings, "ofMipmapType", 0, applied);
-        setOption(settings, "ofMultiDraw", false, applied);
-        setOption(settings, "ofChunkLoading", 0, applied);
-        setOption(settings, "ofClouds", 0, applied);
-        setOption(settings, "ofBetterGrass", 0, applied);
-        setOption(settings, "ofShaders", false, applied);
-
         SoarLogger.info("OptiFine mobile compatibility applied: "
                 + (applied.length() == 0 ? "none (unknown option names)" : applied.toString().trim()));
+
+        startRegionCleanup();
+
+        logOnce("OptiFine render-region cleanup " + (deleteGlBuffersMethod != null ? "active" : "unavailable"));
+    }
+
+    /**
+     * Runs on the render thread and releases the render-region VBOs that no
+     * loaded render chunk references anymore. This is OptiFine's own leak, not
+     * an option: the map is only cleared when the ViewFrustum is rebuilt.
+     */
+    public static void trimRenderRegions() {
+
+        Minecraft mc = Minecraft.getMinecraft();
+
+        if (mc == null || mc.theWorld == null || mc.thePlayer == null || mc.currentScreen != null) {
+            return;
+        }
+
+        if (renderGlobalField == null || viewFrustumField == null || mapVboRegionsField == null
+                || getVertexBufferByLayerMethod == null || getVboRegionMethod == null
+                || deleteGlBuffersMethod == null) {
+            return;
+        }
+
+        try {
+
+            RenderGlobal renderGlobal = (RenderGlobal) renderGlobalField.get(mc);
+
+            if (renderGlobal == null) {
+                return;
+            }
+
+            ViewFrustum viewFrustum = (ViewFrustum) viewFrustumField.get(renderGlobal);
+
+            if (viewFrustum == null) {
+                return;
+            }
+
+            RenderChunk[] renderChunks = viewFrustum.renderChunks;
+
+            if (renderChunks == null || renderChunks.length == 0) {
+                return;
+            }
+
+            Map<?, ?> regionsByPosition = (Map<?, ?>) mapVboRegionsField.get(viewFrustum);
+
+            if (regionsByPosition == null || regionsByPosition.isEmpty()) {
+                return;
+            }
+
+            Set<Object> usedRegions = Collections.newSetFromMap(new IdentityHashMap<Object, Boolean>());
+            collectUsedRegions(renderChunks, usedRegions);
+
+            int released = 0;
+            Iterator<?> iterator = regionsByPosition.entrySet().iterator();
+
+            while (iterator.hasNext()) {
+
+                Map.Entry<?, ?> entry = (Map.Entry<?, ?>) iterator.next();
+                Object[] vboRegions = (Object[]) entry.getValue();
+
+                if (isAnyRegionUsed(vboRegions, usedRegions)) {
+                    continue;
+                }
+
+                for (Object vboRegion : vboRegions) {
+                    if (vboRegion != null) {
+                        try {
+                            deleteGlBuffersMethod.invoke(vboRegion);
+                        } catch (Throwable ignored) {
+                        }
+                    }
+                }
+
+                iterator.remove();
+                released++;
+            }
+
+            if (released > 0) {
+                SoarLogger.info("OptiFine render regions released: " + released
+                        + " (remaining " + regionsByPosition.size() + ")");
+            }
+
+        } catch (Throwable ignored) {
+        }
+    }
+
+    private static void collectUsedRegions(RenderChunk[] renderChunks, Set<Object> usedRegions) {
+
+        if (renderChunks == null) {
+            return;
+        }
+
+        for (RenderChunk renderChunk : renderChunks) {
+
+            if (renderChunk == null) {
+                continue;
+            }
+
+            for (int layer = 0; layer < 8; layer++) {
+
+                VertexBuffer vertexBuffer;
+
+                try {
+                    vertexBuffer = renderChunk.getVertexBufferByLayer(layer);
+                } catch (Throwable endOfLayers) {
+                    break;
+                }
+
+                if (vertexBuffer == null) {
+                    continue;
+                }
+
+                try {
+                    Object vboRegion = getVboRegionMethod.invoke(vertexBuffer);
+
+                    if (vboRegion != null) {
+                        usedRegions.add(vboRegion);
+                    }
+                } catch (Throwable ignored) {
+                }
+            }
+        }
+    }
+
+    private static boolean isAnyRegionUsed(Object[] vboRegions, Set<Object> usedRegions) {
+
+        if (vboRegions == null) {
+            return false;
+        }
+
+        for (Object vboRegion : vboRegions) {
+            if (vboRegion != null && usedRegions.contains(vboRegion)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * The cleanup needs the render thread (glDeleteBuffers), so a daemon thread
+     * only schedules the work back onto Minecraft's task queue.
+     */
+    private static void startRegionCleanup() {
+
+        if (regionCleanupStarted) {
+            return;
+        }
+
+        regionCleanupStarted = true;
+
+        Thread thread = new Thread("Soar-OptiFine-RegionCleanup") {
+            @Override
+            public void run() {
+                while (true) {
+
+                    try {
+                        Thread.sleep(30000L);
+                    } catch (InterruptedException e) {
+                        return;
+                    }
+
+                    try {
+
+                        Minecraft mc = Minecraft.getMinecraft();
+
+                        if (mc != null) {
+                            mc.addScheduledTask(new Runnable() {
+                                @Override
+                                public void run() {
+                                    trimRenderRegions();
+                                }
+                            });
+                        }
+                    } catch (Throwable ignored) {
+                    }
+                }
+            }
+        };
+
+        thread.setDaemon(true);
+        thread.start();
     }
 
     private static boolean isMobileEnvironment() {
