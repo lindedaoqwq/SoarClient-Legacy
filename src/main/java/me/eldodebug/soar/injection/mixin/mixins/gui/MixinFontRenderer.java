@@ -9,6 +9,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import me.eldodebug.soar.Soar;
 import me.eldodebug.soar.management.event.impl.EventText;
+import me.eldodebug.soar.utils.OptimizeUtils;
 import net.minecraft.client.gui.FontRenderer;
 
 @Mixin(FontRenderer.class)
@@ -48,5 +49,25 @@ public abstract class MixinFontRenderer {
             ordinal = 0, shift = At.Shift.AFTER))
     private void resetStyle(CallbackInfoReturnable<Integer> ci) {
         this.resetStyles();
+    }
+    
+    /**
+     * String width caching: getStringWidth is called for every HUD/chat entry
+     * every frame. The cache lives in OptimizeUtils and is bypassed when an
+     * EventText listener rewrites the text.
+     */
+    @Inject(method = "getStringWidth(Ljava/lang/String;)I", at = @At("HEAD"), cancellable = true)
+    private void cachedStringWidth(String text, CallbackInfoReturnable<Integer> cir) {
+    	
+    	Integer width = OptimizeUtils.getCachedStringWidth((FontRenderer) (Object) this, text);
+    	
+    	if (width != null) {
+    		cir.setReturnValue(width);
+    	}
+    }
+    
+    @Inject(method = "getStringWidth(Ljava/lang/String;)I", at = @At("RETURN"), cancellable = true)
+    private void storeStringWidth(String text, CallbackInfoReturnable<Integer> cir) {
+    	OptimizeUtils.storeStringWidth((FontRenderer) (Object) this, text, cir.getReturnValue());
     }
 }
