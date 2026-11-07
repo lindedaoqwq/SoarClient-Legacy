@@ -35,6 +35,7 @@ import me.eldodebug.soar.management.mods.impl.HitDelayFixMod;
 import me.eldodebug.soar.management.mods.impl.OldAnimationsMod;
 import me.eldodebug.soar.management.mods.impl.ViaVersionMod;
 import me.eldodebug.soar.utils.OptifineUtils;
+import me.eldodebug.soar.utils.OptimizeUtils;
 import me.eldodebug.soar.viaversion.fixes.AttackOrder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -139,6 +140,7 @@ public abstract class MixinMinecraft implements IMixinMinecraft {
     @Inject(method = "refreshResources", at = @At("HEAD"))
     public void soar$applyOptifineCompatibilityBeforeReload(CallbackInfo ci) {
     	OptifineUtils.applyMobileCompatibility();
+    	OptimizeUtils.clearCaches();
     }
     
 	@Redirect(method = "runTick", at = @At(value = "INVOKE", target = "Lorg/lwjgl/input/Mouse;next()Z"))
