@@ -176,6 +176,21 @@ public class AccountManager {
 		return null;
 	}
 	
+	public Account getAccountByUuid(String uuid) {
+		
+		if(uuid == null) {
+			return null;
+		}
+		
+		for(Account acc : accounts) {
+			if(acc.getUuid() != null && acc.getUuid().equalsIgnoreCase(uuid)) {
+				return acc;
+			}
+		}
+		
+		return null;
+	}
+	
 	public ArrayList<Account> getAccounts() {
 		return accounts;
 	}

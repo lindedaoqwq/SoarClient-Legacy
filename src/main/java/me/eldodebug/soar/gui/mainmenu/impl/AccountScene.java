@@ -373,9 +373,11 @@ public class AccountScene extends MainMenuScene {
 		urlBox.setText("");
 		clearClipboard();
 		
+		MicrosoftAuthentication authenticator = Soar.getInstance().getAccountManager().getAuthenticator();
+		
 		Multithreading.runAsync(() -> {
 			
-			boolean success = Soar.getInstance().getAccountManager().getAuthenticator().loginWithUrl(url);
+			boolean success = authenticator.loginWithUrl(url);
 			
 			mc.addScheduledTask(() -> {
 				loginInProgress = false;
@@ -384,7 +386,12 @@ public class AccountScene extends MainMenuScene {
 					getAfterLoginRunnable().run();
 				} else {
 					browserLogin = true;
-					loginError = TranslateText.LOGIN_FAILED.getText();
+					
+					// Prefer the step-specific reason (XSTS/region/ownership...)
+					// over the generic "login failed" text.
+					String reason = authenticator.getLastError();
+					
+					loginError = reason != null && !reason.isEmpty() ? reason : TranslateText.LOGIN_FAILED.getText();
 				}
 			});
 		});
